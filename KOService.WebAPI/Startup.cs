@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using KOService.Application.Handlers;
+using KOService.Domain.DbContexts;
+using KOService.Domain.Repositories;
+using KOService.Domain.Repositories.Abstract;
+using KOService.WebAPI.Infrastructure;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace KOService.WebAPI
 {
@@ -26,6 +35,18 @@ namespace KOService.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContext<KOServiceDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "KOService", Version = "v1" });
+            });
+
+            services.AddMediatR(Assembly.Load(new AssemblyName("KOService.Application")));
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +62,17 @@ namespace KOService.WebAPI
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "KOService");
+            });
+
+            AutoMapperConfiguration.Configure();
+
             app.UseHttpsRedirection();
+
             app.UseMvc();
         }
     }
