@@ -18,9 +18,7 @@ namespace KOService.WebAPI.Infrastructure
             {
                 cfg.CreateMap<Employee, EmployeeDto>();
                 cfg.CreateMap<RegisterCommand, Employee>();
-                cfg.CreateMap<RegisterCommand, Identity>()
-                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.FirstName.Substring(0, 3) + src.LastName.Substring(0, 3)))
-                 .ForAllOtherMembers(opt => opt.Ignore());
+                cfg.CreateMap<RegisterCommand, Identity>();
             });
         }
     }
