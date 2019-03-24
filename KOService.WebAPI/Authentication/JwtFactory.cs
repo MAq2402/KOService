@@ -1,4 +1,5 @@
-﻿using KOService.WebAPI.Infrastructure;
+﻿using KOService.Domain.Authentication;
+using KOService.WebAPI.Infrastructure;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -21,25 +22,25 @@ namespace KOService.WebAPI.Authentication
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
-        public string GenerateJwt(ClaimsIdentity identity, string userName, JsonSerializerSettings serializerSettings)
+        public string GenerateJwt(Identity identity, string userName, JsonSerializerSettings serializerSettings)
         {
             var response = new
             {
-                id = identity.Claims.Single(c => c.Type == "id").Value,
-                auth_token = GenerateEncodedToken(userName, identity),
+                id = identity.Id,
+                auth_token = GenerateEncodedToken(userName),
                 expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
             };
 
             return JsonConvert.SerializeObject(response, serializerSettings);
         }
 
-        private async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
+        private async Task<string> GenerateEncodedToken(string userName)
         {
             var claims = new[]
          {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
-                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
+                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
              };
 
             var jwt = new JwtSecurityToken(
@@ -55,14 +56,6 @@ namespace KOService.WebAPI.Authentication
             return encodedJwt;
         }
 
-        public ClaimsIdentity GenerateClaimsIdentity(string userName, string id)
-        {
-            return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
-            {
-                new Claim(Constants.Auth.JwtClaimIdentifiers.Id, id),
-                new Claim(Constants.Auth.JwtClaimIdentifiers.Rol, Constants.Auth.JwtClaims.ApiAccess)
-            });
-        }
         private static long ToUnixEpochDate(DateTime date)
           => (long)Math.Round((date.ToUniversalTime() -
                                new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))

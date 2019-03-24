@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 
 namespace KOService.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class AuthenticationController : Controller
     {
@@ -55,30 +55,21 @@ namespace KOService.WebAPI.Controllers
 
         public async Task<IActionResult> Login([FromBody] LoginCredentials credentials)
         {
-            var identity = await GetClaimsIdentity(credentials.UserName, credentials.Password);
+            var identity = await _userManager.FindByNameAsync(credentials.UserName);
+
             if (identity == null)
             {
                 return NotFound();
             }
 
-            var jwt = _jwtFactory.GenerateJwt(identity, credentials.UserName, new JsonSerializerSettings { Formatting = Formatting.Indented });
-            return Ok(jwt);
-        }
-        private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
-        {
-            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
-                return await Task.FromResult<ClaimsIdentity>(null);
-
-            var userToVerify = await _userManager.FindByNameAsync(userName);
-
-            if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
-
-            if (await _userManager.CheckPasswordAsync(userToVerify, password))
+            if (!await _userManager.CheckPasswordAsync(identity, credentials.Password))
             {
-                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
-            }
+                return BadRequest("Wrong credentials");
+            } 
 
-            return await Task.FromResult<ClaimsIdentity>(null);
+            var jwt = _jwtFactory.GenerateJwt(identity, credentials.UserName, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+            return Ok(jwt);
         }
     }
 }
