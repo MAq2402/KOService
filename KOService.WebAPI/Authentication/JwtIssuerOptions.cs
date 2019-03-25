@@ -13,8 +13,7 @@ namespace KOService.WebAPI.Authentication
         public DateTime NotBefore => DateTime.UtcNow;
         public DateTime IssuedAt => DateTime.UtcNow;
         public TimeSpan ValidFor { get; set; } = TimeSpan.FromMinutes(120);
-        public Func<Task<string>> JtiGenerator =>
-          () => Task.FromResult(Guid.NewGuid().ToString());
+        public string JtiGenerator => Guid.NewGuid().ToString();
         public SigningCredentials SigningCredentials { get; set; }
     }
 }

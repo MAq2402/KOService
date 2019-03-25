@@ -34,12 +34,12 @@ namespace KOService.WebAPI.Authentication
             return JsonConvert.SerializeObject(response, serializerSettings);
         }
 
-        private async Task<string> GenerateEncodedToken(string userName)
+        private string GenerateEncodedToken(string userName)
         {
             var claims = new[]
          {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
-                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
+                 new Claim(JwtRegisteredClaimNames.Jti, _jwtOptions.JtiGenerator),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
              };
 
@@ -63,7 +63,10 @@ namespace KOService.WebAPI.Authentication
 
         private static void ThrowIfInvalidOptions(JwtIssuerOptions options)
         {
-            if (options == null) throw new ArgumentNullException(nameof(options));
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }          
 
             if (options.ValidFor <= TimeSpan.Zero)
             {

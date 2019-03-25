@@ -26,21 +26,7 @@ namespace KOService.WebAPI.Authentication
                 options.SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             });
 
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
-
-                ValidateAudience = true,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
-
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = securityKey,
-
-                RequireExpirationTime = false,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
+            TokenValidationParameters tokenValidationParameters = CreateTokenValidationParameters(securityKey, jwtAppSettingOptions);
 
             services.AddAuthentication(options =>
             {
@@ -66,8 +52,28 @@ namespace KOService.WebAPI.Authentication
                 o.Password.RequiredLength = 1;
                 o.Password.RequiredUniqueChars = 0;
             });
+
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<KOServiceDbContext>().AddDefaultTokenProviders();
+        }
+
+        private static TokenValidationParameters CreateTokenValidationParameters(SymmetricSecurityKey securityKey, IConfigurationSection jwtAppSettingOptions)
+        {
+            return new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+
+                ValidateAudience = true,
+                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = securityKey,
+
+                RequireExpirationTime = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
         }
     }
 }
