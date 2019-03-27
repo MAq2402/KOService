@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using KOService.Application.Commands.Authentication;
 using KOService.Application.DTOs.Employee;
+using KOService.Domain.Authentication;
 using KOService.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,8 @@ namespace KOService.WebAPI.Infrastructure
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Employee, EmployeeDto>();
+                cfg.CreateMap<RegisterCommand, Employee>();
+                cfg.CreateMap<RegisterCommand, Identity>();
             });
         }
     }
