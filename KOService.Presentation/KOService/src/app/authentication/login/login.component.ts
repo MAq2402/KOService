@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginCredentials } from '../models/LoginCredentials';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  loginCredentials: LoginCredentials = {
+    userName: '',
+    password: ''
+  };
+
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
+  }
+
+  onSubmit() {
+    this.loginService.login(this.loginCredentials).subscribe(
+      response => {console.log('Successfully logged in.'); },
+      error => {console.log('Failed to log in. Error response: ' + error.error ); }
+    );
   }
 
 }
