@@ -21,8 +21,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.loginService.login(this.loginCredentials).subscribe(
-      response => {console.log('Successfully logged in.'); },
-      error => {console.log('Failed to log in. Error response: ' + error.error ); }
+      response => {console.log('Successfully logged in.');},
+      error => {console.log(error); }
     );
   }
 

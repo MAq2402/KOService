@@ -8,6 +8,7 @@ using KOService.Application.Commands.Authentication;
 using KOService.Domain.Authentication;
 using KOService.WebAPI.Authentication;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
