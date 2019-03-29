@@ -1,16 +1,31 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreContainerComponent } from './core-container/core-container.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { AuthService } from '../authentication/services/auth.service';
 
 @NgModule({
   imports: [CommonModule],
   declarations: [CoreContainerComponent],
   exports: [
-    CoreContainerComponent,
-    HttpClientModule,
-    FormsModule
+    CoreContainerComponent
   ]
 })
-export class CoreModule { }
+export class CoreModule {
+  constructor (@Optional() @SkipSelf() parentModule: CoreModule) {
+    if (parentModule) {
+      throw new Error(
+        'CoreModule is already loaded. Import it in the AppModule only');
+    }
+  }
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: CoreModule,
+      providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        AuthService
+      ]
+    };
+  }
+ }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginCredentials } from '../models/LoginCredentials';
-import { LoginService } from '../services/login.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,15 +14,15 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-  constructor(private loginService: LoginService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
   }
 
   onSubmit() {
-    this.loginService.login(this.loginCredentials).subscribe(
-      response => {console.log('Successfully logged in.');},
-      error => {console.log(error); }
+    this.authService.login(this.loginCredentials).subscribe(
+      response => console.log('Successfully logged in.'),
+      error => console.error(error)
     );
   }
 
