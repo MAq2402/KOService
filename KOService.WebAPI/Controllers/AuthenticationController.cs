@@ -47,6 +47,8 @@ namespace KOService.WebAPI.Controllers
                 return BadRequest("Account creation has failed");
             }
 
+            command.IdentityId = identity.Id;
+
             await _mediator.Send(command);
 
             return Ok("Account created");

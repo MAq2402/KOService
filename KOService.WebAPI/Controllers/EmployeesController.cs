@@ -31,10 +31,9 @@ namespace KOService.WebAPI.Controllers
         {
             return Ok(_mediator.Send(new GetEmployeesQuery()).Result);
         }
-        [HttpGet("/currentIdentity")]
+        [HttpGet("currentIdentity")]
         public IActionResult GetCurrentEmployeeIdentity(string identityId)
         {
-            //var identity = await _userManager.FindByIdAsync(identityId);
             var result = _mediator.Send(new GetEmployeeByIdentityIdQuery { Id = identityId }).Result;
             return Ok(result);
         }
