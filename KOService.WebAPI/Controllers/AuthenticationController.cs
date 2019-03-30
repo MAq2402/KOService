@@ -70,7 +70,7 @@ namespace KOService.WebAPI.Controllers
                 return BadRequest("Wrong credentials");
             } 
 
-            var jwt = _jwtFactory.GenerateJwt(identity, credentials.UserName, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            var jwt = _jwtFactory.GenerateJwt(identity, credentials.UserName, identity.Role, new JsonSerializerSettings { Formatting = Formatting.Indented });
 
             return Ok(jwt);
         }
