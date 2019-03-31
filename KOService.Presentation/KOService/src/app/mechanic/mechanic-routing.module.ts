@@ -4,9 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 const mechanicRoutes: Routes = [
-  { path: '', redirectTo: '/mechanic/home' },
+  { path: '', component: HomeComponent },
   { path: '', children: [
-    { path: 'home', component: HomeComponent }
+    {  }
   ]}
 ];
 

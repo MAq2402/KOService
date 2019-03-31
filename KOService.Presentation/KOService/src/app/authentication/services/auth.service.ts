@@ -26,6 +26,10 @@ export class AuthService {
       })).subscribe();
   }
 
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('auth_token');
+  }
+
   isAuthorized(requiredRole: Role): boolean {
 
     const token = localStorage.getItem('auth_token');
@@ -43,5 +47,10 @@ export class AuthService {
     }
 
     return Role[requiredRole] === decodedToken['role'];
+  }
+
+  logout() {
+    localStorage.removeItem('auth_token');
+    this.router.navigate(['/login']);
   }
 }

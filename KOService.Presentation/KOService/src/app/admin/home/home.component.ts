@@ -12,9 +12,4 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  navigate() {
-    this.router.navigate(['/manager']);
-  }
-
 }

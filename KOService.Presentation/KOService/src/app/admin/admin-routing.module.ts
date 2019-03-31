@@ -4,10 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 const adminRoutes: Routes = [
-    { path: '', redirectTo: '/admin/home' },
+    { path: '', component: HomeComponent }/*,
     { path: '', children: [
-      { path: 'home', component: HomeComponent }
-    ]}
+      { path: 'home', component: HomeComponent },
+      { path: 'test', component: TestComponent }
+    ]}*/
 ];
 
 @NgModule({

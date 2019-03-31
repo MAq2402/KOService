@@ -4,9 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 const managerRoutes: Routes = [
-  { path: '', redirectTo: '/manager/home' },
+  { path: '', component: HomeComponent },
   { path: '', children: [
-    { path: 'home', component: HomeComponent }
+    {  }
   ]}
 ];
 
