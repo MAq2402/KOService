@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     AuthenticationRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [LoginComponent]
 })

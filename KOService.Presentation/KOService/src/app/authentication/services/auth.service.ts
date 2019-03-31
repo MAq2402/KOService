@@ -6,61 +6,50 @@ import { LoginResponse } from '../models/LoginResponse';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { Role } from 'src/app/shared/enums/Role';
 import { Router } from '@angular/router';
-// import { CoreModule } from 'src/app/core/core.module';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
-@Injectable(/*{
-  providedIn: 'root'
-}*/)
+@Injectable()
 export class AuthService {
-
-  static singletonInstance: AuthService;
 
   private baseUrl = 'http://localhost:64197/api/login';
 
-  private currentIdentityRole: Role;
-
   constructor(
     private http: HttpClient,
-    private employeeService: EmployeeService,
+    private jwtHelperService: JwtHelperService,
     private router: Router
-    ) {
-      if (!AuthService.singletonInstance) {
-        // construct object
-        console.log('AuthService created again.');
-        AuthService.singletonInstance = this;
-       } else {
-        console.log('AuthService created.');
-       }
-       return AuthService.singletonInstance;
-    }
+    ) {}
 
   login(credentials: LoginCredentials) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json-patch+json',
-     })
-    };
-    return this.http.post<LoginResponse>(this.baseUrl, credentials, httpOptions)
+    return this.http.post<LoginResponse>(this.baseUrl, credentials)
       .pipe(tap(response => {
         localStorage.setItem('auth_token', response.auth_token);
-        this.employeeService.getEmployeeByIdentityId(response.id)
-        .pipe(tap(currentIdentity => {
-          localStorage.setItem('current-identity-id', currentIdentity.id);
-          this.currentIdentityRole = currentIdentity.identityRole;
-          console.log('ROLE: ' + this.getCurrentIdentityRole());
-          this.router.navigate([Role[currentIdentity.identityRole]]);
-        })).subscribe();
-      }));
+        console.log(response.auth_token);
+        const decodedToken = this.jwtHelperService.decodeToken(response.auth_token);
+        console.log(decodedToken);
+        console.log('Role[decodedToken[\'role\']]: ' + Role[decodedToken['role']]);
+        console.log('decodedToken[\'role\']: ' + decodedToken['role']);
+        this.router.navigate([decodedToken['role']]);
+      })).subscribe(res => console.log(res));
   }
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('auth_token');
-  }
+  isAuthorized(requiredRole: Role): boolean {
 
-  /*
-  TO DO: Sprawdzić czy to się odświeza dla różnych USERów - ewentualnie pokombinować z providerami
-  */
-  getCurrentIdentityRole(): Role {
-    return this.currentIdentityRole;
+    const token = localStorage.getItem('auth_token');
+
+    if (!token) {
+      console.log('User not logged in.');
+      return false;
+    }
+
+    const decodedToken = this.jwtHelperService.decodeToken(token);
+
+    if (!decodedToken) {
+      console.log('Invalid token');
+      return false;
+    }
+
+    console.log('requiredRole.toString(): ' + requiredRole.toString());
+    console.log('Role[decodedToken[\'role\']]: ' + Role[decodedToken['role']]);
+    return requiredRole.toString() === Role[decodedToken['role']];
   }
 }
