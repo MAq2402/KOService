@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -15,8 +14,7 @@ import { JwtModule } from '@auth0/angular-jwt';
     BrowserModule,
     AppRoutingModule,
     CoreModule.forRoot(),
-    SharedModule,
-    JwtModule.forRoot({})
+    SharedModule
   ],
   exports: [],
   providers: [],

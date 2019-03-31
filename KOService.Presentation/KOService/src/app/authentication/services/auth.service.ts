@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/internal/operators';
 import { LoginCredentials } from '../models/LoginCredentials';
 import { LoginResponse } from '../models/LoginResponse';
-import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { Role } from 'src/app/shared/enums/Role';
 import { Router } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +14,6 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private jwtHelperService: JwtHelperService,
     private router: Router
     ) {}
 
@@ -23,13 +21,9 @@ export class AuthService {
     return this.http.post<LoginResponse>(this.baseUrl, credentials)
       .pipe(tap(response => {
         localStorage.setItem('auth_token', response.auth_token);
-        console.log(response.auth_token);
-        const decodedToken = this.jwtHelperService.decodeToken(response.auth_token);
-        console.log(decodedToken);
-        console.log('Role[decodedToken[\'role\']]: ' + Role[decodedToken['role']]);
-        console.log('decodedToken[\'role\']: ' + decodedToken['role']);
+        const decodedToken = jwt_decode(response.auth_token);
         this.router.navigate([decodedToken['role']]);
-      })).subscribe(res => console.log(res));
+      })).subscribe();
   }
 
   isAuthorized(requiredRole: Role): boolean {
@@ -41,15 +35,16 @@ export class AuthService {
       return false;
     }
 
-    const decodedToken = this.jwtHelperService.decodeToken(token);
+    const decodedToken = jwt_decode(token);
 
     if (!decodedToken) {
       console.log('Invalid token');
       return false;
     }
 
-    console.log('requiredRole.toString(): ' + requiredRole.toString());
-    console.log('Role[decodedToken[\'role\']]: ' + Role[decodedToken['role']]);
-    return requiredRole.toString() === Role[decodedToken['role']];
+    console.log('Role[requiredRole]: ' + Role[requiredRole]);
+    console.log('decodedToken[\'role\']: ' + decodedToken['role']);
+    console.log('requiredRole.toString() === decodedToken[\'role\']: ' + Role[requiredRole] === decodedToken['role']);
+    return Role[requiredRole] === decodedToken['role'];
   }
 }
