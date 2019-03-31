@@ -42,9 +42,6 @@ export class AuthService {
       return false;
     }
 
-    console.log('Role[requiredRole]: ' + Role[requiredRole]);
-    console.log('decodedToken[\'role\']: ' + decodedToken['role']);
-    console.log('requiredRole.toString() === decodedToken[\'role\']: ' + Role[requiredRole] === decodedToken['role']);
     return Role[requiredRole] === decodedToken['role'];
   }
 }

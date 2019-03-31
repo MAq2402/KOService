@@ -20,10 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authService.login(this.loginCredentials)/*.subscribe(
-      response => console.log('Successfully logged in.'),
-      error => console.error(error)
-    );*/
+    this.authService.login(this.loginCredentials);
   }
 
 }
