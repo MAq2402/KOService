@@ -22,25 +22,26 @@ namespace KOService.WebAPI.Authentication
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
-        public string GenerateJwt(Identity identity, string userName, JsonSerializerSettings serializerSettings)
+        public string GenerateJwt(Identity identity, string userName, Role userRole, JsonSerializerSettings serializerSettings)
         {
             var response = new
             {
                 id = identity.Id,
-                auth_token = GenerateEncodedToken(userName),
+                auth_token = GenerateEncodedToken(userName, userRole),
                 expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
             };
 
             return JsonConvert.SerializeObject(response, serializerSettings);
         }
 
-        private string GenerateEncodedToken(string userName)
+        private string GenerateEncodedToken(string userName, Role userRole)
         {
             var claims = new[]
          {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
                  new Claim(JwtRegisteredClaimNames.Jti, _jwtOptions.JtiGenerator),
-                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
+                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
+                 new Claim("role", userRole.ToString().ToLower())
              };
 
             var jwt = new JwtSecurityToken(

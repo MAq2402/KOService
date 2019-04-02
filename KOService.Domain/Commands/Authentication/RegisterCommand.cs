@@ -14,5 +14,6 @@ namespace KOService.Application.Commands.Authentication
         public string LastName { get; set; }
         public string UserName { get; set; }
         public Role Role { get; set; }
+        public string IdentityId { get; set; }
     }
 }

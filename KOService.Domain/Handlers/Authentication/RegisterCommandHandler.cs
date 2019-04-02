@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KOService.Application.Commands.Authentication;
+using KOService.Domain.Authentication;
 using KOService.Domain.Entities;
 using KOService.Domain.Repositories.Abstract;
 using MediatR;
@@ -20,7 +21,6 @@ namespace KOService.Application.Handlers.Authentication
         protected override void Handle(RegisterCommand request)
         {
             var customer = Mapper.Map<Domain.Entities.Employee>(request);
-
             _employeeRepository.Add(customer);
 
             if (!_employeeRepository.Commit())

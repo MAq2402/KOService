@@ -8,6 +8,7 @@ using KOService.Application.Commands.Authentication;
 using KOService.Domain.Authentication;
 using KOService.WebAPI.Authentication;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -46,6 +47,8 @@ namespace KOService.WebAPI.Controllers
                 return BadRequest("Account creation has failed");
             }
 
+            command.IdentityId = identity.Id;
+
             await _mediator.Send(command);
 
             return Ok("Account created");
@@ -67,7 +70,7 @@ namespace KOService.WebAPI.Controllers
                 return BadRequest("Wrong credentials");
             } 
 
-            var jwt = _jwtFactory.GenerateJwt(identity, credentials.UserName, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            var jwt = _jwtFactory.GenerateJwt(identity, credentials.UserName, identity.Role, new JsonSerializerSettings { Formatting = Formatting.Indented });
 
             return Ok(jwt);
         }
