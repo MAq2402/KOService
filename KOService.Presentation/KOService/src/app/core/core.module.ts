@@ -4,10 +4,11 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreContainerComponent } from './core-container/core-container.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AuthService } from '../authentication/services/auth.service';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [CoreContainerComponent],
+  declarations: [CoreContainerComponent, NavbarComponent],
   exports: [
     CoreContainerComponent
   ]

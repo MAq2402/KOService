@@ -6,21 +6,38 @@ import { LoginResponse } from '../models/LoginResponse';
 import { Role } from 'src/app/shared/enums/Role';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
+import { Employee } from 'src/app/shared/models/Employee';
+import { EmployeeService } from 'src/app/shared/services/employee.service';
 
 @Injectable()
 export class AuthService {
 
   private baseUrl = 'http://localhost:64197/api/login';
 
+  currentEmployee: Employee = null;
+
   constructor(
     private http: HttpClient,
-    private router: Router
-    ) {}
+    private router: Router,
+    private employeeService: EmployeeService
+    ) {
+      if (this.isAuthenticated() && this.currentEmployee === null) {
+        this.setCurrentIdentity();
+      }
+    }
+
+  private setCurrentIdentity() {
+    const identityId = localStorage.getItem('identity_id');
+    this.employeeService.getEmployeeByIdentityId(identityId)
+      .subscribe(employee => this.currentEmployee = employee);
+  }
 
   login(credentials: LoginCredentials) {
     return this.http.post<LoginResponse>(this.baseUrl, credentials)
       .pipe(tap(response => {
         localStorage.setItem('auth_token', response.auth_token);
+        localStorage.setItem('identity_id', response.id);
+        this.setCurrentIdentity();
         const decodedToken = jwt_decode(response.auth_token);
         this.router.navigate([decodedToken['role']]);
       })).subscribe();
@@ -51,6 +68,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('identity_id');
     this.router.navigate(['/login']);
   }
 }

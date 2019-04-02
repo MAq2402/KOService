@@ -1,0 +1,10 @@
+.my-icon {
+  font-size: 40px;
+}
+.my-title {
+  font-family: 'Allerta Stencil';
+}
+.my-clickable:hover {
+  color: lightblue;
+  cursor: pointer;
+}

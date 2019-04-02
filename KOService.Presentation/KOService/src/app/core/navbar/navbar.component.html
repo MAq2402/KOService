@@ -1,0 +1,17 @@
+<div *ngIf="isUserLogged()">
+  <nav class="navbar navbar-light bg-light row">
+    <div class="col-1 my-icon-container">
+      <i class="material-icons my-icon">build</i>
+    </div>
+    <div class="col-2">
+      <a class="navbar-brand" href="#">
+        <h2 class="my-title my-clickable">KOService</h2>
+      </a>
+    </div>
+    <div class="col-8">
+    </div>
+    <div class="col-1">
+      <i class="material-icons my-icon my-clickable" (click)="logout()">power_settings_new</i>
+    </div>
+  </nav>
+</div>
