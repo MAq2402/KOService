@@ -8,13 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KOService.Application.Handlers
+namespace KOService.Application.Handlers.Employee
 {
     public class GetEmployeesHandler : RequestHandler<GetEmployeesQuery, IEnumerable<EmployeeDto>>
     {
-        private IRepository<Employee> _employeeRepository;
+        private IRepository<Domain.Entities.Employee> _employeeRepository;
 
-        public GetEmployeesHandler(IRepository<Employee> employeeRepository)
+        public GetEmployeesHandler(IRepository<Domain.Entities.Employee> employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }
