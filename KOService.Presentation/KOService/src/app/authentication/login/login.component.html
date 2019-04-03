@@ -8,11 +8,11 @@
         <div class="card-body">
           <div class="form-group">
             <label for="loginInput">Nazwa użytkownika:</label>
-            <input type="text" [(ngModel)] = "loginCredentials.userName" name="login" class="form-control" id="loginInput" placeholder="Login">
+            <input #login type="text" [(ngModel)] = "loginCredentials.userName" (keydown.enter)="focusPasswordInput()" name="login" class="form-control" id="loginInput" placeholder="Login">
           </div>
           <div class="form-group">
             <label for="passwordInput">Hasło:</label>
-            <input type="password" [(ngModel)] = "loginCredentials.password" name="password" class="form-control" id="passwordInput" placeholder="Hasło">
+            <input #password type="password" [(ngModel)] = "loginCredentials.password" (keydown.enter)="onSubmit()" name="password" class="form-control" id="passwordInput" placeholder="Hasło">
           </div>
         </div>
         <div class="card-footer">

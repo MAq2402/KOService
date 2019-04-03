@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
   }
 
   redirectToHomePage() {
-    return this.router.navigate[Role[this.authService.currentEmployee.identityRole]];
+    this.router.navigate([Role[this.authService.currentEmployee.identityRole]]);
   }
 
 }
