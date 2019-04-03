@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/authentication/services/auth.service';
+import { Router } from '@angular/router';
+import { Role } from 'src/app/shared/enums/Role';
 
 @Component({
   selector: 'app-navbar',
@@ -8,12 +10,10 @@ import { AuthService } from 'src/app/authentication/services/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
-
-  /*TODO:
-    dodać do AuthService globalen currentIdentity pobierane w login()
-     i ustawiane w construktorze jak jest authenticated
-  */
+  constructor(
+    private authService: AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
   }
@@ -26,8 +26,8 @@ export class NavbarComponent implements OnInit {
     this.authService.logout();
   }
 
-  getUserHomeComponent() {
-    this.authService.currentEmployee.identityRole;
+  redirectToHomePage() {
+    return this.router.navigate[Role[this.authService.currentEmployee.identityRole]];
   }
 
 }

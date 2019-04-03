@@ -12,7 +12,7 @@ import { EmployeeService } from 'src/app/shared/services/employee.service';
 @Injectable()
 export class AuthService {
 
-  private baseUrl = 'http://localhost:64197/api/login';
+  private baseUrl = 'https://localhost:44340/api/login';
 
   currentEmployee: Employee = null;
 
