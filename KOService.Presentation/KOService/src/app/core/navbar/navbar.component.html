@@ -5,11 +5,12 @@
     </div>
     <div class="col-2">
       <a class="navbar-brand">
-        <h3 class="my-title my-clickable" (click)="redirectToHomePage()">KOService</h3>
+        <h2 class="my-title my-clickable" (click)="redirectToHomePage()">KOService</h2>
         <h6> Panel {{getCurrentEmployee()?.identityRole | role}}a </h6>
       </a>
     </div>
     <div class="col-6">
+      <app-navbar-buttons [buttons]="this.navButtons"></app-navbar-buttons>
     </div>
     <div class="col-2">
       <h6> Zalogowany jako: </h6>

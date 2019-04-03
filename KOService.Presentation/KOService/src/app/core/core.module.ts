@@ -6,10 +6,11 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AuthService } from '../authentication/services/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RolePipe } from '../shared/pipes/role.pipe';
+import { NavbarButtonsComponent } from './navbar/navbar-buttons/navbar-buttons.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [CoreContainerComponent, NavbarComponent, RolePipe],
+  declarations: [CoreContainerComponent, NavbarComponent, RolePipe, NavbarButtonsComponent],
   exports: [
     CoreContainerComponent
   ]
