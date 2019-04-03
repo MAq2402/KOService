@@ -1,14 +1,19 @@
 <div *ngIf="isUserLogged()">
   <nav class="navbar navbar-light bg-light row">
-    <div class="col-1 my-icon-container">
-      <i class="material-icons my-icon">build</i>
+    <div class="col-1 text-center">
+      <i class="material-icons my-icon my-clickable" (click)="redirectToHomePage()">build</i>
     </div>
     <div class="col-2">
       <a class="navbar-brand">
-        <h2 class="my-title my-clickable" (click)="redirectToHomePage()">KOService</h2>
+        <h3 class="my-title my-clickable" (click)="redirectToHomePage()">KOService</h3>
+        <h6> Panel {{getCurrentEmployee()?.identityRole | role}}a </h6>
       </a>
     </div>
-    <div class="col-8">
+    <div class="col-6">
+    </div>
+    <div class="col-2">
+      <h6> Zalogowany jako: </h6>
+      <h5> {{getCurrentEmployee()?.firstName}} {{getCurrentEmployee()?.lastName}} </h5>
     </div>
     <div class="col-1">
       <i class="material-icons my-icon my-clickable" (click)="logout()">power_settings_new</i>

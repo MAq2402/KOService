@@ -30,4 +30,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigate([Role[this.authService.currentEmployee.identityRole]]);
   }
 
+  getCurrentEmployee() {
+    return this.authService.currentEmployee;
+  }
+
 }

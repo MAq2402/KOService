@@ -33,5 +33,4 @@ export class LoginComponent implements OnInit {
   focusPasswordInput() {
     this.passwordInput.nativeElement.focus();
   }
-
 }

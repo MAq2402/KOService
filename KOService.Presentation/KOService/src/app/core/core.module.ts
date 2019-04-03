@@ -5,10 +5,11 @@ import { CoreContainerComponent } from './core-container/core-container.componen
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AuthService } from '../authentication/services/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
+import { RolePipe } from '../shared/pipes/role.pipe';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [CoreContainerComponent, NavbarComponent],
+  declarations: [CoreContainerComponent, NavbarComponent, RolePipe],
   exports: [
     CoreContainerComponent
   ]
@@ -25,7 +26,8 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        AuthService
+        AuthService,
+        RolePipe
       ]
     };
   }
