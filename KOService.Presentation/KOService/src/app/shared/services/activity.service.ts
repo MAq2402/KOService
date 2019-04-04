@@ -14,6 +14,18 @@ export class ActivityService {
     activityTypeId:"0",requestId:"1",workerId:"1"},
     {id:"2",sequenceNumber:1,description:"description2",result:"result2",
     status:ActivityStatus.Finished,requestTime:null,closedTime:null,
+    activityTypeId:"0",requestId:"0",workerId:"1"},
+    {id:"3",sequenceNumber:0,description:"description",result:"result",
+    status:ActivityStatus.Open,requestTime:null,closedTime:null,
+    activityTypeId:"0",requestId:"1",workerId:"1"},
+    {id:"4",sequenceNumber:1,description:"description2",result:"result2",
+    status:ActivityStatus.Finished,requestTime:null,closedTime:null,
+    activityTypeId:"0",requestId:"0",workerId:"1"},
+    {id:"5",sequenceNumber:0,description:"description",result:"result",
+    status:ActivityStatus.Open,requestTime:null,closedTime:null,
+    activityTypeId:"0",requestId:"1",workerId:"1"},
+    {id:"6",sequenceNumber:1,description:"description2",result:"result2",
+    status:ActivityStatus.Finished,requestTime:null,closedTime:null,
     activityTypeId:"0",requestId:"0",workerId:"1"}
 ]
 
@@ -21,6 +33,5 @@ export class ActivityService {
     return of(this.activities.filter(activity=>activity.workerId===workerId));
   }
   
-
   constructor() { }
 }
