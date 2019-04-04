@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Employee } from '../models/Employee';
 import { Observable } from 'rxjs';
+import {Role} from '../enums/Role'
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +15,9 @@ export class EmployeeService {
 
   getEmployeeByIdentityId(identityId): Observable<Employee> {
     return this.http.get<Employee>(this.baseUrl + identityId);
+  }
+
+  getEmployeesByRole(role: Role): Observable<Employee>{
+    return this.http.get<Employee>(this.baseUrl);
   }
 }
