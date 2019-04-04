@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from './services/employee.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { EmployeeService } from './services/employee.service';
   declarations: [],
   exports: [
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ]
 })
 export class SharedModule {

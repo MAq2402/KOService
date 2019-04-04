@@ -10,7 +10,9 @@
       </a>
     </div>
     <div class="col-6">
-      <app-navbar-buttons [buttons]="this.navButtons"></app-navbar-buttons>
+      <div *ngIf="currentIdentityLoaded()">
+        <app-navbar-buttons [buttons]="getNavbarButtons()"></app-navbar-buttons>
+      </div>
     </div>
     <div class="col-2">
       <h6> Zalogowany jako: </h6>
