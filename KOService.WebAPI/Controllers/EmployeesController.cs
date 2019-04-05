@@ -34,7 +34,7 @@ namespace KOService.WebAPI.Controllers
         [HttpGet("{identityId}")]
         public IActionResult GetEmployeeByIdentityId(string identityId)
         {
-            var result = _mediator.Send(new GetEmployeeByIdentityIdQuery { Id = identityId }).Result;
+            var result = _mediator.Send(new GetEmployeeByIdentityIdQuery { Name = User.Identity.Name }).Result;
             return Ok(result);
         }
     }

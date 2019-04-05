@@ -11,7 +11,7 @@ namespace KOService.Domain.Repositories
 {
     public class Repository<T> : IRepository<T> where T:Entity
     {
-        private KOServiceDbContext _dbContext;
+        protected KOServiceDbContext _dbContext;
 
         public Repository(KOServiceDbContext dbContext)
         {

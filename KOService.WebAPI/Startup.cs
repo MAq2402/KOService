@@ -56,6 +56,7 @@ namespace KOService.WebAPI
             services.AddMediatR(Assembly.Load(new AssemblyName("KOService.Application")));
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,7 +8,7 @@ namespace KOService.Application.Queries.Employee
 {
     public class GetEmployeeByIdentityIdQuery : IRequest<EmployeeDto>
     {
-        public string Id { get; set; }
+        public string Name { get; set; }
     }
 }
 

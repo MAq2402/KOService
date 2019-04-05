@@ -8,5 +8,9 @@ namespace KOService.Domain.Authentication
     public class Identity : IdentityUser
     {
         public Role Role { get; set; }
+        public string GetUserName()
+        {
+            return UserName;
+        }
     }
 }

@@ -9,25 +9,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
 
 namespace KOService.Application.Handlers.Employee
 {
     public class GetEmployeeByIdentityIdHandler : RequestHandler<GetEmployeeByIdentityIdQuery, EmployeeDto>
     {
-        private IRepository<Domain.Entities.Employee> _employeeRepository;
-        private KOServiceDbContext _dbContext;
+        private IEmployeeRepository _employeeRepository;
 
-        public GetEmployeeByIdentityIdHandler(IRepository<Domain.Entities.Employee> employeeRepository,
+        public GetEmployeeByIdentityIdHandler(IEmployeeRepository employeeRepository,
             KOServiceDbContext dbContext)
         {
             _employeeRepository = employeeRepository;
-            _dbContext = dbContext;
         }
         protected override EmployeeDto Handle(GetEmployeeByIdentityIdQuery request)
         {
-            var employeeToReturn = _dbContext.Employees.Include("Identity")
-                                        .FirstOrDefault(e => e.IdentityId == request.Id);
+            var employeeToReturn = _employeeRepository.GetEmployeeByIdentityName(request.Name);
             return Mapper.Map<EmployeeDto>(employeeToReturn);
         }
     }
