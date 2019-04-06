@@ -36,7 +36,7 @@ namespace KOService.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
-                               options.AddPolicy("AllowLocalhost", p => p.WithOrigins("http://localhost:4200")
+                               options.AddPolicy(Constants.Cors.AppPolicy, p => p.WithOrigins("http://localhost:4200")
                                                                         .AllowAnyMethod()
                                                                         .AllowAnyHeader()
                                                                         .AllowCredentials()));
@@ -83,7 +83,7 @@ namespace KOService.WebAPI
 
             app.UseHttpsRedirection();
 
-            app.UseCors("AllowLocalhost");
+            app.UseCors(Constants.Cors.AppPolicy);
 
             app.UseMvc();
         }

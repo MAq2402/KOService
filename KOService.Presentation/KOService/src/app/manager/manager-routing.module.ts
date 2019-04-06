@@ -5,9 +5,9 @@ import { HomeComponent } from './home/home.component';
 
 const managerRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: '', children: [
-    {  }
-  ]}
+  // { path: '', children: [
+  //   {  }
+  // ]}
 ];
 
 @NgModule({
