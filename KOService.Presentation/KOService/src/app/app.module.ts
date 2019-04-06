@@ -5,8 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ManagerModule } from './manager/manager.module';
 
 @NgModule({
   declarations: [
@@ -14,11 +12,9 @@ import { ManagerModule } from './manager/manager.module';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    ManagerModule,
-    SharedModule,
-    CoreModule.forRoot(),
     AppRoutingModule,
+    CoreModule.forRoot(),
+    SharedModule
   ],
   exports: [],
   providers: [],

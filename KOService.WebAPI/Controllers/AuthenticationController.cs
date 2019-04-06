@@ -7,7 +7,6 @@ using AutoMapper;
 using KOService.Application.Commands.Authentication;
 using KOService.Domain.Authentication;
 using KOService.WebAPI.Authentication;
-using KOService.WebAPI.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +20,6 @@ namespace KOService.WebAPI.Controllers
 {
     [Route("api/")]
     [ApiController]
-    [EnableCors(Constants.Cors.AppPolicy)]
     public class AuthenticationController : Controller
     {
         private IMediator _mediator;
