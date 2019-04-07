@@ -24,11 +24,11 @@ export class AuthService {
     private spinnerService: NgxSpinnerService
     ) {
       if (this.isAuthenticated() && this.currentEmployee === null) {
-        this.setCurrentIdentity();
+        this.setcurrentEmployee();
       }
     }
 
-  private setCurrentIdentity() {
+  private setcurrentEmployee() {
     const identityId = localStorage.getItem('identity_id');
     this.employeeService.getEmployeeByIdentityId(identityId)
       .subscribe(employee => this.currentEmployee = employee);
@@ -40,7 +40,7 @@ export class AuthService {
       .pipe(tap(response => {
         localStorage.setItem('auth_token', response.auth_token);
         localStorage.setItem('identity_id', response.id);
-        this.setCurrentIdentity();
+        this.setcurrentEmployee();
         const decodedToken = jwt_decode(response.auth_token);
         this.router.navigate([decodedToken['role']]);
         this.spinnerService.hide();

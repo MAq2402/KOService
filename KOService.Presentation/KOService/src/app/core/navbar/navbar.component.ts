@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
     return this.authService.currentEmployee;
   }
 
- currentIdentityLoaded() {
+ currentEmployeeLoaded() {
    if (this.authService.currentEmployee) {
      return true;
    } else {
