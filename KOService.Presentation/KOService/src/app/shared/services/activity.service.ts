@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 export class ActivityService {
 
   activities: Activity[] = [
-    {id:"1",sequenceNumber:0,description:"description",result:"result",
+    {id:"1",sequenceNumber:0,description:"naprawa ",result:"result",
     status:ActivityStatus.Open,requestTime:null,closedTime:null,
     activityTypeId:"0",requestId:"1",workerId:"1"},
     {id:"2",sequenceNumber:1,description:"description2",result:"result2",

@@ -3,16 +3,22 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from './services/employee.service';
-
+import { 
+  MatCardModule, MatInputModule, MatCheckboxModule
+ } from '@angular/material';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MatCardModule,
+    MatInputModule,
+    MatCheckboxModule
   ],
   declarations: [],
   exports: [
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatCardModule, MatInputModule, MatCheckboxModule
   ]
 })
 export class SharedModule {

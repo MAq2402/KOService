@@ -1,7 +1,7 @@
-import { DataSource } from '@angular/cdk/collections';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
-import { Observable, of as observableOf, merge } from 'rxjs';
+import { Observable, of as observableOf, merge, BehaviorSubject } from 'rxjs';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityService } from 'src/app/shared/services/activity.service';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
@@ -19,7 +19,7 @@ export interface ActivitiesItem {
   workerId: string;
 }
 
-export class ActivitiesDataSource extends DataSource<any> {
+export class ActivitiesDataSource extends MatTableDataSource<any> {
   data: Activity[];
   mechanicId: string;
   constructor(
@@ -27,27 +27,14 @@ export class ActivitiesDataSource extends DataSource<any> {
     private sort: MatSort,
     private activityService: ActivityService) {
     super();
-  }
-
-
-  connect(): Observable<ActivitiesItem[]> {
 
     this.mechanicId = localStorage.getItem('auth_key');
-    this.activityService.getWorkerActivities('1')
-       .subscribe(a => (this.data = a));
+  this.activityService.getWorkerActivities('1')
+     .subscribe(a => (this.data = a));
 
-    const dataMutations = [
-      this.data,
-      this.paginator.page,
-      this.sort.sortChange
-    ];
-
-    this.paginator.length = this.data.length;
-
-    return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
-    }));
   }
+
+  
 
   disconnect() {}
 

@@ -1,33 +1,49 @@
-<div class="mat-elevation-z8">
-  <table mat-table class="full-width-table" [dataSource]="dataSource" matSort
-  multiTemplateDataRows aria-label="Elements">
-  
-  <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
-    <td mat-cell *matCellDef="let row"> {{row[column]}} </td>
-  </ng-container>
+<mat-card>
+  <mat-card-title>Moje zadania</mat-card-title>
+  <div class="row">
+    <div class="col-sm-6">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+      <mat-checkbox>Otwarte</mat-checkbox>
+      <mat-checkbox>W trakcie</mat-checkbox>
+      <mat-checkbox>Odwołane</mat-checkbox>
+      <mat-checkbox>Zakończone</mat-checkbox>
+    </div>
+  </div>
+  <div class="mat-elevation-z8">
+   <table mat-table class="full-width-table" [dataSource]="dataSource" matSort
+   multiTemplateDataRows aria-label="Elements">
    
-  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-  <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-      <div class="element-detail"
-           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-           <div class="element-name"> status: {{element.status}} </div>
-      </div>
-    </td>
-  </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-      class="element-row"
-      [class.expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
-  </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+   <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+     <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+     <td mat-cell *matCellDef="let row"> {{row[column]}} </td>
+   </ng-container>
+    
+   <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+   <ng-container matColumnDef="expandedDetail">
+     <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+       <div class="element-detail"
+            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="element-name"> status: {{element.status}} </div>
+       </div>
+     </td>
+   </ng-container>
+   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+   <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+       class="element-row"
+       [class.expanded-row]="expandedElement === element"
+       (click)="expandedElement = expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
    
-  </table>
-  <mat-paginator #paginator
-      [pageIndex]="0"
-      [pageSize]="5"
-      [pageSizeOptions]="[1, 2, 5, 10]">
-  </mat-paginator>
-</div>
+    </table>
+    <mat-paginator #paginator
+        [pageIndex]="0"
+        [pageSize]="5"
+        [pageSizeOptions]="[1, 2, 5, 10]">
+    </mat-paginator>
+  </div>  
+</mat-card>

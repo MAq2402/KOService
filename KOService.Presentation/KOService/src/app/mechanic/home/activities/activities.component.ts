@@ -3,7 +3,7 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { ActivitiesDataSource } from './activities-datasource';
 import { ActivityService } from 'src/app/shared/services/activity.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-
+import { MatToolbarModule } from '@angular/material';
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
@@ -28,5 +28,9 @@ export class ActivitiesComponent implements OnInit {
   ngOnInit() {
    
     this.dataSource = new ActivitiesDataSource(this.paginator, this.sort, this.activityService);
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }
