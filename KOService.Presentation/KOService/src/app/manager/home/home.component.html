@@ -13,9 +13,9 @@
       <mat-checkbox>Zakończone</mat-checkbox>
     </div>
   </div>
-  <table mat-table [dataSource]="repairsDataSource" multiTemplateDataRows class="mat-elevation-z8">
+  <table mat-table [dataSource]="repairsDataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
     <ng-container matColumnDef="{{column.name}}" *ngFor="let column of repairsColumnsToDisplay">
-      <th mat-header-cell *matHeaderCellDef> {{column.display}} </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.display}} </th>
       <td mat-cell *matCellDef="let element"> {{element[column.name]}}</td>
     </ng-container>
     <ng-container matColumnDef="expandedDetail">

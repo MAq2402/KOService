@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Repair } from 'src/app/shared/models/repair.model';
 import { RepairStatus } from 'src/app/shared/enums/repair-status.enum';
 import { ColumnDef } from 'src/app/shared/models/column-def.model';
 import { RepairSubTask } from 'src/app/shared/models/repair-sub-task.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { DetailExpandAnimation } from '../animations/detail-expand-animation';
 
 const REPIAR_SUB_TASKS: RepairSubTask[] = [
   {
@@ -13,6 +15,7 @@ const REPIAR_SUB_TASKS: RepairSubTask[] = [
     description: 'Wymiana klocków hamulcowych',
     result: '',
     status: RepairStatus.Open,
+    statusDisplay: 'Otwarty',
     startDateTime: '06-04-2018',
     endDateTime: '06-04-2018',
     mechanicId: '1',
@@ -23,6 +26,7 @@ const REPIAR_SUB_TASKS: RepairSubTask[] = [
     description: 'Wymiana oleju',
     result: '',
     status: RepairStatus.Open,
+    statusDisplay: 'Otwarty',
     startDateTime: '06-04-2018',
     endDateTime: '06-04-2018',
     mechanicId: '2',
@@ -33,6 +37,7 @@ const REPIAR_SUB_TASKS: RepairSubTask[] = [
     description: 'Wymiana szprzęgła',
     result: '',
     status: RepairStatus.Open,
+    statusDisplay: 'Otwarty',
     startDateTime: '06-04-2018',
     endDateTime: '06-04-2018',
     mechanicId: '2',
@@ -46,6 +51,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.Open,
+    statusDisplay: 'Otwarty',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -56,6 +62,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.Open,
+    statusDisplay: 'Otwarty',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -66,6 +73,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.Canceled,
+    statusDisplay: 'Odwołany',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -76,6 +84,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.Canceled,
+    statusDisplay: 'Odwołany',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -86,6 +95,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.InProgress,
+    statusDisplay: 'W trakcie',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -96,6 +106,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.InProgress,
+    statusDisplay: 'W trakcie',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -106,6 +117,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.InProgress,
+    statusDisplay: 'W trakcie',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -116,6 +128,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.Finished,
+    statusDisplay: 'Zakończony',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -126,6 +139,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.Finished,
+    statusDisplay: 'Zakończony',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -136,6 +150,7 @@ const REPAIRS: Repair[] = [
     description: 'Opis',
     result: '',
     status: RepairStatus.Finished,
+    statusDisplay: 'Zakończony',
     startDateTime: '06-04-2018',
     endDateTime: null,
     carId: '1',
@@ -148,11 +163,7 @@ const REPAIRS: Repair[] = [
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
+    DetailExpandAnimation
   ],
 })
 export class HomeComponent implements OnInit {
@@ -164,22 +175,25 @@ export class HomeComponent implements OnInit {
     { name: 'carBrand', display: 'Marka' },
     { name: 'carNumbers', display: 'Numery rejestracyjne' },
     { name: 'description', display: 'Opis' },
-    { name: 'status', display: 'Status'},
+    { name: 'statusDisplay', display: 'Status'},
     { name: 'startDateTime', display: 'Data rozpoczęcia'}
   ];
 
   subTasksColumnsToDisplay: ColumnDef[] = [
     { name: 'description', display: 'Opis' },
     { name: 'mechanicName', display: 'Mechanik' },
-    { name: 'status', display: 'Status'},
+    { name: 'statusDisplay', display: 'Status'},
     { name: 'startDateTime', display: 'Data rozpoczęcia'}
   ];
 
   expandedElement: any | null;
 
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor() { }
 
   ngOnInit() {
+    this.repairsDataSource.sort = this.sort;
   }
 
   getRepairsColumnsToDisplayNames(): string[] {

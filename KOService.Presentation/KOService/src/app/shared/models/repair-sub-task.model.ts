@@ -6,6 +6,7 @@ export class RepairSubTask {
     description: string;
     result: string;
     status: RepairStatus;
+    statusDisplay: string;
     startDateTime: string;
     endDateTime: string;
     mechanicId: string;
