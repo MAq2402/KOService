@@ -7,12 +7,12 @@ import { AuthService } from '../authentication/services/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RolePipe } from '../shared/pipes/role.pipe';
 import { NavbarButtonsComponent } from './navbar/navbar-buttons/navbar-buttons.component';
-import { SharedModule } from '../shared/shared.module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule
+    NgbTooltipModule
   ],
   declarations: [CoreContainerComponent, NavbarComponent, RolePipe, NavbarButtonsComponent],
   exports: [

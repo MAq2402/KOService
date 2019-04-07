@@ -16,15 +16,15 @@ export class NavbarComponent implements OnInit {
     private router: Router
     ) {}
 
-    adminNavbarButton: NavbarButton [] = [
+    adminNavbarButtons: NavbarButton [] = [
       {'text': 'add_circle', 'redirectTo': 'admin', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj pracownika' },
     ];
 
-    managerNavbarButton: NavbarButton [] = [
+    managerNavbarButtons: NavbarButton [] = [
       {'text': 'add_box', 'redirectTo': 'manager', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj naprawę' },
     ];
 
-    mechanicNavbarButton: NavbarButton [] = [];
+    mechanicNavbarButtons: NavbarButton [] = [];
 
   ngOnInit() {
   }
@@ -55,9 +55,9 @@ export class NavbarComponent implements OnInit {
 
   getNavbarButtons() {
     switch(this.authService.currentEmployee.identityRole){
-      case Role.admin: return this.adminNavbarButton;
-      case Role.manager: return this.managerNavbarButton;
-      case Role.mechanic: return this.mechanicNavbarButton;
+      case Role.admin: return this.adminNavbarButtons;
+      case Role.manager: return this.managerNavbarButtons;
+      case Role.mechanic: return this.mechanicNavbarButtons;
     }
   }
 

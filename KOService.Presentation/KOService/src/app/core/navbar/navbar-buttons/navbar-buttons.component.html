@@ -5,10 +5,10 @@
       *ngFor="let button of getLeftButtons()"
       class="float-left my-clickable my-navbar-button my-button-left"
       (click)="navigate(button.redirectTo)">
-        <i *ngIf="button.isIcon" class="material-icons my-icon">
+        <i *ngIf="button.isIcon" class="material-icons my-icon" [ngbTooltip]='button.tooltip'>
           {{button.text}}
         </i>
-        <h5 *ngIf="!button.isIcon" class="my-text-button">
+        <h5 *ngIf="!button.isIcon" class="my-text-button" [ngbTooltip]='button.tooltip'>
           {{button.text}}
         </h5>
       </div>
@@ -23,7 +23,7 @@
         <i *ngIf="button.isIcon" class="material-icons my-icon" [ngbTooltip]="button.tooltip">
             {{button.text}}
         </i>
-        <h5 *ngIf="!button.isIcon" class="my-text-button">
+        <h5 *ngIf="!button.isIcon" class="my-text-button" [ngbTooltip]='button.tooltip'>
             {{button.text}}
         </h5>
       </div>
