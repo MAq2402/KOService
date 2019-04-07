@@ -8,11 +8,15 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RolePipe } from '../shared/pipes/role.pipe';
 import { NavbarButtonsComponent } from './navbar/navbar-buttons/navbar-buttons.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
     CommonModule,
-    NgbTooltipModule
+    NgbTooltipModule,
+    HttpClientModule,
+    NgxSpinnerModule
   ],
   declarations: [CoreContainerComponent, NavbarComponent, RolePipe, NavbarButtonsComponent],
   exports: [
