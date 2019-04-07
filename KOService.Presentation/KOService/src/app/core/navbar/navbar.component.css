@@ -2,10 +2,11 @@
   font-size: 72px;
   vertical-align: middle;
 }
-.my-title {
-  font-family: 'Allerta Stencil';
-}
 .my-clickable:hover {
   color: lightblue;
   cursor: pointer;
+}
+.my-navbar {
+  border-bottom: 2px solid black;
+  border-top: 2px solid black;
 }
