@@ -35,12 +35,14 @@ namespace KOService.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddCors(options =>
                                options.AddPolicy("AllowLocalhost", p => p.WithOrigins("http://localhost:4200")
                                                                         .AllowAnyMethod()
                                                                         .AllowAnyHeader()
                                                                         .AllowCredentials()));
 
+           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<KOServiceDbContext>(options =>
@@ -82,7 +84,7 @@ namespace KOService.WebAPI
             AutoMapperConfiguration.Configure();
 
             app.UseHttpsRedirection();
-
+           
             app.UseCors("AllowLocalhost");
 
             app.UseMvc();
