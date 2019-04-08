@@ -1,0 +1,27 @@
+table {
+    width: 100%;
+  }
+
+  .alignCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footeritem{
+    margin:0 auto;
+    font-size: 2em;
+    color: rgb(186, 186, 186);
+  }
+  #status-open{
+      color:rgb(40, 155, 255);
+  }
+  #status-progress{
+    color:rgb(255, 165, 0);
+}
+#status-finished{
+    color:green;
+}
+#status-canceled{
+    color:rgb(193, 0, 0);
+}
