@@ -8,7 +8,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RolePipe } from '../shared/pipes/role.pipe';
 import { NavbarButtonsComponent } from './navbar/navbar-buttons/navbar-buttons.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({

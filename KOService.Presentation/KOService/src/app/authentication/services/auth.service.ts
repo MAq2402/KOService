@@ -6,7 +6,7 @@ import { LoginResponse } from '../models/LoginResponse';
 import { Role } from 'src/app/shared/enums/Role';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
-import { Employee } from 'src/app/shared/models/Employee';
+import { Employee } from 'src/app/shared/models/employee.model';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { throwError } from 'rxjs';
