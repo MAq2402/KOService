@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
@@ -13,7 +12,6 @@ import {MatSortModule} from '@angular/material/sort';
   imports: [
     MatTableModule,
     MatCardModule,
-    BrowserAnimationsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -23,7 +21,6 @@ import {MatSortModule} from '@angular/material/sort';
   exports: [
     MatTableModule,
     MatCardModule,
-    BrowserAnimationsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
