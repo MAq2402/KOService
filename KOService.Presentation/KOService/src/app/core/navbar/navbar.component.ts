@@ -45,16 +45,8 @@ export class NavbarComponent implements OnInit {
     return this.authService.currentEmployee;
   }
 
- currentEmployeeLoaded() {
-   if (this.authService.currentEmployee) {
-     return true;
-   } else {
-     return false;
-   }
- }
-
   getNavbarButtons() {
-    switch(this.authService.currentEmployee.identityRole){
+    switch (this.authService.currentEmployee.identityRole) {
       case Role.admin: return this.adminNavbarButtons;
       case Role.manager: return this.managerNavbarButtons;
       case Role.mechanic: return this.mechanicNavbarButtons;
