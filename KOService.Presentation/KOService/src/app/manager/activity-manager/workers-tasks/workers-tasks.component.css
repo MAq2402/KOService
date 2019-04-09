@@ -2,17 +2,22 @@ table {
     width: 100%;
   }
 
-  .alignCenter {
+  .toolbar {
     display: flex;
     align-items: center;
     justify-content: center;
   }
+  .toolbar:hover {
+   opacity:0.7;
+    }
+
 
   .footeritem{
     margin:0 auto;
     font-size: 2em;
     color: rgb(186, 186, 186);
   }
+  
   #status-open{
       color:rgb(40, 155, 255);
   }

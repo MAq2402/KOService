@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityService } from 'src/app/shared/services/activity.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
+import {ActivityCreatorComponent} from '../activity-creator/activity-creator.component'
 
 
 
@@ -25,11 +27,18 @@ export class WorkersTasksComponent implements OnInit {
   requestId = '0';
   repairActivities: Activity[];
   columnsToDisplay = ['description', 'type', 'status', 'worker'];
-  constructor(private activityService: ActivityService) { }
+  name;animal;
+  constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog) { }
 
 
   ngOnInit() {
      this.activityService.getRequestActivities(this.requestId).subscribe(activities => this.repairActivities = activities );
   }
 
+  openActivityCreatorDialog(): void{
+    const dialogRef = this.activityCreatorDialog.open(ActivityCreatorComponent, {
+     
+      data: {name: this.name, animal: this.animal}
+  });
+}
 }

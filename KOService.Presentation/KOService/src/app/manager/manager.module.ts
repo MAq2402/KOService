@@ -4,19 +4,18 @@ import { HomeComponent } from './home/home.component';
 import { ManagerRoutingModule } from './manager-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { WorkersTasksComponent } from './activity-manager/workers-tasks/workers-tasks.component';
-import { MatTableModule } from '@angular/material/table';
-import {MatCardModule} from '@angular/material/card';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import {MaterialModule} from '../shared/material/material.module'
+import { ActivityCreatorComponent } from './activity-manager/activity-creator/activity-creator.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ManagerRoutingModule,
     SharedModule,
-    MatTableModule,
-    MatCardModule,
-    MatToolbarModule
+    MaterialModule
+    
   ],
-  declarations: [HomeComponent, WorkersTasksComponent]
+  declarations: [HomeComponent, WorkersTasksComponent, ActivityCreatorComponent],
+  entryComponents: [ActivityCreatorComponent]
 })
 export class ManagerModule { }

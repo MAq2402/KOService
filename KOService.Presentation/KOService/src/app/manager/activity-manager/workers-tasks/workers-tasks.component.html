@@ -37,7 +37,7 @@
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
  
 </table>
-<mat-toolbar class = "alignCenter">
+<mat-toolbar class = "toolbar" (click)="openActivityCreatorDialog()">
     <mat-toolbar-row>
         <i class="material-icons footeritem">
             add_circle_outline
