@@ -3,14 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from './services/employee.service';
+import { MaterialModule } from './material/material.module';
 
 
 @NgModule({
   imports: [
-    CommonModule
+    MaterialModule,
+    CommonModule,
   ],
   declarations: [],
   exports: [
+    MaterialModule,
     HttpClientModule,
     FormsModule,
   ]
