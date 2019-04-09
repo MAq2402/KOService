@@ -24,3 +24,18 @@ tr.element-row:not(.example-expanded-row):active {
   display: flex;
 }
 
+.my-row{
+  margin: 20px auto;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.my-input{
+  width: 80%;
+}
+
+.my-checkbox{
+  margin-right: 3%;
+}

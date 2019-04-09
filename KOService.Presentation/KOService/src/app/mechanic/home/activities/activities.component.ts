@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
-import { ActivitiesDataSource } from './activities-datasource';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ActivityService } from 'src/app/shared/services/activity.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { MatToolbarModule } from '@angular/material';
+import { Activity } from 'src/app/shared/models/Activity';
+import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
+import { Repair } from 'src/app/shared/models/Repair';
+import { RepairService } from 'src/app/shared/services/repair.service';
+
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
@@ -16,21 +19,64 @@ import { MatToolbarModule } from '@angular/material';
     ]),
   ],
 })
+
 export class ActivitiesComponent implements OnInit {
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource: ActivitiesDataSource;
+  dataSource = new MatTableDataSource<Activity>();
+  repairs: Repair[];
+  userId: string;
+  displayedColumns = ['requestTime', 'description', 'status', 'sequenceNumber','carNumbers', 'carBrand'];
+  columnsToDisplayMap = [  {name: 'requestTime', display: 'data'},
+    {name: 'description', display: 'opis'}, 
+    {name: 'status', display: 'status'},
+    {name: 'sequenceNumber', display: 'poziom ważności'
+  }];
 
-  displayedColumns = ['id', 'requestId', 'description'];
-
-  constructor(private activityService: ActivityService){ }
+  constructor(
+    private activityService: ActivityService, 
+    private  repairService: RepairService
+  ){ }
 
   ngOnInit() {
-   
-    this.dataSource = new ActivitiesDataSource(this.paginator, this.sort, this.activityService);
+    this.userId = localStorage.getItem('auth_key');
+    this.activityService.getWorkerActivities("1").subscribe(
+      activities => { 
+      this.dataSource.data = activities as Activity[];
+    });     
+    this.repairService.getRepairs().subscribe(r => this.repairs = r);
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  checkIfNotHistorical(status: ActivityStatus): boolean{
+    if(status <= ActivityStatus.Progress)
+        return true;
+    else
+      return false;
+  }
+
+  checkIfOpen(status: ActivityStatus): boolean{
+    if(status == ActivityStatus.Open)
+      return true;
+    else
+      return false;
+  }
+  
+  getCarNumbers(repairId: string): string{
+    return this.repairs.find(r => r.id === repairId).carNumbers;
+  }
+
+  getCarBrand(repairId: string): string{
+    return this.repairs.find(r => r.id === repairId).carBrand;
+  }
 }
+
