@@ -15,7 +15,7 @@ import { MaterialModule } from './material/material.module';
   exports: [
     MaterialModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class SharedModule {

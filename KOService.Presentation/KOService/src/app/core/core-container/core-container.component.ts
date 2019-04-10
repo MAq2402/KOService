@@ -12,8 +12,4 @@ export class CoreContainerComponent implements OnInit {
   ngOnInit() {
   }
 
-  isUserLogged() {
-    return false;
-  }
-
 }
