@@ -3,26 +3,21 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from './services/employee.service';
-import {  MatCardModule, MatInputModule, MatCheckboxModule, MatButtonModule, MatGridListModule} from '@angular/material';
+import { MaterialModule } from './material/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
+    MaterialModule,
     CommonModule,
-    MatCardModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatGridListModule
+    BrowserAnimationsModule
   ],
   declarations: [],
   exports: [
+    MaterialModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
-    MatCardModule, 
-    MatInputModule, 
-    MatCheckboxModule,
-    MatButtonModule,
-    MatGridListModule
+    FormsModule
   ]
 })
 export class SharedModule {
