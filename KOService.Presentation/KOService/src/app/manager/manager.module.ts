@@ -10,6 +10,6 @@ import { CommonModule } from '@angular/common';
     ManagerRoutingModule,
     SharedModule
   ],
-  declarations: [HomeComponent, WorkersTasksComponent]
+  declarations: [HomeComponent]
 })
 export class ManagerModule { }
