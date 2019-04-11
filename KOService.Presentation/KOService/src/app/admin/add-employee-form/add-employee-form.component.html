@@ -1,0 +1,16 @@
+<form #employeeForm="ngForm">
+    {{employeeModel | json}}
+
+    <p>First name:</p>
+    <input type="text" name="firstName" required [(ngModel)]="employeeModel.firstName">
+    <p>Last name:</p>
+    <input type="text" name="lastName" required [(ngModel)]="employeeModel.lastName">
+    <p>E-mail address:</p>
+    <input type="email" name="e-mail" required [(ngModel)]="employeeModel.email">
+    <p>Phone number:</p>
+    <input type="tel" id="phone" name="phone" pattern="[0-9]{9}" required [(ngModel)]="employeeModel.phone">
+    <p>Gender:</p>
+    <input type="radio" name="gender" value="male" checked [(ngModel)]="employeeModel.gender"> Male<br>
+    <input type="radio" name="gender" value="female" [(ngModel)]="employeeModel.gender"> Female<br>
+    <input type="radio" name="gender" value="other" [(ngModel)]="employeeModel.gender"> Other
+</form>

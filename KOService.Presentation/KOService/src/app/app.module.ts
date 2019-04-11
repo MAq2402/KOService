@@ -7,21 +7,25 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManagerModule } from './manager/manager.module';
+import { AddEmployeeFormComponent } from './admin/add-employee-form/add-employee-form.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    ManagerModule,
-    SharedModule,
-    CoreModule.forRoot(),
-    AppRoutingModule,
-  ],
-  exports: [],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        AddEmployeeFormComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        ManagerModule,
+        SharedModule,
+        CoreModule.forRoot(),
+        AppRoutingModule,
+        FormsModule
+    ],
+    exports: [],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
