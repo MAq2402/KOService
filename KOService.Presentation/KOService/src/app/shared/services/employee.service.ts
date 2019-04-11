@@ -9,7 +9,7 @@ import {Role} from '../enums/Role'
 })
 export class EmployeeService {
 
-  private baseUrl = 'http://localhost:64197/api/Employees/';
+  private baseUrl = 'https://localhost:44340/api/Employees/';
 
   constructor(private http: HttpClient) { }
 
@@ -17,7 +17,7 @@ export class EmployeeService {
     return this.http.get<Employee>(this.baseUrl + identityId);
   }
 
-  getEmployeesByRole(role: Role): Observable<Employee>{
-    return this.http.get<Employee>(this.baseUrl);
+  getEmployeesByRole(role: Role): Observable<Employee[]>{
+    return this.http.get<Employee[]>(this.baseUrl);
   }
 }

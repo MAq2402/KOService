@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { WorkersTasksComponent } from './activity-manager/workers-tasks/workers-tasks.component';
 import {MaterialModule} from '../shared/material/material.module'
 import { ActivityCreatorComponent } from './activity-manager/activity-creator/activity-creator.component';
+import { WorkersTableComponent } from './activity-manager/workers-table/workers-table.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { ActivityCreatorComponent } from './activity-manager/activity-creator/ac
     MaterialModule
     
   ],
-  declarations: [HomeComponent, WorkersTasksComponent, ActivityCreatorComponent],
+  declarations: [HomeComponent, WorkersTasksComponent, ActivityCreatorComponent, WorkersTableComponent],
   entryComponents: [ActivityCreatorComponent]
 })
 export class ManagerModule { }

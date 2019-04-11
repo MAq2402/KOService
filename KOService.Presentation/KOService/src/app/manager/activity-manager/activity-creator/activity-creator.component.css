@@ -7,3 +7,14 @@
 .full-width-input{
     width:100%;
 }
+.input{
+  margin-left:60px;
+}
+.dialog-actions{
+  text-align: center;
+}
+.dialog-button{
+  margin-right: 20px;
+  margin-left: 20px;
+
+}

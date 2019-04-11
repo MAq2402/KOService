@@ -7,7 +7,7 @@
         <mat-form-field >
             <input type="number" matInput placeholder="Numer w sekwencji"/>
         </mat-form-field>
-        <mat-form-field class="align-right">
+        <mat-form-field class="input">
             <mat-label>Typ zadania</mat-label>
             <mat-select>
               <mat-option *ngFor="let type of activityTypes" [value]="type">
@@ -16,5 +16,9 @@
               
             </mat-select>
         </mat-form-field>
+        <div class="dialog-actions">
+          <button mat-raised-button class="dialog-button" >Anuluj</button>
+          <button mat-raised-button class="dialog-button" >Zatwierdź</button>
+        </div>
   </form>
 </mat-card>

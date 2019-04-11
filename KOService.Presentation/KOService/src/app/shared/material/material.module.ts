@@ -5,6 +5,8 @@ import {MatDialogModule} from '@angular/material/dialog'
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 import { NgModule } from '@angular/core';
 
@@ -16,7 +18,9 @@ MatToolbarModule,
 MatDialogModule,
 MatInputModule,
 MatFormFieldModule,
-MatSelectModule
+MatSelectModule,
+MatButtonModule,
+MatSidenavModule
 ],
   exports: [
       MatTableModule,
@@ -25,7 +29,9 @@ MatSelectModule
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule,
+    MatSidenavModule
     ],
 })
 export class MaterialModule { }
