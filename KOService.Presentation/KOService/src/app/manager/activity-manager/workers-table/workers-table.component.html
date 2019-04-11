@@ -14,6 +14,12 @@
     <td mat-cell *matCellDef="let worker"> {{worker.lastName}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="numberOfActivities">
+    <th mat-header-cell *matHeaderCellDef> Ilość zadań </th>
+    <td mat-cell *matCellDef="let worker"> {{worker.lastName}} </td>
+  </ng-container>
+
+
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
  
