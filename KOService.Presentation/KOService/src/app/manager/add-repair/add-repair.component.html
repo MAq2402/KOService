@@ -1,0 +1,57 @@
+
+<mat-vertical-stepper linear #stepper>
+  <mat-step [stepControl]="clientFormGroup">
+    <form [formGroup]="clientFormGroup">
+      <ng-template matStepLabel>Dane klienta</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Imię" formControlName="name" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Nazwisko" formControlName="surname" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Numer telefonu" formControlName="phoneNumber" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="carFormGroup">
+    <form [formGroup]="carFormGroup">
+      <ng-template matStepLabel>Dane samochodu</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Marka auta" formControlName="car" required>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Numer rejestracyjny" formControlName="carNumber" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Powrót</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+    <mat-step [stepControl]="repairFormGroup">
+      <form [formGroup]="repairFormGroup">
+        <ng-template matStepLabel>Szczegóły naprawy</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="Opis naprawy" formControlName="description" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Powrót</button>
+          <button mat-button matStepperNext>Dalej</button>
+        </div>
+      </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Podsumowanie</ng-template>
+    <div>
+      <button mat-button matStepperPrevious>Powrót</button>
+      <button mat-button type="reset" (click)="submit()">Dodaj naprawę</button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
