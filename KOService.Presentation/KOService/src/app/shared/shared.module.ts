@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from './services/employee.service';
 import { MaterialModule } from './material/material.module';
 
-
 @NgModule({
   imports: [
     MaterialModule,
