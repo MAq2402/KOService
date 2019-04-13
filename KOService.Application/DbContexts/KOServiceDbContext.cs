@@ -1,4 +1,5 @@
-﻿using KOService.Domain.Entities;
+﻿using KOService.Domain.Configuration;
+using KOService.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,6 +14,17 @@ namespace KOService.Domain.DbContexts
         {
 
         }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<Employee> Employees { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfiguration(new AddressConfiguration());
+            builder.ApplyConfiguration(new ClientConfiguration());
+
+            base.OnModelCreating(builder);
+        }
     }
 }
