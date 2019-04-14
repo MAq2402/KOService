@@ -1,3 +1,6 @@
+<body>
+<p class="header">Add new employee</p>
+
 <form #employeeForm="ngForm">
     {{employeeModel | json}}
 
@@ -13,4 +16,11 @@
     <input type="radio" name="gender" value="male" checked [(ngModel)]="employeeModel.gender"> Male<br>
     <input type="radio" name="gender" value="female" [(ngModel)]="employeeModel.gender"> Female<br>
     <input type="radio" name="gender" value="other" [(ngModel)]="employeeModel.gender"> Other
+    <p>Role:</p>
+    <select>
+        <option *ngFor="let role of roles" [ngValue]="role">
+            {{ role }}
+        </option>
+    </select>
 </form>
+</body>

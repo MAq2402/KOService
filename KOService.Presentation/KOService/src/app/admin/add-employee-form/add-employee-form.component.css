@@ -1,9 +1,15 @@
-form {
-    margin: auto;
-    text-align: center;
-}
-
 p {
     margin: 0;
     padding: 0;
+}
+
+.header {
+    font-size: 25px;
+}
+
+body {
+    margin: auto;
+    text-align: center;
+    background-color:  rgb(165, 165, 247);
+    height: 1000px;
 }
