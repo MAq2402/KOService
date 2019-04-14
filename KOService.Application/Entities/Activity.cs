@@ -12,6 +12,7 @@ namespace KOService.Domain.Entities
         {
             
         }
+        protected override Dictionary<ActivityStatus, string> StatusDictionary => statusDictionary;
 
         private readonly Dictionary<ActivityStatus, string> statusDictionary = new Dictionary<ActivityStatus, string>()
         {
@@ -27,9 +28,6 @@ namespace KOService.Domain.Entities
         public Repair Repair { get; set; }
         public Guid? MechanicId { get; set; }
         public Employee Mechanic { get; set; }
-
-        protected override Dictionary<ActivityStatus, string> StatusDictionary => statusDictionary;
-
         public override void Cancel(string result)
         {
             base.Cancel(result);

@@ -12,7 +12,7 @@ namespace KOService.Domain.Entities
         public string Email { get; set; }
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
-        public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
+        public ICollection<Vehicle> Vehicles { get; private set; } = new List<Vehicle>();
 
     }
 }

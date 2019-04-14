@@ -7,6 +7,6 @@ namespace KOService.Domain.Entities
     public class ActivityType: Entity
     {
         public string Name { get; set; }
-        public ICollection<Activity> Activities { get;private set; }
+        public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
     }
 }
