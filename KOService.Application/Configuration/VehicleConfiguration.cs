@@ -12,6 +12,10 @@ namespace KOService.Domain.Configuration
         public void Configure(EntityTypeBuilder<Vehicle> builder)
         {
             builder.HasKey(v => v.Id);
+
+            builder.HasMany(v => v.Repairs)
+                   .WithOne(r => r.Vehicle)
+                   .HasForeignKey(r => r.VehicleId);
         }
     }
 }

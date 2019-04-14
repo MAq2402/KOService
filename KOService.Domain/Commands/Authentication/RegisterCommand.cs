@@ -13,7 +13,7 @@ namespace KOService.Application.Commands.Authentication
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public Role Role { get; set; }
+        public EmployeeRole Role { get; set; }
         public string IdentityId { get; set; }
     }
 }

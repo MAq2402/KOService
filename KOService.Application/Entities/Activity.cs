@@ -6,8 +6,12 @@ using System.Text;
 
 namespace KOService.Domain.Entities
 {
-    public class Activity: Entity
+    public class Activity: EmployeeTask<ActivityStatus>
     {
+        public Activity(): base()
+        {
+            
+        }
 
         private readonly Dictionary<ActivityStatus, string> statusDictionary = new Dictionary<ActivityStatus, string>()
         {
@@ -16,30 +20,35 @@ namespace KOService.Domain.Entities
             {ActivityStatus.Canceled, "CAN" },
             {ActivityStatus.Finished, "FIN" }
         };
-        public Guid ActivityTypeId { get; set; }
-        public ActivityType ActivityType { get; set; }
+        public Guid TypeId { get; set; }
+        public ActivityType Type { get; set; }
         public int SequenceNumber { get; set; }
-        public string Description { get; set; }
-        public string Result { get; set; }
-        public string Status { get; private set; }
-        public DateTime StartDateTime { get; set; } = DateTime.UtcNow;
-        public DateTime EndDateTime { get; set; }
         public Guid RepairId { get; set; }
         public Repair Repair { get; set; }
-        public Guid MechanicId { get; set; }
+        public Guid? MechanicId { get; set; }
         public Employee Mechanic { get; set; }
 
-        public ActivityStatus GetStatus()
+        protected override Dictionary<ActivityStatus, string> StatusDictionary => statusDictionary;
+
+        public override void Cancel(string result)
         {
-            return statusDictionary.FirstOrDefault(x => x.Value == Status).Key;
+            base.Cancel(result);
+            SetStatus(ActivityStatus.Canceled);
         }
-        public void SetStatus(ActivityStatus status)
+        public override void Finish(string result)
         {
-            if (status == ActivityStatus.Canceled || status == ActivityStatus.InProgress)
-            {
-                EndDateTime = DateTime.UtcNow;
-            }
-            Status = statusDictionary[status];
+            base.Finish(result);
+            SetStatus(ActivityStatus.Finished);
+        }
+        public override void ChangeToInProgress()
+        {
+            base.ChangeToInProgress();
+            SetStatus(ActivityStatus.InProgress);
+        }
+        public override void Open()
+        {
+            base.Open();
+            SetStatus(ActivityStatus.Open);
         }
     }
 }

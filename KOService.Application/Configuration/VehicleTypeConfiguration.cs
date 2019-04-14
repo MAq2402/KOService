@@ -14,8 +14,8 @@ namespace KOService.Domain.Configuration
             builder.HasKey(vt => vt.Id);
 
             builder.HasMany(vt => vt.Vehicles)
-                   .WithOne(v => v.VehicleType)
-                   .HasForeignKey(v => v.VehicleTypeId);
+                   .WithOne(v => v.Type)
+                   .HasForeignKey(v => v.TypeId);
         }
     }
 }

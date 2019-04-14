@@ -6,8 +6,13 @@ using System.Text;
 
 namespace KOService.Domain.Entities
 {
-    public class Repair: Entity
+    public class Repair : EmployeeTask<RepairStatus>
     {
+        public Repair() : base()
+        {
+
+        }
+
         private readonly Dictionary<RepairStatus, string> statusDictionary = new Dictionary<RepairStatus, string>()
         {
             {RepairStatus.Open, "OPN" },
@@ -15,25 +20,33 @@ namespace KOService.Domain.Entities
             {RepairStatus.Canceled, "CAN" },
             {RepairStatus.Finished, "FIN" }
         };
-        public string Description { get; set; }
-        public string Status { get; private set; }
-        public DateTime StartDateTime { get; set; } = DateTime.UtcNow;
-        public DateTime EndDateTime { get; set; }
+
+        protected override Dictionary<RepairStatus, string> StatusDictionary => statusDictionary;
         public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
         public Guid ManagerId { get; set; }
         public Employee Manager { get; set; }
+        public Vehicle Vehicle { get; set; }
+        public Guid VehicleId { get; set; }
 
-        public RepairStatus GetStatus()
+        public override void Cancel(string result)
         {
-            return statusDictionary.FirstOrDefault(x => x.Value == Status).Key;
+            base.Cancel(result);
+            SetStatus(RepairStatus.Canceled);
         }
-        public void SetStatus(RepairStatus status)
+        public override void Finish(string result)
         {
-            if(status == RepairStatus.Canceled || status == RepairStatus.InProgress)
-            {
-                EndDateTime = DateTime.UtcNow;
-            }
-            Status = statusDictionary[status];
+            base.Finish(result);
+            SetStatus(RepairStatus.Finished);
+        }
+        public override void ChangeToInProgress()
+        {
+            base.ChangeToInProgress();
+            SetStatus(RepairStatus.InProgress);
+        }
+        public override void Open()
+        {
+            base.Open();
+            SetStatus(RepairStatus.Open);
         }
     }
 }
