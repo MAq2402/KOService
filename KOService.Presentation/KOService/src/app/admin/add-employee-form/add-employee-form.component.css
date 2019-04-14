@@ -1,15 +1,32 @@
+.container {
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.firstBlock {
+    display: inline-block;
+}
+
+.secondBlock {
+    margin-left: 40px;
+    display: inline-block;
+}
+
 p {
     margin: 0;
     padding: 0;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .header {
     font-size: 25px;
+    text-align: center;
 }
 
 body {
-    margin: auto;
-    text-align: center;
     background-color:  rgb(165, 165, 247);
-    height: 1000px;
+    padding: 20px;
+    width: auto;
 }
