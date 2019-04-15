@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KOService.Domain.Enum
+namespace KOService.Domain.Enums
 {
     public enum RepairStatus
     {

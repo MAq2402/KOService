@@ -20,8 +20,8 @@ namespace KOService.Application.Handlers.Authentication
         }
         protected override void Handle(RegisterCommand request)
         {
-            var customer = Mapper.Map<Domain.Entities.Employee>(request);
-            _employeeRepository.Add(customer);
+            var employee = Mapper.Map<Domain.Entities.Employee>(request);
+            _employeeRepository.Add(employee);
 
             if (!_employeeRepository.Commit())
             {

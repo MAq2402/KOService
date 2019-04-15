@@ -22,7 +22,7 @@ namespace KOService.WebAPI.Authentication
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
-        public string GenerateJwt(Identity identity, string userName, Role userRole, JsonSerializerSettings serializerSettings)
+        public string GenerateJwt(Identity identity, string userName, EmployeeRole userRole, JsonSerializerSettings serializerSettings)
         {
             var response = new
             {
@@ -34,7 +34,7 @@ namespace KOService.WebAPI.Authentication
             return JsonConvert.SerializeObject(response, serializerSettings);
         }
 
-        private string GenerateEncodedToken(string userName, Role userRole)
+        private string GenerateEncodedToken(string userName, EmployeeRole userRole)
         {
             var claims = new[]
          {
