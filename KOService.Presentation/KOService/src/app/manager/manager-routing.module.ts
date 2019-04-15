@@ -4,8 +4,8 @@ import { HomeComponent } from './home/home.component';
 import { AddRepairComponent } from './add-repair/add-repair.component';
 
 const managerRoutes: Routes = [
-  // { path: '', component: HomeComponent },
-  { path: '', component: AddRepairComponent }
+  { path: 'addRepair', component: AddRepairComponent },
+  { path: '', component: HomeComponent}
 ];
 
 @NgModule({
