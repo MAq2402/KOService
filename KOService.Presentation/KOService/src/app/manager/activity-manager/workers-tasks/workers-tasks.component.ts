@@ -6,6 +6,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
 import {ActivityCreatorComponent} from '../activity-creator/activity-creator.component'
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
+import { Employee } from 'src/app/shared/models/Employee';
 
 
 
@@ -25,8 +27,12 @@ export class WorkersTasksComponent implements OnInit {
 
   //TODO: request id as input
   requestId = '0';
+ 
   repairActivities: Activity[];
-  columnsToDisplay = ['description', 'type', 'status', 'worker'];
+  workers:Employee[] = [{id: "0",firstName: "Alojz",lastName:"Brzechwa",identityRole:0}];
+  assigned:Employee[] = [{id: "0",firstName: "Alojz",lastName:"Brzechwa",identityRole:0}];
+
+  columnsToDisplay = ['description', 'type', 'status','worker'];
   name;animal;
   constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog) { }
 
@@ -40,5 +46,20 @@ export class WorkersTasksComponent implements OnInit {
      
       data: {name: this.name, animal: this.animal}
   });
+  
+}
+drop(event: CdkDragDrop<string[]>) {
+  if (event.previousContainer === event.container) {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  } else {
+    transferArrayItem(event.previousContainer.data,
+                      event.container.data,
+                      event.previousIndex,
+                      event.currentIndex);
+  }
+}
+evenPredicate(item: CdkDrag<number>) {
+  
+ 
 }
 }
