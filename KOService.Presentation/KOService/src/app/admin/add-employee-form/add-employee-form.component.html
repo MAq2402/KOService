@@ -1,0 +1,35 @@
+<body>
+    <p class="header">Add new employee</p>
+    <form #employeeForm="ngForm">
+        <div class=container>
+            <div class="textFieldsBlock">
+                <p>First name:</p>                  
+                <input type="text" name="firstName" required>
+                <p>Last name:</p>
+                <input type="text" name="lastName" required>
+                <p>E-mail address:</p>
+                <input type="email" name="e-mail" required>
+                <p>Phone number:</p>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{9}" required>
+            </div>
+            <div class="otherInputsBlock">
+                <p>Gender:</p>
+                <input type="radio" name="gender" value="male" checked> Male<br>
+                <input type="radio" name="gender" value="female"> Female<br>
+                <input type="radio" name="gender" value="other"> Other<br>
+                <div  class="selectRoleBlock">
+                    <p>Role:</p>
+                <select id="role" name="role">
+                    <option *ngFor="let key of keys" [ngValue]="key">{{roles[key]}}</option>
+                </select>
+                </div>
+                
+            </div>
+            <div class="buttonBlock"><br>
+                <button type="submit">
+                    Add employee
+                </button>
+            </div>
+        </div>
+    </form>
+</body>
