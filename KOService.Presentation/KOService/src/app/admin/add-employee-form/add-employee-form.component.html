@@ -2,7 +2,7 @@
     <p class="header">Add new employee</p>
     <form #employeeForm="ngForm">
         <div class=container>
-            <div class="firstBlock">
+            <div class="textFieldsBlock">
                 <p>First name:</p>                  
                 <input type="text" name="firstName" required>
                 <p>Last name:</p>
@@ -12,7 +12,7 @@
                 <p>Phone number:</p>
                 <input type="tel" id="phone" name="phone" pattern="[0-9]{9}" required>
             </div>
-            <div class="secondBlock">
+            <div class="otherInputsBlock">
                 <p>Gender:</p>
                 <input type="radio" name="gender" value="male" checked> Male<br>
                 <input type="radio" name="gender" value="female"> Female<br>
@@ -25,15 +25,11 @@
                 </div>
                 
             </div>
-
             <div class="buttonBlock"><br>
                 <button type="submit">
                     Add employee
                 </button>
             </div>
         </div>
-
-
-        
     </form>
 </body>
