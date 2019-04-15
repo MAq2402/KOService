@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { debuglog } from 'util';
-import { MatStepper } from '@angular/material';
 
 @Component({
   selector: 'app-add-repair',
@@ -33,6 +31,7 @@ export class AddRepairComponent implements OnInit {
   }
 
   public submit() {
-    console.log(this.carFormGroup.value);
+    // console.log(this.clientFormGroup.controls['name'].value);
+    console.log('Repair added');
   }
 }

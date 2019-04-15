@@ -3,18 +3,24 @@
   <mat-step [stepControl]="clientFormGroup">
     <form [formGroup]="clientFormGroup">
       <ng-template matStepLabel>Dane klienta</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Imię" formControlName="name" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Nazwisko" formControlName="surname" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Email" formControlName="email" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Numer telefonu" formControlName="phoneNumber" required>
-      </mat-form-field>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Imię" formControlName="name" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Nazwisko" formControlName="surname" required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Email" formControlName="email" required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Numer telefonu" formControlName="phoneNumber" required>
+        </mat-form-field>
+      </div>
       <div>
         <button mat-button matStepperNext>Dalej</button>
       </div>
@@ -23,12 +29,16 @@
   <mat-step [stepControl]="carFormGroup">
     <form [formGroup]="carFormGroup">
       <ng-template matStepLabel>Dane samochodu</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Marka auta" formControlName="car" required>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Numer rejestracyjny" formControlName="carNumber" required>
-      </mat-form-field>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Marka auta" formControlName="car" required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Numer rejestracyjny" formControlName="carNumber" required>
+        </mat-form-field>
+      </div>
       <div>
         <button mat-button matStepperPrevious>Powrót</button>
         <button mat-button matStepperNext>Dalej</button>
@@ -39,7 +49,7 @@
       <form [formGroup]="repairFormGroup">
         <ng-template matStepLabel>Szczegóły naprawy</ng-template>
         <mat-form-field>
-          <input matInput placeholder="Opis naprawy" formControlName="description" required>
+          <textarea matInput placeholder="Opis naprawy" formControlName="description" required></textarea>
         </mat-form-field>
         <div>
           <button mat-button matStepperPrevious>Powrót</button>
@@ -50,8 +60,23 @@
   <mat-step>
     <ng-template matStepLabel>Podsumowanie</ng-template>
     <div>
+      Imię: {{clientFormGroup.controls['name'].value}}
+        Nazwisko: {{clientFormGroup.controls['surname'].value}}
+    </div>
+    <div>
+      Email: {{clientFormGroup.controls['email'].value}}
+        Numer telefonu: {{clientFormGroup.controls['phoneNumber'].value}}
+    </div>
+    <div>
+      Marka auta: {{carFormGroup.controls['car'].value}}
+        Numer rejestracyjny: {{carFormGroup.controls['carNumber'].value}}
+    </div>
+    <div>
+      Opis naprawy: {{repairFormGroup.controls['description'].value}}
+    </div>
+    <div>
       <button mat-button matStepperPrevious>Powrót</button>
-      <button mat-button type="reset" (click)="submit()">Dodaj naprawę</button>
+      <button mat-button (click)="submit()">Dodaj naprawę</button>
     </div>
   </mat-step>
 </mat-vertical-stepper>
