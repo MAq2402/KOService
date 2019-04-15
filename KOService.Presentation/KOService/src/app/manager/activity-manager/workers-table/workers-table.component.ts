@@ -8,6 +8,15 @@ import { ActivityService } from 'src/app/shared/services/activity.service';
 export interface WorkersActivities {
   [workerId: string]: Activity[];
 }
+export class WorkerActivities {
+  worker: Employee;
+  activities: Activity[];
+  constructor(worker: Employee, activities: Activity[]){
+    this.worker = worker;
+    this.activities = activities;
+  }
+ 
+}
 
 @Component({
   selector: 'app-workers-table',
@@ -18,11 +27,13 @@ export class WorkersTableComponent implements OnInit {
 
   workers: Employee[];
   workersActivities: Map<string,Activity[]>;
+  workersAcitvitiesTable: WorkerActivities[];
   // Just for now to test nested request to find out if it works
   moqWorkerId = '1';
   columnsToDisplay = ['firstName', 'lastName', 'numberOfActivities'];
   constructor(private employeeService: EmployeeService, private activityService: ActivityService) {
     this.workersActivities = new Map<string,Activity[]>();
+    this.workersAcitvitiesTable = new Array<WorkerActivities>();
    }
 
   ngOnInit() {
@@ -32,9 +43,10 @@ export class WorkersTableComponent implements OnInit {
         //mechanic => this.activityService.getWorkerActivities(mechanic.id)
         mechanic => (this.activityService.getWorkerActivities(this.moqWorkerId).subscribe(
           mechanicActivities => (
-           this.workersActivities[mechanic.id] = mechanicActivities,
-            console.log(this.workersActivities[mechanic.id])
-            )
+           
+            this.workersAcitvitiesTable.push(new WorkerActivities(mechanic,mechanicActivities)),
+            console.log(this.workersAcitvitiesTable)
+          )
             )
         )))
   );
