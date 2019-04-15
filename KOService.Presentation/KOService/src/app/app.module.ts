@@ -9,22 +9,18 @@ import { AddEmployeeFormComponent } from './admin/add-employee-form/add-employee
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 
+
 @NgModule({
-    declarations: [
-        AppComponent,
-        AddEmployeeFormComponent
-    ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        ManagerModule,
-        SharedModule,
-        CoreModule.forRoot(),
-        AppRoutingModule,
-        FormsModule,
-    ],
-    exports: [],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    CoreModule.forRoot(),
+    BrowserAnimationsModule,
+    AppRoutingModule,
+  ],
+  exports: [],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
