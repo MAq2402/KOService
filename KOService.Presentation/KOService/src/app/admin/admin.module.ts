@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { AddEmployeeFormComponent } from './add-employee-form/add-employee-form.component';
 
 @NgModule({
   imports: [
@@ -10,7 +11,7 @@ import { SharedModule } from '../shared/shared.module';
     AdminRoutingModule,
     SharedModule,
   ],
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, AddEmployeeFormComponent],
   providers: []
 })
 export class AdminModule { }
