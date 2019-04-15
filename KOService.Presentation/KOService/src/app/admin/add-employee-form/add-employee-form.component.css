@@ -1,0 +1,43 @@
+body {
+    /* background-color:  rgb(165, 165, 247); */
+    background-image: linear-gradient(to bottom right, rgb(74, 74, 252) , rgb(214, 215, 255));
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+.container {
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.header {
+    font-size: 25px;
+    text-align: center;
+}
+
+.textFieldsBlock {
+    display: inline-block;
+}
+
+.otherInputsBlock {
+    margin-left: 40px;
+    display: inline-block;
+    transform: translateY(-18px);
+}
+
+.selectRoleBlock{
+    margin-top: 20px;
+}
+
+input {
+    text-align: center;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    font-size: 16px;
+}
