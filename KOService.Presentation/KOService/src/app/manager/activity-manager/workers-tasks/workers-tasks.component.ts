@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DataSource } from '@angular/cdk/table';
 import {ActivityCreatorComponent} from '../activity-creator/activity-creator.component'
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
-import { Employee } from 'src/app/shared/models/Employee';
+import { Employee } from 'src/app/shared/models/employee.model';
 import { WorkerActivities } from '../workers-table/workers-table.component';
 
 
@@ -30,7 +30,7 @@ export class WorkersTasksComponent implements OnInit {
   requestId = '0';
  
   repairActivities: Activity[];
-  workers:Employee[] = [{id: "0",firstName: "Alojz",lastName:"Brzechwa",identityRole:0}];
+  workers:Employee[] = [{id: "0",firstName: "Alojz",lastName:"Brzechwa",identityEmployeeRole:0, email: "abrzechwa@email.com", phone: "123456789", gender: "male"}];
   assigned:WorkerActivities[] = [];
 
   columnsToDisplay = ['description', 'type', 'status','worker'];

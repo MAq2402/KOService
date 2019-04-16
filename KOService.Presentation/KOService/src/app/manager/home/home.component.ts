@@ -7,6 +7,7 @@ import { RepairSubTask } from 'src/app/shared/models/repair-sub-task.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { DetailExpandAnimation } from '../animations/detail-expand-animation';
+import { AuthService } from 'src/app/authentication/services/auth.service';
 
 const REPIAR_SUB_TASKS: RepairSubTask[] = [
   {
@@ -190,10 +191,11 @@ export class HomeComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.repairsDataSource.sort = this.sort;
+    console.log(this.authService.currentEmployee)
   }
 
   getRepairsColumnsToDisplayNames(): string[] {

@@ -10,6 +10,7 @@ export class CoreContainerComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log("core container");
   }
 
 }
