@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Repair } from 'src/app/shared/models/Repair';
 import { RepairStatus } from 'src/app/shared/enums/repair-status';
-import { Employee } from 'src/app/shared/models/Employee';
+import { Employee } from 'src/app/shared/models/employee.model';
 import { Client } from 'src/app/shared/models/Client';
 import { DomElementSchemaRegistry } from '@angular/compiler';
 

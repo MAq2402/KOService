@@ -7,6 +7,7 @@ import { WorkersTasksComponent } from './activity-manager/workers-tasks/workers-
 import {MaterialModule} from '../shared/material/material.module'
 import { ActivityCreatorComponent } from './activity-manager/activity-creator/activity-creator.component';
 import { WorkersTableComponent } from './activity-manager/workers-table/workers-table.component';
+import {RepairInfoComponent} from './activity-manager/repair-info/repair-info.component'
 
 
 import { CommonModule } from '@angular/common';
@@ -21,7 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ManagerRoutingModule,
 
     SharedModule,
-    MaterialModule
+    MaterialModule,
     MatStepperModule,
     MatInputModule,
     MatButtonModule,

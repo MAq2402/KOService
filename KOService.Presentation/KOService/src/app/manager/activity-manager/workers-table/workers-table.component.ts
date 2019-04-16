@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Employee } from 'src/app/shared/models/Employee';
+import { Employee } from 'src/app/shared/models/employee.model';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { Role } from 'src/app/shared/enums/Role';
 import { Activity } from 'src/app/shared/models/Activity';

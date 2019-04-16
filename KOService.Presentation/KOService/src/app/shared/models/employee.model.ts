@@ -7,5 +7,5 @@ export class Employee {
     email: string;
     phone: string;
     gender: string;
-    identityRole: Role;
+    identityEmployeeRole: Role;
 }

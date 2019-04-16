@@ -17,16 +17,17 @@ export class NavbarComponent implements OnInit {
     ) {}
 
     adminNavbarButtons: NavbarButton [] = [
-      {'text': 'add_circle', 'redirectTo': 'admin', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj pracownika' },
+      {'text': 'add_circle', 'redirectTo': 'admin/add', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj pracownika' },
     ];
 
     managerNavbarButtons: NavbarButton [] = [
-      {'text': 'add_box', 'redirectTo': 'manager', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj naprawę' },
+      {'text': 'add_box', 'redirectTo': 'manager/addRepair', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj naprawę' },
     ];
 
     mechanicNavbarButtons: NavbarButton [] = [];
 
   ngOnInit() {
+    console.log("core container");
   }
 
   isUserLogged() {
@@ -38,7 +39,7 @@ export class NavbarComponent implements OnInit {
   }
 
   redirectToHomePage() {
-    this.router.navigate([Role[this.authService.currentEmployee.identityRole]]);
+    this.router.navigate([Role[this.authService.currentEmployee.identityEmployeeRole]]);
   }
 
   getCurrentEmployee() {
@@ -46,7 +47,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getNavbarButtons() {
-    switch (this.authService.currentEmployee.identityRole) {
+    switch (this.authService.currentEmployee.identityEmployeeRole) {
       case Role.admin: return this.adminNavbarButtons;
       case Role.manager: return this.managerNavbarButtons;
       case Role.mechanic: return this.mechanicNavbarButtons;
