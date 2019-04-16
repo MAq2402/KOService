@@ -1,29 +1,59 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/internal/operators';
+import { tap, catchError } from 'rxjs/internal/operators';
 import { LoginCredentials } from '../models/LoginCredentials';
 import { LoginResponse } from '../models/LoginResponse';
 import { Role } from 'src/app/shared/enums/Role';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
+import { Employee } from 'src/app/shared/models/employee.model';
+import { EmployeeService } from 'src/app/shared/services/employee.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class AuthService {
 
   private baseUrl = 'https://localhost:44340/api/login';
 
+
+  currentEmployee: Employee = null;
+
+
   constructor(
     private http: HttpClient,
-    private router: Router
-    ) {}
+    private router: Router,
+    private employeeService: EmployeeService,
+    private spinnerService: NgxSpinnerService
+    ) {
+      if (this.isAuthenticated() && this.currentEmployee === null) {
+        this.setcurrentEmployee();
+      }
+    }
+
+  private setcurrentEmployee() {
+    const identityId = localStorage.getItem('identity_id');
+    this.employeeService.getEmployeeByIdentityId(identityId)
+      .subscribe(employee => this.currentEmployee = employee);
+  }
 
   login(credentials: LoginCredentials) {
+    this.spinnerService.show();
     return this.http.post<LoginResponse>(this.baseUrl, credentials)
-      .pipe(tap(response => {
-        localStorage.setItem('auth_token', response.auth_token);
-        const decodedToken = jwt_decode(response.auth_token);
-        this.router.navigate([decodedToken['role']]);
-      })).subscribe();
+      .pipe(
+        tap(response => {
+          localStorage.setItem('auth_token', response.auth_token);
+          localStorage.setItem('identity_id', response.id);
+          this.setcurrentEmployee();
+          const decodedToken = jwt_decode(response.auth_token);
+          this.router.navigate([decodedToken['role']]);
+          this.spinnerService.hide();
+        }),
+        catchError(error => {
+          this.spinnerService.hide();
+          return throwError(error);
+        })
+      ).subscribe();
   }
 
   isAuthenticated(): boolean {
@@ -51,6 +81,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('identity_id');
     this.router.navigate(['/login']);
   }
 }

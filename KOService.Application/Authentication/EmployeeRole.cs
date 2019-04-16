@@ -4,7 +4,7 @@ using System.Text;
 
 namespace KOService.Domain.Authentication
 {
-    public enum Role
+    public enum EmployeeRole
     {
         Mechanic,
         Manager,

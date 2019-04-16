@@ -5,11 +5,13 @@ using System.Text;
 
 namespace KOService.Domain.Entities
 {
-    public class Employee: Entity
+    public class Employee : Entity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string IdentityId { get; set; }
         public Identity Identity { get; set; }
+        public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
+        public ICollection<Repair> Repairs { get; private set; } = new List<Repair>();
     }
 }

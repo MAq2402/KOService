@@ -7,6 +7,6 @@ namespace KOService.Domain.Authentication
 {
     public class Identity : IdentityUser
     {
-        public Role Role { get; set; }
+        public EmployeeRole EmployeeRole { get; set; }
     }
 }

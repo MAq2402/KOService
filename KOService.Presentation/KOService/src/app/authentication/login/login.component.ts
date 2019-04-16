@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LoginCredentials } from '../models/LoginCredentials';
 import { AuthService } from '../services/auth.service';
 
@@ -9,6 +9,9 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
+  @ViewChild('login') loginInput: ElementRef;
+  @ViewChild('password') passwordInput: ElementRef;
+
   loginCredentials: LoginCredentials = {
     userName: '',
     password: ''
@@ -17,10 +20,17 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    if (this.authService.isAuthenticated()) {
+      this.authService.logout();
+    }
+    this.loginInput.nativeElement.focus();
   }
 
   onSubmit() {
     this.authService.login(this.loginCredentials);
   }
 
+  focusPasswordInput() {
+    this.passwordInput.nativeElement.focus();
+  }
 }

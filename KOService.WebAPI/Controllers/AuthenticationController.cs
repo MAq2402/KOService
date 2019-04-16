@@ -7,6 +7,7 @@ using AutoMapper;
 using KOService.Application.Commands.Authentication;
 using KOService.Domain.Authentication;
 using KOService.WebAPI.Authentication;
+using KOService.WebAPI.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,7 @@ namespace KOService.WebAPI.Controllers
 {
     [Route("api/")]
     [ApiController]
+    [EnableCors(Constants.Cors.AppPolicy)]
     public class AuthenticationController : Controller
     {
         private IMediator _mediator;
@@ -70,7 +72,7 @@ namespace KOService.WebAPI.Controllers
                 return BadRequest("Wrong credentials");
             } 
 
-            var jwt = _jwtFactory.GenerateJwt(identity, credentials.UserName, identity.Role, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            var jwt = _jwtFactory.GenerateJwt(identity, credentials.UserName, identity.EmployeeRole, new JsonSerializerSettings { Formatting = Formatting.Indented });
 
             return Ok(jwt);
         }

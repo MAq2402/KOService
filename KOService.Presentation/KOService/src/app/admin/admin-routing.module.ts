@@ -2,13 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
+import { AddEmployeeFormComponent } from './add-employee-form/add-employee-form.component';
 
 const adminRoutes: Routes = [
-    { path: '', component: HomeComponent }/*,
-    { path: '', children: [
-      { path: 'home', component: HomeComponent },
-      { path: 'test', component: TestComponent }
-    ]}*/
+    { path: '', component: HomeComponent },
+    {path: 'add', component: AddEmployeeFormComponent}
 ];
 
 @NgModule({

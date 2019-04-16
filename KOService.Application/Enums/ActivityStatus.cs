@@ -7,9 +7,8 @@ namespace KOService.Domain.Enums
     public enum ActivityStatus
     {
         Open,
-        Progress,
-        Finished,
-        Canceled
-
+        InProgress,
+        Canceled,
+        Finished
     }
 }

@@ -24,6 +24,7 @@ export class ActivityService {
     {id:"2",sequenceNumber:1,description:"czyszczenie klimatyzacji",result:"result2",
     status:ActivityStatus.Progress,requestTime:null,closedTime:null,
     activityTypeId:"0",requestId:"0",workerId:"1"}
+
 ]
 
   getWorkerActivities(workerId: string): Observable<Activity[]>{
@@ -33,6 +34,5 @@ export class ActivityService {
     return of(this.activities.filter(activity=>activity.requestId===requestId));
   }
   
-
   constructor() { }
 }

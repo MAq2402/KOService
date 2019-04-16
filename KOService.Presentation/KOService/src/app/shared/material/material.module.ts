@@ -1,3 +1,4 @@
+
 import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -8,6 +9,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSortModule} from '@angular/material/sort';
 
 import { NgModule } from '@angular/core';
 
@@ -22,7 +25,9 @@ MatFormFieldModule,
 MatSelectModule,
 MatButtonModule,
 MatSidenavModule,
-DragDropModule
+DragDropModule,
+MatCheckboxModule,
+MatSortModule
 ],
   exports: [
       MatTableModule,
@@ -34,7 +39,10 @@ DragDropModule
     MatSelectModule,
     MatButtonModule,
     MatSidenavModule,
-    DragDropModule
+    DragDropModule,
+    MatCheckboxModule,
+    MatSortModule
     ],
 })
 export class MaterialModule { }
+

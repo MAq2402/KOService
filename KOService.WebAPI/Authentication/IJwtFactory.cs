@@ -10,6 +10,6 @@ namespace KOService.WebAPI.Authentication
 {
     public interface IJwtFactory
     {
-        string GenerateJwt(Identity identity, string userName, Role userRole, JsonSerializerSettings serializerSettings);
+        string GenerateJwt(Identity identity, string userName, EmployeeRole userRole, JsonSerializerSettings serializerSettings);
     }
 }

@@ -10,6 +10,6 @@ namespace KOService.Application.DTOs.Employee
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Role IdentityRole { get; set; }
+        public EmployeeRole EmployeeRole { get; set; }
     }
 }
