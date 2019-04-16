@@ -16,7 +16,9 @@ export class AuthService {
 
   private baseUrl = 'https://localhost:44340/api/login';
 
+
   currentEmployee: Employee = null;
+
 
   constructor(
     private http: HttpClient,

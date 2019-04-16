@@ -4,105 +4,22 @@ using KOService.Domain.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KOService.Domain.Migrations
 {
     [DbContext(typeof(KOServiceDbContext))]
-    partial class KOServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190403132558_IdentityRole")]
+    partial class IdentityRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("KOService.Domain.Entities.Activity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<DateTime>("EndDateTime");
-
-                    b.Property<Guid?>("MechanicId");
-
-                    b.Property<Guid>("RepairId");
-
-                    b.Property<string>("Result");
-
-                    b.Property<int>("SequenceNumber");
-
-                    b.Property<DateTime>("StartDateTime");
-
-                    b.Property<string>("Status");
-
-                    b.Property<Guid>("TypeId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MechanicId");
-
-                    b.HasIndex("RepairId");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("Activities");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.ActivityType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ActivityTypes");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Address", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Code");
-
-                    b.Property<string>("Street");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Client", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("AddressId");
-
-                    b.Property<string>("ContactNumber");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("LastName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique();
-
-                    b.ToTable("Clients");
-                });
 
             modelBuilder.Entity("KOService.Domain.Entities.Employee", b =>
                 {
@@ -120,68 +37,6 @@ namespace KOService.Domain.Migrations
                     b.HasIndex("IdentityId");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Repair", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<DateTime>("EndDateTime");
-
-                    b.Property<Guid>("ManagerId");
-
-                    b.Property<string>("Result");
-
-                    b.Property<DateTime>("StartDateTime");
-
-                    b.Property<string>("Status");
-
-                    b.Property<Guid>("VehicleId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ManagerId");
-
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("Repairs");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Vehicle", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("ClientId");
-
-                    b.Property<string>("RegistrationNumbers");
-
-                    b.Property<Guid>("TypeId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("TypeId");
-
-                    b.ToTable("Vehicles");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.VehicleType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Brand");
-
-                    b.Property<string>("Model");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VehicleTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -354,36 +209,9 @@ namespace KOService.Domain.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-
-                    b.Property<int>("EmployeeRole");
-
+                    b.Property<int>("Role");
 
                     b.HasDiscriminator().HasValue("Identity");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Activity", b =>
-                {
-                    b.HasOne("KOService.Domain.Entities.Employee", "Mechanic")
-                        .WithMany("Activities")
-                        .HasForeignKey("MechanicId");
-
-                    b.HasOne("KOService.Domain.Entities.Repair", "Repair")
-                        .WithMany("Activities")
-                        .HasForeignKey("RepairId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("KOService.Domain.Entities.ActivityType", "Type")
-                        .WithMany("Activities")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Client", b =>
-                {
-                    b.HasOne("KOService.Domain.Entities.Address", "Address")
-                        .WithOne("Client")
-                        .HasForeignKey("KOService.Domain.Entities.Client", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("KOService.Domain.Entities.Employee", b =>
@@ -391,32 +219,6 @@ namespace KOService.Domain.Migrations
                     b.HasOne("KOService.Domain.Authentication.Identity", "Identity")
                         .WithMany()
                         .HasForeignKey("IdentityId");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Repair", b =>
-                {
-                    b.HasOne("KOService.Domain.Entities.Employee", "Manager")
-                        .WithMany("Repairs")
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("KOService.Domain.Entities.Vehicle", "Vehicle")
-                        .WithMany("Repairs")
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Vehicle", b =>
-                {
-                    b.HasOne("KOService.Domain.Entities.Client", "Client")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("KOService.Domain.Entities.VehicleType", "Type")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,31 +1,48 @@
-import { NgModule } from '@angular/core';
+
 import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDialogModule} from '@angular/material/dialog'
 import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSortModule} from '@angular/material/sort';
 
+import { NgModule } from '@angular/core';
+
 @NgModule({
-  declarations: [],
-  imports: [
-    MatTableModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatSortModule
-  ],
+  imports:[
+MatTableModule,
+MatCardModule,
+MatToolbarModule,
+MatDialogModule,
+MatInputModule,
+MatFormFieldModule,
+MatSelectModule,
+MatButtonModule,
+MatSidenavModule,
+DragDropModule,
+MatCheckboxModule,
+MatSortModule
+],
   exports: [
-    MatTableModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
+      MatTableModule,
+      MatCardModule,
+    MatToolbarModule,
+    MatDialogModule,
     MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatSidenavModule,
+    DragDropModule,
     MatCheckboxModule,
     MatSortModule
-  ]
+    ],
 })
 export class MaterialModule { }
+

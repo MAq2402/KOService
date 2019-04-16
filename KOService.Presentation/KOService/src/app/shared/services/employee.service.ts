@@ -17,7 +17,7 @@ export class EmployeeService {
     return this.http.get<Employee>(this.baseUrl + identityId);
   }
 
-  getEmployeesByRole(role: Role): Observable<Employee>{
-    return this.http.get<Employee>(this.baseUrl);
+  getEmployeesByRole(role: Role): Observable<Employee[]>{
+    return this.http.get<Employee[]>(this.baseUrl);
   }
 }

@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-title>
+    Mechanicy
+  </mat-card-title>
+<table mat-table [dataSource]= "dataSourceArray" class="mat-elevation-z8"
+cdkDropList
+    #workersList="cdkDropList"
+    id="workers-list"
+    
+    [cdkDropListData]="workerAcitvitiesTable"
+    (cdkDropListDropped)="drop($event)"
+    >
+  <ng-container matColumnDef="firstName">
+    <th mat-header-cell *matHeaderCellDef> Imie </th>
+    <td mat-cell *matCellDef="let element"> {{element.worker.firstName}} </td>
+  </ng-container>
+
+  
+  <ng-container matColumnDef="lastName">
+    <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
+    <td mat-cell *matCellDef="let element"> {{element.worker.lastName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="numberOfActivities">
+    <th mat-header-cell *matHeaderCellDef> Ilość zadań </th>
+    <td mat-cell *matCellDef="let element"> {{element.activities.length}} </td>
+  </ng-container>
+
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" cdkDrag></tr>
+ 
+</table>
