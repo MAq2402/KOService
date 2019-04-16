@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <div class="row justify-content-between">
+    <mat-card>
+      <mat-card-title>
+        Klient
+      </mat-card-title>
+      <mat-card-content>
+        <p>{{client.firstName}} 
+        {{client.lastName}}</p>
+        <p> telefon: {{client.phoneNumber}}</p>
+        <p> email: {{client.email}}</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+        <mat-card-title>
+          Samochód
+        </mat-card-title>
+        <mat-card-content>
+            <p>marka: {{repair.carBrand}} </p>
+            <p>model: e90</p>
+            <p>rejestracja: {{repair.carNumbers}}</p>
+            
+          </mat-card-content>
+      </mat-card>
+      <mat-card>
+          <mat-card-title>
+            Naprawa
+          </mat-card-title>
+          <mat-card-content>
+              <p>opis: {{repair.description}} </p>
+              <p>status: {{repair.statusDisplay}} </p>
+              
+              <p>data przyjęcia: {{repair.startDateTime}}</p>
+              
+            </mat-card-content>
+        </mat-card>
+  </div>
+</div>

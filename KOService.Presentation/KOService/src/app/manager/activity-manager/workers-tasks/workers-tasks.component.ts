@@ -8,6 +8,7 @@ import { DataSource } from '@angular/cdk/table';
 import {ActivityCreatorComponent} from '../activity-creator/activity-creator.component'
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 import { Employee } from 'src/app/shared/models/Employee';
+import { WorkerActivities } from '../workers-table/workers-table.component';
 
 
 
@@ -30,7 +31,7 @@ export class WorkersTasksComponent implements OnInit {
  
   repairActivities: Activity[];
   workers:Employee[] = [{id: "0",firstName: "Alojz",lastName:"Brzechwa",identityRole:0}];
-  assigned:Employee[] = [{id: "0",firstName: "Alojz",lastName:"Brzechwa",identityRole:0}];
+  assigned:WorkerActivities[] = [];
 
   columnsToDisplay = ['description', 'type', 'status','worker'];
   name;animal;
@@ -51,11 +52,13 @@ export class WorkersTasksComponent implements OnInit {
 drop(event: CdkDragDrop<string[]>) {
   if (event.previousContainer === event.container) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    console.log("move")
   } else {
     transferArrayItem(event.previousContainer.data,
                       event.container.data,
                       event.previousIndex,
                       event.currentIndex);
+    console.log(this.assigned);
   }
 }
 evenPredicate(item: CdkDrag<number>) {

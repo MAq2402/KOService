@@ -7,6 +7,7 @@ import { WorkersTasksComponent } from './activity-manager/workers-tasks/workers-
 import {MaterialModule} from '../shared/material/material.module'
 import { ActivityCreatorComponent } from './activity-manager/activity-creator/activity-creator.component';
 import { WorkersTableComponent } from './activity-manager/workers-table/workers-table.component';
+import { RepairInfoComponent } from './activity-manager/repair-info/repair-info.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { WorkersTableComponent } from './activity-manager/workers-table/workers-
     MaterialModule
     
   ],
-  declarations: [HomeComponent, WorkersTasksComponent, ActivityCreatorComponent, WorkersTableComponent],
+  declarations: [HomeComponent, WorkersTasksComponent, ActivityCreatorComponent, WorkersTableComponent, RepairInfoComponent],
   entryComponents: [ActivityCreatorComponent]
 })
 export class ManagerModule { }
