@@ -11,11 +11,11 @@ namespace KOService.Domain.Entities
             Open();
         }
         protected abstract Dictionary<T, string> StatusDictionary {get;}
-        public string Description { get; set; }
+        public string Description { get; protected set; }
         public string Result { get;protected set; }
         public string Status { get; protected set; }
         public DateTime StartDateTime { get; protected set; }
-        public DateTime EndDateTime { get;protected set; }
+        public DateTime? EndDateTime { get;protected set; }
         public T GetStatus()
         {
             return StatusDictionary.FirstOrDefault(x => x.Value == Status).Key;

@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using KOService.Domain.DbContexts;
+using KOService.Domain.Exceptions;
 using KOService.WebAPI.Authentication;
 using KOService.WebAPI.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,14 +37,14 @@ namespace KOService.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
             services.AddCors(options =>
                                options.AddPolicy(Constants.Cors.AppPolicy, p => p.WithOrigins("http://localhost:4200")
                                                                         .AllowAnyMethod()
                                                                         .AllowAnyHeader()
                                                                         .AllowCredentials()));
 
-           
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<KOServiceDbContext>(options =>
@@ -68,6 +72,30 @@ namespace KOService.WebAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseExceptionHandler(appError =>
+            {
+                appError.Run(async context =>
+                {
+                    context.Response.ContentType = "application/json";
+                    var feature = context.Features.Get<IExceptionHandlerFeature>();
+                    var exception = feature.Error;
+                    var message = "";
+                    if (exception != null)
+                    {
+                        if (exception is DomainException)
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                            message = exception.Message;
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            message = "Internal Server Error.";
+                        }
+                        await context.Response.WriteAsync(new { StatusCode = context.Response.StatusCode, Message = message }.ToString());
+                    }
+                });
+            });
             app.UseAuthentication();
 
             app.UseSwagger();
