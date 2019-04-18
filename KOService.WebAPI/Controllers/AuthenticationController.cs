@@ -5,10 +5,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using KOService.Application.Commands.Authentication;
+using KOService.Application.Queries.Employee;
 using KOService.Domain.Authentication;
 using KOService.WebAPI.Authentication;
 using KOService.WebAPI.Infrastructure;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +77,13 @@ namespace KOService.WebAPI.Controllers
             var jwt = _jwtFactory.GenerateJwt(identity, credentials.UserName, identity.EmployeeRole, new JsonSerializerSettings { Formatting = Formatting.Indented });
 
             return Ok(jwt);
+        }
+
+        [HttpGet("user/{identityId}")]
+        public IActionResult GetEmployeeByIdentityId(string identityId)
+        {
+            var result = _mediator.Send(new GetEmployeeByIdentityIdQuery { Id = identityId }).Result;
+            return Ok(result);
         }
     }
 }

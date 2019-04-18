@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/authentication/services/auth.service';
 import { Router } from '@angular/router';
 import { Role } from 'src/app/shared/enums/Role';
 import { NavbarButton } from './models/NavbarButton';
+import { Employee } from 'src/app/shared/models/employee.model';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +11,8 @@ import { NavbarButton } from './models/NavbarButton';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
+  currentEmployee: Employee;
 
   constructor(
     private authService: AuthService,
@@ -27,7 +30,7 @@ export class NavbarComponent implements OnInit {
     mechanicNavbarButtons: NavbarButton [] = [];
 
   ngOnInit() {
-    console.log("core container");
+      this.authService.getCurrentEmployee().subscribe(employee => this.currentEmployee = employee);
   }
 
   isUserLogged() {
@@ -39,15 +42,11 @@ export class NavbarComponent implements OnInit {
   }
 
   redirectToHomePage() {
-    this.router.navigate([Role[this.authService.currentEmployee.identityEmployeeRole]]);
-  }
-
-  getCurrentEmployee() {
-    return this.authService.currentEmployee;
+    this.router.navigate([Role[this.currentEmployee.identityEmployeeRole]]);
   }
 
   getNavbarButtons() {
-    switch (this.authService.currentEmployee.identityEmployeeRole) {
+    switch (this.currentEmployee.identityEmployeeRole) {
       case Role.admin: return this.adminNavbarButtons;
       case Role.manager: return this.managerNavbarButtons;
       case Role.mechanic: return this.mechanicNavbarButtons;

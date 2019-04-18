@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using KOService.Application.Commands.Authentication;
 using KOService.Domain.Authentication;
-using KOService.Domain.Entities;
-using KOService.Domain.Repositories.Abstract;
+using KOService.Domain.DbContexts;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,20 +11,20 @@ namespace KOService.Application.Handlers.Authentication
 {
     public class RegisterCommandHandler : RequestHandler<RegisterCommand>
     {
-        private IRepository<Domain.Entities.Employee> _employeeRepository;
+        private KOServiceDbContext _dbContext;
 
-        public RegisterCommandHandler(IRepository<Domain.Entities.Employee> employeeRepository)
+        public RegisterCommandHandler(KOServiceDbContext dbContext)
         {
-            _employeeRepository = employeeRepository;
+            _dbContext = dbContext;
         }
         protected override void Handle(RegisterCommand request)
         {
             var employee = Mapper.Map<Domain.Entities.Employee>(request);
-            _employeeRepository.Add(employee);
+            _dbContext.Employees.Add(employee);
 
-            if (!_employeeRepository.Commit())
+            if(_dbContext.SaveChanges() == 0)
             {
-                throw new Exception("Could not add employee");
+                throw new Exception("Could not register new user");
             }
         }
     }

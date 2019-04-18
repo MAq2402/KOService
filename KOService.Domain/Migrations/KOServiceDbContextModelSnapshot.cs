@@ -354,9 +354,7 @@ namespace KOService.Domain.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-
                     b.Property<int>("EmployeeRole");
-
 
                     b.HasDiscriminator().HasValue("Identity");
                 });

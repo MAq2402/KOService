@@ -195,7 +195,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.repairsDataSource.sort = this.sort;
-    console.log(this.authService.currentEmployee)
   }
 
   getRepairsColumnsToDisplayNames(): string[] {

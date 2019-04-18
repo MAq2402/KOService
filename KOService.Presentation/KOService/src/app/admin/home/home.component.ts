@@ -25,11 +25,6 @@ import { Employee } from 'src/app/shared/models/employee.model';
 })
 export class HomeComponent implements OnInit {
 
-  
-
-
-
-
   employeesDataSource = new MatTableDataSource();
   employees: Employee[];
  
@@ -38,40 +33,32 @@ export class HomeComponent implements OnInit {
     { name: 'firstName', display: 'Imie' },
     { name: 'lastName', display: 'Nazwisko' },
     { name: 'identityEmployeeRole', display: 'Stanowisko' },
-    
   ];
 
   subTasksColumnsToDisplay: ColumnDef[] = [
     { name: 'phone', display: 'Numer Telefonu' },
     { name: 'email', display: 'Adres Email' },
     { name: 'gender', display: 'Płeć'},
-    
   ];
 
   expandedElement: any | null;
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private authService: AuthService,private employeeService: EmployeeService) { }
+  constructor(private authService: AuthService, private employeeService: EmployeeService) { }
 
   ngOnInit() {
    this.employeeService.getEmployeesByRole(Role.mechanic).subscribe(employees => (
-     this.employees = employees,this.employeesDataSource = new MatTableDataSource(this.employees),console.log(employees)))
-   
-    
-   
+     this.employees = employees, this.employeesDataSource = new MatTableDataSource(this.employees), console.log(employees)));
   }
 
   getRepairsColumnsToDisplayNames(): string[] {
     return this.repairsColumnsToDisplay.map(x => x.name);
   }
 
-
   getSubTasksColumnsToDisplayNames(): string[] {
     return this.subTasksColumnsToDisplay.map(x => x.name);
   }
-
-  
 }
 
 

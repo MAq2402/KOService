@@ -9,15 +9,11 @@ import { Employee } from '../models/employee.model';
 })
 export class EmployeeService {
 
-  private baseUrl = 'https://localhost:44340/api/Employees/';
+  private baseUrl = 'https://localhost:44340/api/employees/';
 
   constructor(private http: HttpClient) { }
 
-  getEmployeeByIdentityId(identityId): Observable<Employee> {
-    return this.http.get<Employee>(this.baseUrl + identityId);
-  }
-
-  getEmployeesByRole(role: Role): Observable<Employee[]>{
+  getEmployeesByRole(role: Role): Observable<Employee[]> {
     return this.http.get<Employee[]>(this.baseUrl);
   }
 }
