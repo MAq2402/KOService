@@ -1,4 +1,5 @@
-﻿using KOService.Domain.Configuration;
+﻿using KOService.Domain.Authentication;
+using KOService.Domain.Configuration;
 using KOService.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

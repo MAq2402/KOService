@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using KOService.Application.DTOs.Employee;
 using KOService.Application.Queries.Employee;
+using KOService.Domain.DbContexts;
 using KOService.Domain.Entities;
-using KOService.Domain.Repositories.Abstract;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,15 +12,15 @@ namespace KOService.Application.Handlers.Employee
 {
     public class GetEmployeesHandler : RequestHandler<GetEmployeesQuery, IEnumerable<EmployeeDto>>
     {
-        private IRepository<Domain.Entities.Employee> _employeeRepository;
+        private KOServiceDbContext _dbContext;
 
-        public GetEmployeesHandler(IRepository<Domain.Entities.Employee> employeeRepository)
+        public GetEmployeesHandler(KOServiceDbContext dbContext)
         {
-            _employeeRepository = employeeRepository;
+            _dbContext = dbContext;
         }
         protected override IEnumerable<EmployeeDto> Handle(GetEmployeesQuery request)
         {
-            return Mapper.Map<IEnumerable<EmployeeDto>>(_employeeRepository.GetAll());
+            return Mapper.Map<IEnumerable<EmployeeDto>>(_dbContext.Employees);
         }
     }
 }

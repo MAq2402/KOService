@@ -5,8 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using KOService.Domain.DbContexts;
-using KOService.Domain.Repositories;
-using KOService.Domain.Repositories.Abstract;
 using KOService.WebAPI.Authentication;
 using KOService.WebAPI.Infrastructure;
 using MediatR;
@@ -56,8 +54,6 @@ namespace KOService.WebAPI
             });
 
             services.AddMediatR(Assembly.Load(new AssemblyName("KOService.Application")));
-
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

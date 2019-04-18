@@ -6,17 +6,17 @@
     <div class="col-2">
       <a class="navbar-brand">
         <h2 class="my-title-font my-clickable" (click)="redirectToHomePage()">KOService</h2>
-        <h6> Panel {{getCurrentEmployee()?.identityRole | role}}a </h6>
+        <h6> Panel {{currentEmployee?.identityRole | role}}a </h6>
       </a>
     </div>
     <div class="col-6">
-      <div *ngIf="getCurrentEmployee()">
+      <div *ngIf="currentEmployee">
         <app-navbar-buttons [buttons]="getNavbarButtons()"></app-navbar-buttons>
       </div>
     </div>
     <div class="col-2">
       <h6> Zalogowany jako: </h6>
-      <h5> {{getCurrentEmployee()?.firstName}} {{getCurrentEmployee()?.lastName}} </h5>
+      <h5> {{currentEmployee?.firstName}} {{currentEmployee?.lastName}} </h5>
     </div>
     <div class="col-1">
       <i class="material-icons my-icon my-clickable" (click)="logout()">power_settings_new</i>

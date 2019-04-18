@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KOService.WebAPI", "KOService.WebAPI\KOService.WebAPI.csproj", "{96190D56-431A-4F5A-AEBD-A36AE6F0B3B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOService.WebAPI", "KOService.WebAPI\KOService.WebAPI.csproj", "{96190D56-431A-4F5A-AEBD-A36AE6F0B3B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KOService.Domain", "KOService.Application\KOService.Domain.csproj", "{5841D02E-A22A-4D9B-9EC0-7A0C1B18B87D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOService.Domain", "KOService.Domain\KOService.Domain.csproj", "{9FE54519-763E-470D-9530-CD2D5CC73F44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KOService.Application", "KOService.Domain\KOService.Application.csproj", "{AA933E6A-5FA1-476C-82F3-91A9090C933A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOService.Application", "KOService.Application\KOService.Application.csproj", "{9DFCD621-29A1-4236-9F7B-BADDBB617F0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{96190D56-431A-4F5A-AEBD-A36AE6F0B3B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96190D56-431A-4F5A-AEBD-A36AE6F0B3B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96190D56-431A-4F5A-AEBD-A36AE6F0B3B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5841D02E-A22A-4D9B-9EC0-7A0C1B18B87D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5841D02E-A22A-4D9B-9EC0-7A0C1B18B87D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5841D02E-A22A-4D9B-9EC0-7A0C1B18B87D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5841D02E-A22A-4D9B-9EC0-7A0C1B18B87D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA933E6A-5FA1-476C-82F3-91A9090C933A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA933E6A-5FA1-476C-82F3-91A9090C933A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA933E6A-5FA1-476C-82F3-91A9090C933A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA933E6A-5FA1-476C-82F3-91A9090C933A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FE54519-763E-470D-9530-CD2D5CC73F44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FE54519-763E-470D-9530-CD2D5CC73F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FE54519-763E-470D-9530-CD2D5CC73F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FE54519-763E-470D-9530-CD2D5CC73F44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DFCD621-29A1-4236-9F7B-BADDBB617F0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DFCD621-29A1-4236-9F7B-BADDBB617F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DFCD621-29A1-4236-9F7B-BADDBB617F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DFCD621-29A1-4236-9F7B-BADDBB617F0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
