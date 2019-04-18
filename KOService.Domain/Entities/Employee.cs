@@ -9,17 +9,16 @@ namespace KOService.Domain.Entities
 {
     public class Employee : Entity
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string IdentityId { get; set; }
-        public Identity Identity { get; set; }
+        private Employee()
+        {
+
+        }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public string IdentityId { get; private set; }
+        public Identity Identity { get; private set; }
         public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
         public ICollection<Repair> Repairs { get; private set; } = new List<Repair>();
-        public void AddRepair(string description, Guid vehicleId, Client client)
-        {
- 
-        }
-
         public void AddRepair(string description, Vehicle vehicle, Client client)
         {
             if (Identity.EmployeeRole != EmployeeRole.Manager)
