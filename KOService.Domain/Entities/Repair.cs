@@ -8,7 +8,14 @@ namespace KOService.Domain.Entities
 {
     public class Repair : EmployeeTask<RepairStatus>
     {
-        public Repair() : base()
+        public Repair(string description, Guid managerId, Guid vehicleId) : base()
+        {
+            Description = description;
+            ManagerId = managerId;
+            VehicleId = vehicleId;
+        }
+
+        private Repair() : base()
         {
 
         }
@@ -23,10 +30,10 @@ namespace KOService.Domain.Entities
 
         protected override Dictionary<RepairStatus, string> StatusDictionary => statusDictionary;
         public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
-        public Guid ManagerId { get; set; }
-        public Employee Manager { get; set; }
-        public Vehicle Vehicle { get; set; }
-        public Guid VehicleId { get; set; }
+        public Guid ManagerId { get; private set; }
+        public Employee Manager { get; private set; }
+        public Vehicle Vehicle { get; private set; }
+        public Guid VehicleId { get; private set; }
 
         public override void Cancel(string result)
         {
@@ -48,5 +55,6 @@ namespace KOService.Domain.Entities
             base.Open();
             SetStatus(RepairStatus.Open);
         }
+
     }
 }

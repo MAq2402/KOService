@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace KOService.Domain.Entities
@@ -13,6 +14,5 @@ namespace KOService.Domain.Entities
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
         public ICollection<Vehicle> Vehicles { get; private set; } = new List<Vehicle>();
-
     }
 }
