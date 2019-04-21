@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KOService.Application.Commands.Repair;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,6 +13,7 @@ namespace KOService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RepairsController : Controller
     {
         private IMediator _mediator;
@@ -19,6 +21,12 @@ namespace KOService.WebAPI.Controllers
         public RepairsController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public IActionResult GetRepairs()
+        {
+            return Ok(_mediator.Send(new GetRepairsQuery()).Result);
         }
 
         [HttpPost]

@@ -3,29 +3,20 @@ import {Repair} from '../models/Repair'
 
 import { Observable, of } from 'rxjs';
 import { RepairStatus } from '../enums/repair-status';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RepairService {
 
-    repairs:Repair[] = [{id: '1',
-    carId: '1',
-    carBrand: 'Ferrari',
-    carNumbers: 'qwerty1',
-    description: "opis naprawy",
-    result: "",
-    status: RepairStatus.Open,
-    statusDisplay: "Otwarta",
-    startDateTime: "10.04.2019",
-    endDateTime: null
+  private url = 'https://localhost:44340/api/repairs/';
 
-}];
 
-    
-  getRepairs(): Observable<Repair[]>{
-     return of(this.repairs);
+constructor(private httpClient: HttpClient) {
+}
+
+  getRepairs(): Observable<Repair[]> {
+    return this.httpClient.get<Repair[]>(this.url);
   }
-  
-  constructor() { }
 }

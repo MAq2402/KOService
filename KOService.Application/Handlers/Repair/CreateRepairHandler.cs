@@ -1,5 +1,7 @@
-﻿using KOService.Application.Commands.Repair;
+﻿using AutoMapper;
+using KOService.Application.Commands.Repair;
 using KOService.Domain.DbContexts;
+using KOService.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,28 +21,45 @@ namespace KOService.Application.Handlers.Repair
         }
         protected override void Handle(CreateRepairCommand request)
         {
-            var client = _dbContext.Clients.Include(c => c.Vehicles).FirstOrDefault(c => c.Id.ToString() == request.ClientId);
+            var client = _dbContext.Clients.Include(c => c.Vehicles).FirstOrDefault(c => c.Id == request.Client.Id);
 
-            var manager = _dbContext.Employees.Include(e => e.Identity).FirstOrDefault(e => e.Id.ToString() == request.ManagerId);
+            var manager = _dbContext.Employees.Include(e => e.Identity).FirstOrDefault(e => e.Id == request.ManagerId);
 
-            if(client == null)
+            if (client == null)
             {
-                //Create Client
-                
+                CreateClientWithVehicle(request);
+            }
+            else
+            { 
+                if (!client.Vehicles.Any(v => v.Id == request.Vehicle.Id))
+                {
+                    AssignVehicleToClient(request, client);
+                }
             }
 
-            var vehicle = client.Vehicles.FirstOrDefault(v => v.Id.ToString() == request.VehicleId);
-
-            if (vehicle == null)
-            {
-                // Create vehicle
-            }
-
-            manager.AddRepair(request.Description, vehicle, client);
+            manager.AddRepair(request.Repair.Id, request.Repair.Description, request.Vehicle.Id);
 
             if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not create new repair");
+            }
+        }
+        private static void CreateClientWithVehicle(CreateRepairCommand request)
+        {
+            var address = Mapper.Map<Address>(request.Client.Address);
+            var client = new Client(request.Client.Id, request.Client.FirstName, request.Client.LastName, request.Client.ContactNumber, request.Client.Email, address);
+            client.AddVehicle(request.Vehicle.Id, request.Vehicle.RegistrationNumbers, request.Vehicle.TypeId);
+        }
+
+        private void AssignVehicleToClient(CreateRepairCommand request, Client client)
+        {
+            if (_dbContext.VehicleTypes.Any(vt => vt.Id == request.Vehicle.TypeId))
+            {
+                client.AddVehicle(request.Vehicle.Id, request.Vehicle.RegistrationNumbers, request.Vehicle.TypeId);
+            }
+            else
+            {
+                client.AddVehicle(request.Vehicle.Id, request.Vehicle.RegistrationNumbers, request.Vehicle.Brand, request.Vehicle.Model);
             }
         }
     }
