@@ -11,18 +11,15 @@ namespace KOService.Domain.Entities
         private ICollection<Repair> repairs = new List<Repair>();
         public Vehicle(Guid id, string registrationNumbers, Guid typeId) : base(id)
         {
-            if (string.IsNullOrEmpty(registrationNumbers))
-            {
-                throw new DomainException("Registration numbers has not been provided");
-            }
-
-            RegistrationNumbers = registrationNumbers;
             TypeId = typeId;
+
+            SetRegistrationNumbers(registrationNumbers);
         }
         public Vehicle(Guid id, string registrationNumbers, string brand, string model) : base(id)
         {
             Type = new VehicleType(brand, model);
-            RegistrationNumbers = registrationNumbers;
+
+            SetRegistrationNumbers(registrationNumbers);
         }
         private Vehicle()
         {
@@ -34,5 +31,15 @@ namespace KOService.Domain.Entities
         public IEnumerable<Repair> Repairs => repairs.ToList();
         public Guid TypeId { get; private set; }
         public VehicleType Type { get; private set; }
+
+        private void SetRegistrationNumbers(string registrationNumbers)
+        {
+            if (string.IsNullOrEmpty(registrationNumbers))
+            {
+                throw new DomainException("Registration numbers has not been provided");
+            }
+
+            RegistrationNumbers = registrationNumbers;
+        }
     }
 }

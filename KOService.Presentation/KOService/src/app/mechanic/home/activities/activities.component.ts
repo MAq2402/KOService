@@ -4,8 +4,8 @@ import { ActivityService } from 'src/app/shared/services/activity.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
-import { Repair } from 'src/app/shared/models/Repair';
 import { RepairService } from 'src/app/shared/services/repair.service';
+import { Repair } from 'src/app/shared/models/repair.model';
 
 @Component({
   selector: 'app-activities',
@@ -72,11 +72,11 @@ export class ActivitiesComponent implements OnInit {
   }
   
   getCarNumbers(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).carNumbers;
+    return this.repairs.find(r => r.id === repairId).vehicleRegistrationNumbers;
   }
 
   getCarBrand(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).carBrand;
+    return this.repairs.find(r => r.id === repairId).vehicleBrand;
   }
 }
 

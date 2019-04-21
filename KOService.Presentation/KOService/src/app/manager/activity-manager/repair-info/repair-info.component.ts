@@ -1,23 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Repair } from 'src/app/shared/models/Repair';
 import { RepairStatus } from 'src/app/shared/enums/repair-status';
 import { Employee } from 'src/app/shared/models/employee.model';
 import { Client } from 'src/app/shared/models/Client';
 import { DomElementSchemaRegistry } from '@angular/compiler';
-
-const REPAIR: Repair = 
-  {
-    id: '1',
-    description: 'Rutynowy przegląd, wymiana płynów i filtrów',
-    result: '',
-    status: RepairStatus.Open,
-    statusDisplay: 'Otwarty',
-    startDateTime: '06-04-2018',
-    endDateTime: null,
-    carId: '1',
-    carBrand: 'BMW',
-    carNumbers: 'asd123'
-  }
+import { Repair } from 'src/app/shared/models/repair.model';
   
   const CLIENT: Client = 
   {
@@ -41,7 +27,7 @@ const REPAIR: Repair =
 })
 export class RepairInfoComponent implements OnInit {
   client: Client = CLIENT;
-  repair: Repair = REPAIR;
+  repair: Repair = null;
 
   constructor() { }
 
