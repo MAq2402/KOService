@@ -8,16 +8,18 @@ namespace KOService.Domain.Entities
 {
     public class Vehicle : Entity
     {
-        private ICollection<Repair> repairs = new List<Repair>();
-        public Vehicle(Guid id, string registrationNumbers, Guid typeId) : base(id)
+        private List<Repair> _repairs = new List<Repair>();
+        public Vehicle(Guid id, string registrationNumbers, Guid clientId, Guid typeId) : base(id)
         {
             TypeId = typeId;
+            ClientId = clientId;
 
             SetRegistrationNumbers(registrationNumbers);
         }
-        public Vehicle(Guid id, string registrationNumbers, string brand, string model) : base(id)
+        public Vehicle(Guid id, Guid clientId, string registrationNumbers, string brand, string model) : base(id)
         {
-            Type = new VehicleType(brand, model);
+            Type = new VehicleType(Guid.NewGuid() ,brand, model);
+            ClientId = clientId;
 
             SetRegistrationNumbers(registrationNumbers);
         }
@@ -28,7 +30,7 @@ namespace KOService.Domain.Entities
         public Client Client { get; private set; }
         public Guid ClientId { get; private set; }
         public string RegistrationNumbers { get; private set; }
-        public IEnumerable<Repair> Repairs => repairs.ToList();
+        public IEnumerable<Repair> Repairs => _repairs.AsReadOnly();
         public Guid TypeId { get; private set; }
         public VehicleType Type { get; private set; }
 
@@ -40,6 +42,11 @@ namespace KOService.Domain.Entities
             }
 
             RegistrationNumbers = registrationNumbers;
+        }
+
+        public void AddRepair(Repair repair)
+        {
+            _repairs.Add(repair);
         }
     }
 }

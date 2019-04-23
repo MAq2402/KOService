@@ -7,3 +7,19 @@
   font-family: 'Allerta Stencil';
 }
 
+#status-open{
+  color:rgb(40, 155, 255);
+}
+
+#status-progress{
+color:rgb(255, 165, 0);
+}
+
+#status-finished{
+color:green;
+}
+
+#status-canceled{
+color:rgb(193, 0, 0);
+}
+

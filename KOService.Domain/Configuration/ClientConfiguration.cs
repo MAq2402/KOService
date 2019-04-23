@@ -11,6 +11,7 @@ namespace KOService.Domain.Configuration
     {
         public void Configure(EntityTypeBuilder<Client> builder)
         {
+
             builder.HasKey(c => c.Id);
 
             builder.HasOne(c => c.Address)
@@ -20,6 +21,9 @@ namespace KOService.Domain.Configuration
             builder.HasMany(c => c.Vehicles)
                    .WithOne(v => v.Client)
                    .HasForeignKey(v => v.ClientId);
+
+            builder.Metadata.FindNavigation(nameof(Client.Vehicles))
+                    .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule } from '@angular/material';
 import { AddRepairComponent } from './add-repair/add-repair.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DateTimePipe } from '../shared/pipes/date-time.pipe';
 
 
 @NgModule({
@@ -29,9 +30,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    // DateTimePipe
   ],
-  declarations: [HomeComponent, WorkersTasksComponent, ActivityCreatorComponent, WorkersTableComponent, RepairInfoComponent, AddRepairComponent],
+  declarations: [
+    HomeComponent,
+    WorkersTasksComponent,
+    ActivityCreatorComponent,
+    WorkersTableComponent,
+    RepairInfoComponent,
+    AddRepairComponent
+  ],
   entryComponents: [ActivityCreatorComponent]
 
 })

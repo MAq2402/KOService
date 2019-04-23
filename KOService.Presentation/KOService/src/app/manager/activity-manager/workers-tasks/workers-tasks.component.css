@@ -18,18 +18,6 @@ table {
     color: rgb(186, 186, 186);
   }
   
-  #status-open{
-      color:rgb(40, 155, 255);
-  }
-  #status-progress{
-    color:rgb(255, 165, 0);
-}
-#status-finished{
-    color:green;
-}
-#status-canceled{
-    color:rgb(193, 0, 0);
-}
 .example-box {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;

@@ -16,6 +16,11 @@ namespace KOService.Domain.Configuration
             builder.HasMany(vt => vt.Vehicles)
                    .WithOne(v => v.Type)
                    .HasForeignKey(v => v.TypeId);
+
+
+            builder.Metadata.FindNavigation(nameof(VehicleType.Vehicles))
+                            .SetPropertyAccessMode(PropertyAccessMode.Field);
+
         }
     }
 }

@@ -23,10 +23,12 @@ namespace KOService.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        public IActionResult GetRepairs()
+        [HttpGet("{managerId}")]
+        public IActionResult GetRepairs([FromRoute] string managerId,[FromQuery] GetRepairsQuery query)
         {
-            return Ok(_mediator.Send(new GetRepairsQuery()).Result);
+            query = query ?? new GetRepairsQuery();
+            query.ManagerId = managerId;
+            return Ok(_mediator.Send(query).Result);
         }
 
         [HttpPost]

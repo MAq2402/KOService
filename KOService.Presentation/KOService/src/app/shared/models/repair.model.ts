@@ -12,7 +12,7 @@ export class Repair {
     managerId: string;
     result: string;
     status: RepairStatus;
-    startDateTime: string;
-    endDateTime: string;
+    startDateTime: Date;
+    endDateTime: Date;
     activities: Activity[];
 }

@@ -4,18 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from './services/employee.service';
 import { MaterialModule } from './material/material.module';
-
+import { DateTimePipe } from './pipes/date-time.pipe';
 @NgModule({
   imports: [
     MaterialModule,
     CommonModule,
 
   ],
-  declarations: [],
+  declarations: [DateTimePipe],
   exports: [
     MaterialModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    DateTimePipe
   ]
 })
 export class SharedModule {

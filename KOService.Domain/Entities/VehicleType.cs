@@ -1,14 +1,13 @@
 ﻿using KOService.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace KOService.Domain.Entities
 {
     public class VehicleType: Entity
     {
-        public VehicleType(string brand, string model)
+        private List<Vehicle> _vehicles = new List<Vehicle>();
+        public VehicleType(Guid id, string brand, string model) : base(id)
         {
             if(string.IsNullOrEmpty(brand))
             {
@@ -27,9 +26,9 @@ namespace KOService.Domain.Entities
         {
 
         }
-        private ICollection<Vehicle> vehicles = new List<Vehicle>();
+        
         public string Brand { get; private set; }
         public string Model { get; private set; }
-        public IEnumerable<Vehicle> Vehicles => vehicles.ToList();
+        public IEnumerable<Vehicle> Vehicles => _vehicles.AsReadOnly();
     }
 }

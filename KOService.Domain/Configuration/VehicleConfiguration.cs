@@ -16,6 +16,9 @@ namespace KOService.Domain.Configuration
             builder.HasMany(v => v.Repairs)
                    .WithOne(r => r.Vehicle)
                    .HasForeignKey(r => r.VehicleId);
+
+            builder.Metadata.FindNavigation(nameof(Vehicle.Repairs))
+                            .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

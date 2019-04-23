@@ -9,7 +9,7 @@ namespace KOService.Domain.Entities
 {
     public class Repair : EmployeeTask<RepairStatus>
     {
-        private ICollection<Activity> activities = new List<Activity>();
+        private readonly List<Activity> _activities = new List<Activity>();
         public Repair(Guid id, string description, Guid managerId, Guid vehicleId) : base(id)
         {
             Description = description;
@@ -31,7 +31,7 @@ namespace KOService.Domain.Entities
         }
 
         protected override Dictionary<RepairStatus, string> StatusDictionary => statusDictionary;
-        public IEnumerable<Activity> Activities => activities.ToList();
+        public IEnumerable<Activity> Activities => _activities.AsReadOnly();
         public Guid ManagerId { get; private set; }
         public Employee Manager { get; private set; }
         public Vehicle Vehicle { get; private set; }

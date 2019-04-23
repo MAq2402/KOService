@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/authentication/services/auth.service';
 import { Activity } from 'src/app/shared/models/Activity';
 import { RepairService } from 'src/app/shared/services/repair.service';
 import { Repair } from 'src/app/shared/models/repair.model';
+import { MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,12 @@ import { Repair } from 'src/app/shared/models/repair.model';
 export class HomeComponent implements OnInit {
 
   repairsDataSource: MatTableDataSource<Repair>;
-  subTasksDataSource: Activity[] = [];
+  activitiesDataSource: Activity[] = [];
+  showWithStatusOpen = true;
+  showWithStatusInProgress = true;
+  showWithStatusFinished = false;
+  showWithStatusCanceled = false;
+  filterValue = '';
   repairsColumnsToDisplay: ColumnDef[] = [
     { name: 'vehicleRegistrationNumbers', display: 'Numery rejestracyjne' },
     { name: 'vehicleBrand', display: 'Marka' },
@@ -32,7 +38,7 @@ export class HomeComponent implements OnInit {
     { name: 'startDateTime', display: 'Data rozpoczęcia'}
   ];
 
-  subTasksColumnsToDisplay: ColumnDef[] = [
+  activitiesColumnsToDisplay: ColumnDef[] = [
     { name: 'description', display: 'Opis' },
     { name: 'mechanicName', display: 'Mechanik' },
     { name: 'statusDisplay', display: 'Status'},
@@ -42,29 +48,66 @@ export class HomeComponent implements OnInit {
   expandedElement: any | null;
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private authService: AuthService, private repairService: RepairService) { }
 
 
   ngOnInit() {
-    this.repairService.getRepairs().subscribe(repairs => {
-      this.repairsDataSource = new MatTableDataSource(repairs);
-      this.repairsDataSource.sort = this.sort;
-      for (const repair of repairs) {
-        this.subTasksDataSource.push.apply(repair.activities);
-      }
-    });
+    this.getData();
   }
 
   getRepairsColumnsToDisplayNames(): string[] {
     return this.repairsColumnsToDisplay.map(x => x.name);
   }
 
-  getSubTasksColumnsToDisplayNames(): string[] {
-    return this.subTasksColumnsToDisplay.map(x => x.name);
+  getActivitiesColumnsToDisplayNames(): string[] {
+    return this.activitiesColumnsToDisplay.map(x => x.name);
   }
 
   applyFilter(filterValue: string) {
+    this.filterValue = filterValue;
     this.repairsDataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.repairsDataSource.paginator) {
+      this.repairsDataSource.paginator.firstPage();
+    }
+  }
+
+  onStatusCheckboxChange(event: any) {
+    this.getData();
+  }
+
+  private getData() {
+    if (this.showWithStatusCanceled || this.showWithStatusFinished || this.showWithStatusInProgress || this.showWithStatusOpen) {
+      const statusQuery = this.buildStatusQuery();
+      this.authService.getCurrentEmployee().subscribe(user => {
+        this.repairService.getRepairs(user.id, statusQuery).subscribe(repairs => {
+          this.repairsDataSource = new MatTableDataSource(repairs);
+          this.repairsDataSource.sort = this.sort;
+          this.repairsDataSource.paginator = this.paginator;
+          this.repairsDataSource.filter = this.filterValue.trim().toLowerCase();
+        });
+      });
+    } else {
+      this.repairsDataSource = null;
+    }
+  }
+
+  private buildStatusQuery() {
+    let statusQuery = '';
+    if (this.showWithStatusOpen) {
+      statusQuery += 'OPN,';
+    }
+    if (this.showWithStatusInProgress) {
+      statusQuery += 'PRO,';
+    }
+    if (this.showWithStatusCanceled) {
+      statusQuery += 'CAN,';
+    }
+    if (this.showWithStatusFinished) {
+      statusQuery += 'FIN,';
+    }
+    return statusQuery;
   }
 }

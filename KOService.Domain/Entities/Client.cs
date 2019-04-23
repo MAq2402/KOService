@@ -10,7 +10,7 @@ namespace KOService.Domain.Entities
 {
     public class Client : Entity
     {
-        private ICollection<Vehicle> vehicles = new List<Vehicle>();
+        private readonly List<Vehicle> _vehicles = new List<Vehicle>();
         public Client(Guid id, string firstName, string lastName, string contactNumber, string email, Address address) : base(id)
         {
             if(address == null)
@@ -52,6 +52,7 @@ namespace KOService.Domain.Entities
             LastName = lastName;
             ContactNumber = contactNumber;
             Email = email;
+            Address = address;
         }
         private Client()
         {
@@ -63,15 +64,11 @@ namespace KOService.Domain.Entities
         public string Email { get; private set; }
         public Guid AddressId { get; private set; }
         public Address Address { get; private set; }
-        public IEnumerable<Vehicle> Vehicles => vehicles.ToList();
-        public void AddVehicle(Guid id, string registrationNumbers, Guid typeId)
-        {
-            vehicles.Add(new Vehicle(id, registrationNumbers, typeId));
-        }
+        public IEnumerable<Vehicle> Vehicles => _vehicles.AsReadOnly();
 
-        public void AddVehicle(Guid id, string registrationNumbers, string brand, string model)
+        public void AddVehicle(Vehicle vehicle)
         {
-            vehicles.Add(new Vehicle(id, registrationNumbers, brand, model));
+            _vehicles.Add(vehicle);
         }
 
         private bool IsPhoneNumber(string number)

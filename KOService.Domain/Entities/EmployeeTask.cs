@@ -23,6 +23,7 @@ namespace KOService.Domain.Entities
         public DateTime? EndDateTime { get;protected set; }
         public T GetStatus()
         {
+            
             return StatusDictionary.FirstOrDefault(x => x.Value == Status).Key;
         }
         protected void SetStatus(T status)
