@@ -72,30 +72,9 @@ namespace KOService.WebAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseExceptionHandler(appError =>
-            {
-                appError.Run(async context =>
-                {
-                    context.Response.ContentType = "application/json";
-                    var feature = context.Features.Get<IExceptionHandlerFeature>();
-                    var exception = feature.Error;
-                    var message = "";
-                    if (exception != null)
-                    {
-                        if (exception is DomainException)
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                            message = exception.Message;
-                        }
-                        else
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                            message = "Internal Server Error.";
-                        }
-                        await context.Response.WriteAsync(new { StatusCode = context.Response.StatusCode, Message = message }.ToString());
-                    }
-                });
-            });
+
+            app.ConfigureExceptionHandling();
+
             app.UseAuthentication();
 
             app.UseSwagger();

@@ -34,7 +34,12 @@ namespace KOService.WebAPI.Controllers
         [HttpPost]
         public IActionResult CreateRepair([FromBody] CreateRepairCommand command)
         {
-            _mediator.Send(command);
+            var exception = _mediator.Send(command).Exception;
+
+            if(exception != null)
+            {
+                throw exception.InnerException;
+            }
 
             return Ok(command);
         }

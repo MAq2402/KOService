@@ -1,4 +1,5 @@
 ﻿using KOService.Domain.Exceptions;
+using KOService.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,13 +12,8 @@ namespace KOService.Domain.Entities
     public class Client : Entity
     {
         private readonly List<Vehicle> _vehicles = new List<Vehicle>();
-        public Client(Guid id, string firstName, string lastName, string contactNumber, string email, Address address) : base(id)
+        public Client(Guid id, string firstName, string lastName, string phoneNumber, string email, string street, string city, string code) : base(id)
         {
-            if(address == null)
-            {
-                throw new DomainException("Address has not been provided");
-            }
-
             if (string.IsNullOrEmpty(firstName))
             {
                 throw new DomainException("First name has not been provided");
@@ -28,31 +24,10 @@ namespace KOService.Domain.Entities
                 throw new DomainException("Last name has not been provided");
             }
 
-            if (string.IsNullOrEmpty(contactNumber))
-            {
-                throw new DomainException("Contact number has not been provided");
-            }
-
-            if (IsPhoneNumber(contactNumber))
-            {
-                throw new DomainException("Contact number has wrong format");
-            }
-
-            if (string.IsNullOrEmpty(email))
-            {
-                throw new DomainException("Email has not been provided");
-            }
-
-            if (IsValidEmail(email))
-            {
-                throw new DomainException("Email is incorrect");
-            }
-
             FirstName = firstName;
             LastName = lastName;
-            ContactNumber = contactNumber;
-            Email = email;
-            Address = address;
+            Address = new Address(street, city, code);
+            ContactDetails = new ContactDetails(phoneNumber, email);
         }
         private Client()
         {
@@ -60,25 +35,33 @@ namespace KOService.Domain.Entities
         }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
-        public string ContactNumber { get; private set; }
-        public string Email { get; private set; }
-        public Guid AddressId { get; private set; }
+        public ContactDetails ContactDetails { get; set; }
         public Address Address { get; private set; }
         public IEnumerable<Vehicle> Vehicles => _vehicles.AsReadOnly();
 
-        public void AddVehicle(Vehicle vehicle)
+        public void AddRepair(Repair repair, Vehicle vehicle)
         {
-            _vehicles.Add(vehicle);
+            if (vehicle == null)
+            {
+                throw new DomainException("Vehicle is null");
+            }
+
+            vehicle.AddRepair(repair);
+
+            if (!_vehicles.Any(v => v == vehicle))
+            {
+                _vehicles.Add(vehicle);
+            }
         }
 
-        private bool IsPhoneNumber(string number)
+        public void UpdateContactDetails(string phoneNumber, string email)
         {
-            return Regex.Match(number, @"^(\+[0-9]{9})$").Success;
+            ContactDetails = new ContactDetails(phoneNumber, email);
         }
 
-        private bool IsValidEmail(string email)
+        public void UpdateAddress(string street, string city, string code)
         {
-            return new EmailAddressAttribute().IsValid(email);
+            Address = new Address(street, city, code);
         }
     }
 }

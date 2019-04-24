@@ -1,13 +1,14 @@
 ﻿using KOService.Domain.Exceptions;
+using KOService.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KOService.Domain.Entities
+namespace KOService.Domain.ValueObjects
 {
-    public class Address: Entity
+    public class Address: ValueObject
     {
-        public Address(Guid id, string city, string code, string street) : base(id)
+        public Address(string street, string city, string code)
         {
             if (string.IsNullOrEmpty(city))
             {
@@ -24,19 +25,20 @@ namespace KOService.Domain.Entities
                 throw new DomainException("Street has not been provided");
             }
 
+            Street = street;
             City = city;
             Code = code;
-            Street = street;
+            
         }
-
-        private Address()
-        {
-
-        }
-
         public string City { get; private set; }
         public string Code { get; private set; }
         public string Street { get; private set; }
-        public Client Client { get; private set; }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return City;
+            yield return Code;
+            yield return Street;
+        }
     }
 }

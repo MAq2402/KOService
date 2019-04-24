@@ -10,8 +10,10 @@ namespace KOService.Application.DTOs.Client
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string ContactNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public AddressForCreationDto Address { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string Code { get; set; }
     }
 }

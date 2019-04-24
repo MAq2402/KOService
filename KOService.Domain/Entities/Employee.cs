@@ -21,14 +21,5 @@ namespace KOService.Domain.Entities
         public Identity Identity { get; private set; }
         public IEnumerable<Repair> Repairs => _repairs.AsReadOnly();
         public IEnumerable<Activity> Activities => _activities.AsReadOnly();
-        public void AddRepair(Repair repair)
-        {
-            if (Identity.EmployeeRole != EmployeeRole.Manager)
-            {
-                throw new DomainException("Only manager is allowed to add repair");
-            }
-
-            _repairs.Add(repair);
-        }
     }
 }

@@ -44,18 +44,24 @@ namespace KOService.Application.Handlers.Repair
 
         private IQueryable<Domain.Entities.Repair> ApplyFilter(IQueryable<Domain.Entities.Repair> repairs, GetRepairsQuery request)
         {
+            string predicate = BuildPredicate(request);
+
+            return repairs.Where(predicate);
+        }
+
+        private static string BuildPredicate(GetRepairsQuery request)
+        {
             var splittedQuery = request.Status.Split(',');
 
             var predicate = string.Empty;
 
-            foreach(var item in splittedQuery)
+            foreach (var item in splittedQuery)
             {
                 predicate += $"Status=\"{item}\"||";
             }
 
-            predicate = predicate.Substring(0, predicate.Length - 2);
-
-            return repairs.Where(predicate);
+            return predicate.Substring(0, predicate.Length - 2);
+            
         }
     }
 }

@@ -46,6 +46,11 @@ namespace KOService.Domain.Entities
 
         public void AddRepair(Repair repair)
         {
+            if(repair == null)
+            {
+                throw new DomainException("Repair is null");
+            }
+
             _repairs.Add(repair);
         }
     }
