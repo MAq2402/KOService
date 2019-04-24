@@ -44,14 +44,14 @@ namespace KOService.Application.Handlers.Repair
 
         private IQueryable<Domain.Entities.Repair> ApplyFilter(IQueryable<Domain.Entities.Repair> repairs, GetRepairsQuery request)
         {
-            string predicate = BuildPredicate(request);
+            string predicate = BuildPredicate(request.Status);
 
             return repairs.Where(predicate);
         }
 
-        private static string BuildPredicate(GetRepairsQuery request)
+        private static string BuildPredicate(string statusQuery)
         {
-            var splittedQuery = request.Status.Split(',');
+            var splittedQuery = statusQuery.Split(',');
 
             var predicate = string.Empty;
 

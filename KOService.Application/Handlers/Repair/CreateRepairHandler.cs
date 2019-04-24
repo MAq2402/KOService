@@ -21,11 +21,18 @@ namespace KOService.Application.Handlers.Repair
         }
         protected override void Handle(CreateRepairCommand request)
         {
-            var client = _dbContext.Clients.Include(c => c.Address).Include(c => c.Vehicles).ThenInclude(v => v.Repairs).FirstOrDefault(c => c.Id == request.Client.Id);
+            var client = _dbContext.Clients.Include(c => c.Address)
+                                           .Include(c => c.Vehicles)
+                                           .ThenInclude(v => v.Repairs)
+                                           .FirstOrDefault(c => c.Id == request.Client.Id);
 
-            var manager = _dbContext.Employees.Include(e => e.Identity).Include(m => m.Repairs).FirstOrDefault(e => e.Id == request.ManagerId);
+            var manager = _dbContext.Employees.Include(e => e.Identity)
+                                              .Include(m => m.Repairs)
+                                              .FirstOrDefault(e => e.Id == request.ManagerId);
 
-            var vehicle = _dbContext.Vehicles.Include(v => v.Type).Include(v => v.Repairs).FirstOrDefault(v => v.Id == request.Vehicle.Id);
+            var vehicle = _dbContext.Vehicles.Include(v => v.Type)
+                                              .Include(v => v.Repairs)
+                                              .FirstOrDefault(v => v.Id == request.Vehicle.Id);
 
             if (client == null)
             {

@@ -106,7 +106,7 @@ export class HomeComponent implements OnInit {
       statusQuery += 'CAN,';
     }
     if (this.showWithStatusFinished) {
-      statusQuery += 'FIN,';
+      statusQuery += 'FIN';
     }
     return statusQuery;
   }
