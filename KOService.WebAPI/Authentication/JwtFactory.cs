@@ -37,7 +37,7 @@ namespace KOService.WebAPI.Authentication
         private string GenerateEncodedToken(string userName, EmployeeRole userRole)
         {
 
-            var claimsIdentity = GenerateClaimsIdentity(userName, userRole.ToString().ToLower());
+            var claimsIdentity = CreateClaimsIdentity(userName, userRole.ToString().ToLower());
             var claims = new[]
          {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
@@ -59,15 +59,13 @@ namespace KOService.WebAPI.Authentication
             return encodedJwt;
         }
 
-        public ClaimsIdentity GenerateClaimsIdentity(string userName, string role)
+        public ClaimsIdentity CreateClaimsIdentity(string userName, string role)
         {
-
             return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {
                 new Claim(Constants.ClaimTypes.EmployeeRole, role)
             });
         }
-
         private static long ToUnixEpochDate(DateTime date)
           => (long)Math.Round((date.ToUniversalTime() -
                                new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))

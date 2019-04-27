@@ -14,7 +14,6 @@ namespace KOService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [Authorize(Policy = Constants.Roles.Mechanic)]
     public class EmployeesController : Controller
     {
         private IMediator _mediator;
