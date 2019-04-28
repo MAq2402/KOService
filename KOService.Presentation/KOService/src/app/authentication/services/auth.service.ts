@@ -11,6 +11,10 @@ import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { throwError, Observable, of } from 'rxjs';
 
+const EMPLOYEE_ROLE = 'employee_role';
+const AUTH_TOKEN = 'auth_token';
+const IDENTITY_ID = 'identity_id';
+
 @Injectable()
 export class AuthService {
 
@@ -34,7 +38,7 @@ export class AuthService {
     if (this.currentEmployee) {
       return of(this.currentEmployee);
     } else {
-      const identityId = localStorage.getItem('identity_id');
+      const identityId = localStorage.getItem(IDENTITY_ID);
       return this.http.get<Employee>(this.baseUrl + 'user/' + identityId).pipe(map(employee => this.currentEmployee = employee));
     }
   }
@@ -44,11 +48,11 @@ export class AuthService {
     return this.http.post<LoginResponse>(this.baseUrl + 'login', credentials)
       .pipe(
         tap(response => {
-          localStorage.setItem('auth_token', response.auth_token);
-          localStorage.setItem('identity_id', response.id);
+          localStorage.setItem(AUTH_TOKEN, response.auth_token);
+          localStorage.setItem(IDENTITY_ID, response.id);
           this.getCurrentEmployee().subscribe();
           const decodedToken = jwt_decode(response.auth_token);
-          this.router.navigate([decodedToken['role']]);
+          this.router.navigate([decodedToken[EMPLOYEE_ROLE]]);
           this.spinnerService.hide();
         }),
         catchError(error => {
@@ -59,12 +63,12 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('auth_token');
+    return !!localStorage.getItem(AUTH_TOKEN);
   }
 
   isAuthorized(requiredRole: Role): boolean {
 
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem(AUTH_TOKEN);
 
     if (!token) {
       console.log('User not logged in.');
@@ -78,12 +82,12 @@ export class AuthService {
       return false;
     }
 
-    return Role[requiredRole] === decodedToken['role'];
+    return Role[requiredRole] === decodedToken[EMPLOYEE_ROLE];
   }
 
   logout() {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('identity_id');
+    localStorage.removeItem(AUTH_TOKEN);
+    localStorage.removeItem(IDENTITY_ID);
     this.router.navigate(['/login']);
   }
 }
