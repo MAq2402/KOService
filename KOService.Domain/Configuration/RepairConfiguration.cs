@@ -13,6 +13,10 @@ namespace KOService.Domain.Configuration
             builder.HasMany(r => r.Activities)
                    .WithOne(a => a.Repair)
                    .HasForeignKey(a => a.RepairId);
+
+
+            builder.Metadata.FindNavigation(nameof(Repair.Activities))
+                   .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

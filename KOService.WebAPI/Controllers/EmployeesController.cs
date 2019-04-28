@@ -25,7 +25,7 @@ namespace KOService.WebAPI.Controllers
         [HttpGet]
         public IActionResult GetEmployees()
         {
-            return Ok(_mediator.Send(new GetEmployeesQuery()).Result);
+            return Ok(_mediator.Send(new GetEmployeesQuery()));
         }
     }
 }

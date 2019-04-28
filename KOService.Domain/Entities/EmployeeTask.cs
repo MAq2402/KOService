@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KOService.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,9 +7,13 @@ namespace KOService.Domain.Entities
 {
     public abstract class EmployeeTask<T>: Entity where T : struct, IConvertible
     {
-        public EmployeeTask()
+        public EmployeeTask(Guid id) : base(id)
         {
             Open();
+        }
+        protected EmployeeTask()
+        {
+
         }
         protected abstract Dictionary<T, string> StatusDictionary {get;}
         public string Description { get; protected set; }
@@ -18,6 +23,7 @@ namespace KOService.Domain.Entities
         public DateTime? EndDateTime { get;protected set; }
         public T GetStatus()
         {
+            
             return StatusDictionary.FirstOrDefault(x => x.Value == Status).Key;
         }
         protected void SetStatus(T status)
@@ -29,7 +35,7 @@ namespace KOService.Domain.Entities
         {
             if (string.IsNullOrEmpty(result))
             {
-                throw new ArgumentNullException("Result has not been provided, while canceling");
+                throw new DomainException("Result has not been provided, while canceling");
             }
             EndDateTime = DateTime.UtcNow;
             Result = result;
@@ -43,7 +49,7 @@ namespace KOService.Domain.Entities
         {
 
         }
-        public virtual void Open()
+        protected virtual void Open()
         {
             StartDateTime = DateTime.UtcNow;
         }

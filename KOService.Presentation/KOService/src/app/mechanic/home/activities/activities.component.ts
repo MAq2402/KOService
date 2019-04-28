@@ -4,8 +4,9 @@ import { ActivityService } from 'src/app/shared/services/activity.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
-import { Repair } from 'src/app/shared/models/Repair';
 import { RepairService } from 'src/app/shared/services/repair.service';
+import { Repair } from 'src/app/shared/models/repair.model';
+import { AuthService } from 'src/app/authentication/services/auth.service';
 
 @Component({
   selector: 'app-activities',
@@ -36,16 +37,20 @@ export class ActivitiesComponent implements OnInit {
 
   constructor(
     private activityService: ActivityService, 
-    private  repairService: RepairService
+    private  repairService: RepairService,
+    private authService: AuthService
   ){ }
 
   ngOnInit() {
     this.userId = localStorage.getItem('auth_key');
     this.activityService.getWorkerActivities("1").subscribe(
-      activities => { 
+      activities => {
       this.dataSource.data = activities as Activity[];
-    });     
-    this.repairService.getRepairs().subscribe(r => this.repairs = r);
+    });
+
+    this.authService.getCurrentEmployee().subscribe(x => {
+      this.repairService.getRepairs(x.id).subscribe(r => this.repairs = r);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -72,11 +77,11 @@ export class ActivitiesComponent implements OnInit {
   }
   
   getCarNumbers(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).carNumbers;
+    return this.repairs.find(r => r.id === repairId).vehicleRegistrationNumbers;
   }
 
   getCarBrand(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).carBrand;
+    return this.repairs.find(r => r.id === repairId).vehicleBrand;
   }
 }
 

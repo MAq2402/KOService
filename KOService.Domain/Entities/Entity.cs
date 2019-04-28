@@ -3,11 +3,16 @@ namespace KOService.Domain.Entities
 {
     public abstract class Entity
     {
-        public Entity()
+        public Entity(Guid id)
         {
-            Id = Guid.NewGuid();
+            Id = id == Guid.Empty ? Guid.NewGuid() : id;
         }
-        public Guid Id { get; set; }
+
+        protected Entity()
+        {
+
+        }
+        public Guid Id {get; private set; }
 
         public override bool Equals(object obj)
         {

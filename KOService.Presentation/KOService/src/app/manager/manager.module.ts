@@ -7,20 +7,15 @@ import { WorkersTasksComponent } from './activity-manager/workers-tasks/workers-
 import {MaterialModule} from '../shared/material/material.module'
 import { ActivityCreatorComponent } from './activity-manager/activity-creator/activity-creator.component';
 import { WorkersTableComponent } from './activity-manager/workers-table/workers-table.component';
-import {RepairInfoComponent} from './activity-manager/repair-info/repair-info.component'
-
-
+import {RepairInfoComponent} from './activity-manager/repair-info/repair-info.component';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule } from '@angular/material';
 import { AddRepairComponent } from './add-repair/add-repair.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
 @NgModule({
   imports: [
     SharedModule,
     ManagerRoutingModule,
-
     SharedModule,
     MaterialModule,
     MatStepperModule,
@@ -31,8 +26,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     CommonModule
   ],
-  declarations: [HomeComponent, WorkersTasksComponent, ActivityCreatorComponent, WorkersTableComponent, RepairInfoComponent, AddRepairComponent],
+  declarations: [
+    HomeComponent,
+    WorkersTasksComponent,
+    ActivityCreatorComponent,
+    WorkersTableComponent,
+    RepairInfoComponent,
+    AddRepairComponent
+  ],
   entryComponents: [ActivityCreatorComponent]
-
 })
+
 export class ManagerModule { }

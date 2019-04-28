@@ -14,6 +14,7 @@ namespace KOService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RepairsController : Controller
     {
         private IMediator _mediator;
@@ -23,11 +24,24 @@ namespace KOService.WebAPI.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet("{managerId}")]
+        public IActionResult GetRepairs([FromRoute] string managerId,[FromQuery] GetRepairsQuery query)
+        {
+            query = query ?? new GetRepairsQuery();
+            query.ManagerId = managerId;
+            return Ok(_mediator.Send(query).Result);
+        }
+
         [HttpPost]
         [Authorize(Constants.Roles.Manager)]
         public IActionResult CreateRepair([FromBody] CreateRepairCommand command)
         {
-            _mediator.Send(command);
+            var exception = _mediator.Send(command).Exception;
+
+            if(exception != null)
+            {
+                throw exception.InnerException;
+            }
 
             return Ok(command);
         }

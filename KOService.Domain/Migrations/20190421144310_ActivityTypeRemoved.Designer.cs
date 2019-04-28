@@ -4,14 +4,16 @@ using KOService.Domain.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KOService.Domain.Migrations
 {
     [DbContext(typeof(KOServiceDbContext))]
-    partial class KOServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190421144310_ActivityTypeRemoved")]
+    partial class ActivityTypeRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,16 +51,41 @@ namespace KOService.Domain.Migrations
                     b.ToTable("Activities");
                 });
 
+            modelBuilder.Entity("KOService.Domain.Entities.Address", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Street");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("KOService.Domain.Entities.Client", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AddressId");
+
+                    b.Property<string>("ContactNumber");
+
+                    b.Property<string>("Email");
 
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique();
 
                     b.ToTable("Clients");
                 });
@@ -332,43 +359,10 @@ namespace KOService.Domain.Migrations
 
             modelBuilder.Entity("KOService.Domain.Entities.Client", b =>
                 {
-                    b.OwnsOne("KOService.Domain.ValueObjects.Address", "Address", b1 =>
-                        {
-                            b1.Property<Guid>("ClientId");
-
-                            b1.Property<string>("City");
-
-                            b1.Property<string>("Code");
-
-                            b1.Property<string>("Street");
-
-                            b1.HasKey("ClientId");
-
-                            b1.ToTable("Clients");
-
-                            b1.HasOne("KOService.Domain.Entities.Client")
-                                .WithOne("Address")
-                                .HasForeignKey("KOService.Domain.ValueObjects.Address", "ClientId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("KOService.Domain.ValueObjects.ContactDetails", "ContactDetails", b1 =>
-                        {
-                            b1.Property<Guid>("ClientId");
-
-                            b1.Property<string>("Email");
-
-                            b1.Property<string>("PhoneNumber");
-
-                            b1.HasKey("ClientId");
-
-                            b1.ToTable("Clients");
-
-                            b1.HasOne("KOService.Domain.Entities.Client")
-                                .WithOne("ContactDetails")
-                                .HasForeignKey("KOService.Domain.ValueObjects.ContactDetails", "ClientId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
+                    b.HasOne("KOService.Domain.Entities.Address", "Address")
+                        .WithOne("Client")
+                        .HasForeignKey("KOService.Domain.Entities.Client", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("KOService.Domain.Entities.Employee", b =>

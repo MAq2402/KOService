@@ -8,7 +8,7 @@ namespace KOService.Domain.Entities
 {
     public class Activity: EmployeeTask<ActivityStatus>
     {
-        public Activity(): base()
+        public Activity(Guid id): base(id)
         {
             
         }
@@ -21,8 +21,6 @@ namespace KOService.Domain.Entities
             {ActivityStatus.Canceled, "CAN" },
             {ActivityStatus.Finished, "FIN" }
         };
-        public Guid TypeId { get; set; }
-        public ActivityType Type { get; set; }
         public int SequenceNumber { get; set; }
         public Guid RepairId { get; set; }
         public Repair Repair { get; set; }
@@ -43,7 +41,7 @@ namespace KOService.Domain.Entities
             base.ChangeToInProgress();
             SetStatus(ActivityStatus.InProgress);
         }
-        public override void Open()
+        protected override void Open()
         {
             base.Open();
             SetStatus(ActivityStatus.Open);

@@ -9,7 +9,9 @@ namespace KOService.Domain.Entities
 {
     public class Employee : Entity
     {
-        private Employee()
+        private readonly List<Activity> _activities = new List<Activity>();
+        private readonly List<Repair> _repairs = new List<Repair>();
+        public Employee(Guid id) : base(id)
         {
 
         }
@@ -17,23 +19,7 @@ namespace KOService.Domain.Entities
         public string LastName { get; private set; }
         public string IdentityId { get; private set; }
         public Identity Identity { get; private set; }
-        public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
-        public ICollection<Repair> Repairs { get; private set; } = new List<Repair>();
-        public void AddRepair(string description, Vehicle vehicle, Client client)
-        {
-            if (Identity.EmployeeRole != EmployeeRole.Manager)
-            {
-                throw new DomainException("Only manager is allowed to add repair");
-            }
-
-            if(!client.Vehicles.Any(v => v == vehicle))
-            {
-                throw new DomainException("Client does not own this vehicle");
-            }
-
-            var repair = new Repair(description, Id, vehicle.Id);
-
-            Repairs.Add(repair);
-        }
+        public IEnumerable<Repair> Repairs => _repairs.AsReadOnly();
+        public IEnumerable<Activity> Activities => _activities.AsReadOnly();
     }
 }

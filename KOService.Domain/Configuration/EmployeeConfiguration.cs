@@ -21,6 +21,12 @@ namespace KOService.Domain.Configuration
                    .WithOne(a => a.Mechanic)
                    .HasForeignKey(a => a.MechanicId)
                    .IsRequired(false);
+
+            builder.Metadata.FindNavigation(nameof(Employee.Repairs))
+                   .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Metadata.FindNavigation(nameof(Employee.Activities))
+                   .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
