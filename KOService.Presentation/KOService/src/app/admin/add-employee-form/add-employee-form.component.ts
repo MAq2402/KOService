@@ -14,6 +14,16 @@ export class AddEmployeeFormComponent implements OnInit {
     @ViewChild('firstName') firstName: ElementRef;
     @ViewChild('lastName') lastName: ElementRef;
 
+    employee: Employee = {
+        firstName: '',
+        lastName: '',
+        id: '',
+        email: '',
+        phone: '',
+        gender: '',
+        identityEmployeeRole: Role.mechanic
+    };
+
     constructor() {
         this.keys = Object.keys(Role).filter(k => !isNaN(Number(k)));
     }
