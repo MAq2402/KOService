@@ -1,8 +1,5 @@
 body {
-    /* background-color:  rgb(165, 165, 247); */
     background-image: linear-gradient(to bottom right, rgb(145, 145, 177) , rgb(248, 248, 248));
-    padding: 20px;
-    max-width: 400px;
     margin: auto;
 }
 
@@ -24,11 +21,14 @@ body {
 .otherInputsBlock {
     margin-left: 40px;
     display: inline-block;
-    transform: translateY(-18px);
 }
 
 .selectRoleBlock{
     margin-top: 20px;
+}
+
+.buttonBlock {
+    padding-bottom: 20px;
 }
 
 input {
