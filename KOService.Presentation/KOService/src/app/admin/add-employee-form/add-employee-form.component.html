@@ -15,9 +15,15 @@
                 </div>
                 <div class="otherInputsBlock">
                     <label for="gender">Gender:</label>
-                    <input type="radio" id="gender" name="gender" class="form-control" value="male" checked> Male<br>
-                    <input type="radio" id="gender" name="gender" class="form-control" value="female"> Female<br>
-                    <input type="radio" id="gender" name="gender" class="form-control" value="other"> Other<br>
+                    <div class="radioButtonsBlock">
+                        <input type="radio" id="gender" name="gender" class="form-control genderRadioButton"
+                            value="male" checked>
+                        Male<br>
+                        <input type="radio" id="gender" name="gender" class="form-control genderRadioButton"
+                            value="female"> Female<br>
+                        <input type="radio" id="gender" name="gender" class="form-control genderRadioButton"
+                            value="other"> Other<br>
+                    </div>
                     <div class="selectRoleBlock">
                         <label for="role">Role:</label>
                         <select id="role" name="role" class="form-control">
@@ -26,8 +32,8 @@
                     </div>
 
                 </div>
-                <div class="buttonBlock"><br>
-                    <button type="submit" class="form-control">
+                <div class="submitButtonBlock"><br>
+                    <button type="submit" class="form-control submitButton">
                         Add employee
                     </button>
                 </div>
