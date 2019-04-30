@@ -29,7 +29,7 @@ export class AddEmployeeFormComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        this.firstName.nativeElement.focus();
     }
 
 }

@@ -4,28 +4,28 @@
         <form #employeeForm="ngForm">
             <div class=container>
                 <div class="textFieldsBlock">
-                    <label for="firstName">First name:</label>
-                    <input type="text" id="firstName" name="firstName" class="form-control" required>
-                    <label for="lastName">Last name:</label>
-                    <input type="text" id="lastName" name="lastName" class="form-control" required>
-                    <label for="e-mail">E-mail address:</label>
-                    <input type="email" id="e-mail" name="e-mail" class="form-control" required>
-                    <label for="phone">Phone number:</label>
-                    <input type="tel" id="phone" name="phone" class="form-control" pattern="[0-9]{9}" required>
+                    <label for="firstName">Imię:</label>
+                    <input #firstName type="text" id="firstName" name="firstName" class="form-control" required>
+                    <label for="lastName">Nazwisko:</label>
+                    <input #lastName type="text" id="lastName" name="lastName" class="form-control" required>
+                    <label for="e-mail">Adres e-mail:</label>
+                    <input #email type="email" id="e-mail" name="e-mail" class="form-control" required>
+                    <label for="phone">Numer telefonu:</label>
+                    <input #phone type="tel" id="phone" name="phone" class="form-control" pattern="[0-9]{9}" required>
                 </div>
                 <div class="otherInputsBlock">
-                    <label for="gender">Gender:</label>
+                    <label for="gender">Płeć:</label>
                     <div class="radioButtonsBlock">
                         <input type="radio" id="gender" name="gender" class="form-control genderRadioButton"
                             value="male" checked>
-                        Male<br>
+                        Mężczyzna<br>
                         <input type="radio" id="gender" name="gender" class="form-control genderRadioButton"
-                            value="female"> Female<br>
+                            value="female"> Kobieta<br>
                         <input type="radio" id="gender" name="gender" class="form-control genderRadioButton"
-                            value="other"> Other<br>
+                            value="other"> Inna<br>
                     </div>
                     <div class="selectRoleBlock">
-                        <label for="role">Role:</label>
+                        <label for="role">Rola:</label>
                         <select id="role" name="role" class="form-control">
                             <option *ngFor="let key of keys" [ngValue]="key">{{roles[key]}}</option>
                         </select>
