@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KOService.Application.Queries.Activity;
+using KOService.Application.Commands.Activity;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,5 +36,19 @@ namespace KOService.WebAPI.Controllers
             query.RepairId = repairId;
             return Ok(_mediator.Send(query).Result);
         }
+        
+        [HttpPost]
+        public IActionResult CreateActivity([FromBody] CreateActivityCommand command)
+        {
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                throw exception.InnerException;
+            }
+
+            return Ok(command);
+        }
+        
     }
 }

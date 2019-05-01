@@ -1,4 +1,5 @@
 ﻿using KOService.Domain.Enums;
+using KOService.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,12 @@ namespace KOService.Domain.Entities
 {
     public class Activity: EmployeeTask<ActivityStatus>
     {
-        public Activity(Guid id): base(id)
+        public Activity(Guid id,Guid repairId, string description, int sequenceNumber): base(id)
         {
-            
+            Description = description;
+            SequenceNumber = sequenceNumber;
+            RepairId = repairId;
+            MechanicId = null;
         }
         protected override Dictionary<ActivityStatus, string> StatusDictionary => statusDictionary;
 
@@ -45,6 +49,15 @@ namespace KOService.Domain.Entities
         {
             base.Open();
             SetStatus(ActivityStatus.Open);
+        }
+        public void AssignMechanic(Guid mechanicId)
+        {
+            if (MechanicId == null)
+            {
+                MechanicId = mechanicId;
+                Open();
+            }
+            else throw new DomainException("Mechanic was already assigned for that task");
         }
     }
 }
