@@ -49,6 +49,19 @@ namespace KOService.WebAPI.Controllers
 
             return Ok(command);
         }
-        
+        [HttpPut("{activityId}/{mechanicId}")]
+        public IActionResult AssignWorker([FromBody] CreateActivityCommand command)
+        {
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                throw exception.InnerException;
+            }
+
+            return Ok(command);
+        }
+
+
     }
 }

@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace KOService.Application.Handlers.Activity
 {
-    class CreateActivityHandler : RequestHandler<CreateActivityCommand>
+   public class CreateActivityHandler : RequestHandler<CreateActivityCommand>
     {
         KOServiceDbContext _dbContext;
         protected CreateActivityHandler(KOServiceDbContext dbContext)
