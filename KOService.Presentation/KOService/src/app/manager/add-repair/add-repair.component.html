@@ -9,13 +9,13 @@
             <mat-card>
               <mat-card-title>Lista klientów</mat-card-title>
               <mat-action-list>
-                  <button mat-list-item (click)="setClientForm(client)" *ngFor="let client of clientList"> {{ client.lastName }} {{ client.firstName }} {{ client.phoneNumber }} </button>
+                  <button mat-list-item (click)="setClientForm(client)" *ngFor="let client of currentClientList"> {{ client.lastName }} {{ client.firstName }} {{ client.phoneNumber }} </button>
                 </mat-action-list>
               </mat-card>
               </div>
       <div class="field-div">
           <mat-form-field class="field">
-            <input matInput placeholder="Nazwisko" formControlName="lastName" required>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Nazwisko" formControlName="lastName" required>
           </mat-form-field>
           <mat-form-field class="field">
               <input matInput placeholder="Imię" formControlName="firstName" required>
@@ -56,14 +56,7 @@
           <mat-card>
             <mat-card-title>Lista pojazdów</mat-card-title>
             <mat-action-list>
-                <button mat-list-item (click)="save()"> Save </button>
-                <button mat-list-item (click)="undo()"> Undo </button>
-                <button mat-list-item (click)="save()"> Save </button>
-                <button mat-list-item (click)="undo()"> Undo </button>
-                <button mat-list-item (click)="save()"> Save </button>
-                <button mat-list-item (click)="undo()"> Undo </button>
-                <button mat-list-item (click)="save()"> Save </button>
-                <button mat-list-item (click)="undo()"> Undo </button>
+                <button mat-list-item (click)="setVehicleForm(vehicle)" *ngFor="let vehicle of vehicleList"> {{ vehicle.brand }} {{ vehicle.model }} {{ vehicle.registrationNumber }} </button>
               </mat-action-list>
             </mat-card>
             </div>

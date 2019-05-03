@@ -19,8 +19,10 @@ export class AddRepairComponent implements OnInit {
   repairFormGroup: FormGroup;
   addClient: boolean;
   addVehicle: boolean;
+  currentClientList: Client[];
   clientList: Client[];
   vehicleList: Vehicle[];
+  filterValue = '';
 
   constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private repairService: RepairService,
     private clientService: ClientService, private vehicleService: VehicleService) {}
@@ -68,6 +70,8 @@ export class AddRepairComponent implements OnInit {
     this.clientFormGroup.controls['street'].setValue(client.street);
     this.clientFormGroup.controls['code'].setValue(client.code);
     this.clientFormGroup.controls['city'].setValue(client.city);
+
+    this.getVehicles(client.id);
   }
 
   public setVehicleForm(vehicle: Vehicle) {
@@ -76,11 +80,25 @@ export class AddRepairComponent implements OnInit {
     this.vehicleFormGroup.controls['registrationNumber'].setValue(vehicle.registrationNumber);
   }
 
+  public applyFilter(filterValue: string) {
+    this.filterValue = filterValue;
+    this.currentClientList = this.clientList.filter(client =>
+      client.lastName.trim().toLowerCase().match(this.filterValue.trim().toLowerCase()));
+  }
+
   getClients() {
     this.clientService.getClients()
     .subscribe(clients => {
         this.clientList = clients as Client[];
     });
+
+    this.currentClientList = this.clientList;
   }
 
+  getVehicles(id: string) {
+    this.vehicleService.getVehiclesByClientId(id)
+    .subscribe(vehicles => {
+        this.vehicleList = vehicles as Vehicle[];
+    });
+  }
 }
