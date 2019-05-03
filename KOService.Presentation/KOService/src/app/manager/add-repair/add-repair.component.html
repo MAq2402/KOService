@@ -1,44 +1,88 @@
-
-<mat-vertical-stepper linear #stepper>
+<mat-card>
+<mat-card-title>Dodaj naprawę</mat-card-title>
+<mat-horizontal-stepper class="stepper" linear #stepper>
   <mat-step [stepControl]="clientFormGroup">
     <form [formGroup]="clientFormGroup">
       <ng-template matStepLabel>Dane klienta</ng-template>
       <div>
-        <mat-form-field>
-          <input matInput placeholder="Imię" formControlName="name" required>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Nazwisko" formControlName="surname" required>
-        </mat-form-field>
+          <div class="list-div">
+            <mat-card>
+              <mat-card-title>Lista klientów</mat-card-title>
+              <mat-action-list>
+                  <button mat-list-item (click)="setClientForm(client)" *ngFor="let client of clientList"> {{ client.lastName }} {{ client.firstName }} {{ client.phoneNumber }} </button>
+                </mat-action-list>
+              </mat-card>
+              </div>
+      <div class="field-div">
+          <mat-form-field class="field">
+            <input matInput placeholder="Nazwisko" formControlName="lastName" required>
+          </mat-form-field>
+          <mat-form-field class="field">
+              <input matInput placeholder="Imię" formControlName="firstName" required>
+            </mat-form-field>
       </div>
-      <div>
-        <mat-form-field>
+      <div class="field-div">
+        <mat-form-field class="field">
           <input matInput placeholder="Email" formControlName="email" required>
         </mat-form-field>
+        <mat-form-field class="field">
+            <input matInput placeholder="Numer telefonu" formControlName="phoneNumber" required>
+          </mat-form-field>
       </div>
-      <div>
-        <mat-form-field>
-          <input matInput placeholder="Numer telefonu" formControlName="phoneNumber" required>
-        </mat-form-field>
+      <div class="field-div">
+          <mat-form-field class="field">
+              <input matInput placeholder="Ulica" formControlName="street" required>
+          </mat-form-field>
+          <mat-form-field class="field">
+              <input matInput placeholder="Numer domu" formControlName="code" required>
+          </mat-form-field>
       </div>
+      <div class="field-div">
+          <mat-form-field class="field-big">
+              <input matInput placeholder="Miasto" formControlName="city" required>
+          </mat-form-field>
+      </div>
+    </div>
       <div>
         <button mat-button matStepperNext>Dalej</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="carFormGroup">
-    <form [formGroup]="carFormGroup">
-      <ng-template matStepLabel>Dane samochodu</ng-template>
+  <mat-step [stepControl]="vehicleFormGroup">
+    <form [formGroup]="vehicleFormGroup">
+      <ng-template matStepLabel>Dane pojazdu</ng-template>
       <div>
-        <mat-form-field>
-          <input matInput placeholder="Marka auta" formControlName="car" required>
+      <div class="list-div">
+          <mat-card>
+            <mat-card-title>Lista pojazdów</mat-card-title>
+            <mat-action-list>
+                <button mat-list-item (click)="save()"> Save </button>
+                <button mat-list-item (click)="undo()"> Undo </button>
+                <button mat-list-item (click)="save()"> Save </button>
+                <button mat-list-item (click)="undo()"> Undo </button>
+                <button mat-list-item (click)="save()"> Save </button>
+                <button mat-list-item (click)="undo()"> Undo </button>
+                <button mat-list-item (click)="save()"> Save </button>
+                <button mat-list-item (click)="undo()"> Undo </button>
+              </mat-action-list>
+            </mat-card>
+            </div>
+      <div class="field-div">
+        <mat-form-field class="field-big">
+          <input matInput placeholder="Marka" formControlName="brand" required>
         </mat-form-field>
       </div>
-      <div>
-        <mat-form-field>
-          <input matInput placeholder="Numer rejestracyjny" formControlName="carNumber" required>
+      <div class="field-div">
+          <mat-form-field class="field-big">
+            <input matInput placeholder="Model" formControlName="model" required>
+          </mat-form-field>
+      </div>
+      <div class="field-div">
+        <mat-form-field class="field-big">
+          <input matInput placeholder="Numer rejestracyjny" formControlName="registrationNumber" required>
         </mat-form-field>
       </div>
+    </div>
       <div>
         <button mat-button matStepperPrevious>Powrót</button>
         <button mat-button matStepperNext>Dalej</button>
@@ -48,8 +92,8 @@
     <mat-step [stepControl]="repairFormGroup">
       <form [formGroup]="repairFormGroup">
         <ng-template matStepLabel>Szczegóły naprawy</ng-template>
-        <mat-form-field>
-          <textarea matInput placeholder="Opis naprawy" formControlName="description" required></textarea>
+        <mat-form-field class="textarea"> 
+            <textarea matInput placeholder="Opis" formControlName="description" required></textarea>
         </mat-form-field>
         <div>
           <button mat-button matStepperPrevious>Powrót</button>
@@ -58,25 +102,11 @@
       </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Podsumowanie</ng-template>
-    <div>
-      Imię: {{clientFormGroup.controls['name'].value}}
-        Nazwisko: {{clientFormGroup.controls['surname'].value}}
-    </div>
-    <div>
-      Email: {{clientFormGroup.controls['email'].value}}
-        Numer telefonu: {{clientFormGroup.controls['phoneNumber'].value}}
-    </div>
-    <div>
-      Marka auta: {{carFormGroup.controls['car'].value}}
-        Numer rejestracyjny: {{carFormGroup.controls['carNumber'].value}}
-    </div>
-    <div>
-      Opis naprawy: {{repairFormGroup.controls['description'].value}}
-    </div>
+    <ng-template matStepLabel>Gotowe</ng-template>
     <div>
       <button mat-button matStepperPrevious>Powrót</button>
       <button mat-button (click)="submit()">Dodaj naprawę</button>
     </div>
   </mat-step>
-</mat-vertical-stepper>
+</mat-horizontal-stepper>
+</mat-card>

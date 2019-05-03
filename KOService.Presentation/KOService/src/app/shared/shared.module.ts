@@ -5,11 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from './services/employee.service';
 import { MaterialModule } from './material/material.module';
 import { DateTimePipe } from './pipes/date-time.pipe';
+import { VehicleService } from './services/vehicle.service';
+import { ClientService } from './services/client.service';
 @NgModule({
   imports: [
     MaterialModule,
-    CommonModule,
-
+    CommonModule
   ],
   declarations: [DateTimePipe],
   exports: [
@@ -24,7 +25,9 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        EmployeeService
+        EmployeeService,
+        VehicleService,
+        ClientService
       ]
     };
   }

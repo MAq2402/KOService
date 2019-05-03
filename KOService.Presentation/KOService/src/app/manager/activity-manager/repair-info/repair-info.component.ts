@@ -11,10 +11,12 @@ import { Repair } from 'src/app/shared/models/repair.model';
     firstName: "Janusz",
     lastName: "Kowalski",
     phoneNumber: "123456789",
-    email: "jkowalski@domena.com"
-
+    email: "jkowalski@domena.com",
+    street: "Pszczyńska",
+    code: '20',
+    city: "Gliwice"
   }
-  
+
 
 
 
