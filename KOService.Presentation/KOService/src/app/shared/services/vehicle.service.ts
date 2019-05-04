@@ -13,8 +13,8 @@ export class VehicleService {
     {id: '3', brand: 'Opel', model: 'Astra', clientId: '2', registrationNumber: 'SPS 222333'}
 ];
 
-  getVehiclesByClientId(id: string): Observable<Vehicle[]> {
-    return of(this.vehicles.filter(vehicle => vehicle.clientId === id));
+  getVehicles(): Observable<Vehicle[]> {
+    return of(this.vehicles);
   }
 
   constructor() { }

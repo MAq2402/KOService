@@ -6,6 +6,7 @@ import { ClientService } from 'src/app/shared/services/client.service';
 import { VehicleService } from 'src/app/shared/services/vehicle.service';
 import { Client } from 'src/app/shared/models/Client';
 import { Vehicle } from 'src/app/shared/models/Vehicle';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-add-repair',
@@ -17,12 +18,12 @@ export class AddRepairComponent implements OnInit {
   clientFormGroup: FormGroup;
   vehicleFormGroup: FormGroup;
   repairFormGroup: FormGroup;
-  addClient: boolean;
-  addVehicle: boolean;
   currentClientList: Client[];
+  currentVehicleList: Vehicle[];
   clientList: Client[];
   vehicleList: Vehicle[];
   filterValue = '';
+  hasOwner = false;
 
   constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private repairService: RepairService,
     private clientService: ClientService, private vehicleService: VehicleService) {}
@@ -46,20 +47,23 @@ export class AddRepairComponent implements OnInit {
       description: ['', Validators.required]
     });
 
+    this.getVehicles();
     this.getClients();
-
-    this.addClient = true;
-    this.addVehicle = true;
   }
 
   public submit() {
-
+    // zapis klienta
+    // zapis pojazdu
+    // zapis naprawy
     this.repairFormGroup.reset();
     this.vehicleFormGroup.reset();
     this.clientFormGroup.reset();
     this.snackBar.open('Pomyślnie dodano naprawę', undefined, {
       duration: 2000,
     });
+
+    this.getVehicles();
+    this.getClients();
   }
 
   public setClientForm(client: Client) {
@@ -71,19 +75,26 @@ export class AddRepairComponent implements OnInit {
     this.clientFormGroup.controls['code'].setValue(client.code);
     this.clientFormGroup.controls['city'].setValue(client.city);
 
-    this.getVehicles(client.id);
   }
 
   public setVehicleForm(vehicle: Vehicle) {
     this.vehicleFormGroup.controls['brand'].setValue(vehicle.brand);
     this.vehicleFormGroup.controls['model'].setValue(vehicle.model);
     this.vehicleFormGroup.controls['registrationNumber'].setValue(vehicle.registrationNumber);
+
+    this.currentClientList = this.clientList.filter(client =>
+      client.id === vehicle.clientId);
+    if ( this.currentClientList.length === 0) {
+      this.hasOwner = false;
+    } else {
+      this.hasOwner = true;
+    }
   }
 
   public applyFilter(filterValue: string) {
     this.filterValue = filterValue;
-    this.currentClientList = this.clientList.filter(client =>
-      client.lastName.trim().toLowerCase().match(this.filterValue.trim().toLowerCase()));
+    this.currentVehicleList = this.vehicleList.filter(vehicle =>
+      vehicle.registrationNumber.trim().toLowerCase().match(this.filterValue.trim().toLowerCase()));
   }
 
   getClients() {
@@ -91,14 +102,13 @@ export class AddRepairComponent implements OnInit {
     .subscribe(clients => {
         this.clientList = clients as Client[];
     });
-
-    this.currentClientList = this.clientList;
   }
 
-  getVehicles(id: string) {
-    this.vehicleService.getVehiclesByClientId(id)
+  getVehicles() {
+    this.vehicleService.getVehicles()
     .subscribe(vehicles => {
         this.vehicleList = vehicles as Vehicle[];
     });
+    this.currentVehicleList = this.vehicleList;
   }
 }

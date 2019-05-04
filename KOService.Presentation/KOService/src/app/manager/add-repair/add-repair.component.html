@@ -1,21 +1,54 @@
 <mat-card>
 <mat-card-title>Dodaj naprawę</mat-card-title>
 <mat-horizontal-stepper class="stepper" linear #stepper>
+    <mat-step [stepControl]="vehicleFormGroup">
+        <form [formGroup]="vehicleFormGroup">
+          <ng-template matStepLabel>Dane pojazdu</ng-template>
+          <div>
+          <div class="list-div">
+              <mat-card>
+                <mat-card-title>Lista pojazdów</mat-card-title>
+                <mat-action-list>
+                    <button mat-list-item (click)="setVehicleForm(vehicle)" *ngFor="let vehicle of currentVehicleList"> {{ vehicle.registrationNumber }} {{ vehicle.brand }} {{ vehicle.model }} </button>
+                  </mat-action-list>
+                </mat-card>
+                </div>
+                <div class="field-div">
+                    <mat-form-field class="field-big">
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Numer rejestracyjny" formControlName="registrationNumber" required>
+                    </mat-form-field>
+                  </div>
+          <div class="field-div">
+            <mat-form-field class="field-big">
+              <input matInput placeholder="Marka" formControlName="brand" required>
+            </mat-form-field>
+          </div>
+          <div class="field-div">
+              <mat-form-field class="field-big">
+                <input matInput placeholder="Model" formControlName="model" required>
+              </mat-form-field>
+          </div>
+        </div>
+          <div>
+            <button mat-button matStepperNext>Dalej</button>
+          </div>
+        </form>
+      </mat-step>
   <mat-step [stepControl]="clientFormGroup">
     <form [formGroup]="clientFormGroup">
       <ng-template matStepLabel>Dane klienta</ng-template>
       <div>
           <div class="list-div">
-            <mat-card>
-              <mat-card-title>Lista klientów</mat-card-title>
+            <mat-card *ngIf="hasOwner">
+              <mat-card-title>Właściciel</mat-card-title>
               <mat-action-list>
-                  <button mat-list-item (click)="setClientForm(client)" *ngFor="let client of currentClientList"> {{ client.lastName }} {{ client.firstName }} {{ client.phoneNumber }} </button>
+                  <button mat-list-item (click)="setClientForm(client)" *ngFor="let client of currentClientList"> {{ client.lastName }} {{ client.firstName }} </button>
                 </mat-action-list>
               </mat-card>
               </div>
       <div class="field-div">
           <mat-form-field class="field">
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Nazwisko" formControlName="lastName" required>
+            <input matInput placeholder="Nazwisko" formControlName="lastName" required>
           </mat-form-field>
           <mat-form-field class="field">
               <input matInput placeholder="Imię" formControlName="firstName" required>
@@ -41,39 +74,6 @@
           <mat-form-field class="field-big">
               <input matInput placeholder="Miasto" formControlName="city" required>
           </mat-form-field>
-      </div>
-    </div>
-      <div>
-        <button mat-button matStepperNext>Dalej</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step [stepControl]="vehicleFormGroup">
-    <form [formGroup]="vehicleFormGroup">
-      <ng-template matStepLabel>Dane pojazdu</ng-template>
-      <div>
-      <div class="list-div">
-          <mat-card>
-            <mat-card-title>Lista pojazdów</mat-card-title>
-            <mat-action-list>
-                <button mat-list-item (click)="setVehicleForm(vehicle)" *ngFor="let vehicle of vehicleList"> {{ vehicle.brand }} {{ vehicle.model }} {{ vehicle.registrationNumber }} </button>
-              </mat-action-list>
-            </mat-card>
-            </div>
-      <div class="field-div">
-        <mat-form-field class="field-big">
-          <input matInput placeholder="Marka" formControlName="brand" required>
-        </mat-form-field>
-      </div>
-      <div class="field-div">
-          <mat-form-field class="field-big">
-            <input matInput placeholder="Model" formControlName="model" required>
-          </mat-form-field>
-      </div>
-      <div class="field-div">
-        <mat-form-field class="field-big">
-          <input matInput placeholder="Numer rejestracyjny" formControlName="registrationNumber" required>
-        </mat-form-field>
       </div>
     </div>
       <div>
