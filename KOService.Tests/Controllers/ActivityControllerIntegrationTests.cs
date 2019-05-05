@@ -44,7 +44,7 @@ namespace KOService.Tests.Controllers
         }
 
         [Fact]
-        public async Task posting_valid_content_should_create_activity()
+        public void posting_valid_content_should_create_activity()
         {
             var contentObject = new
             {
