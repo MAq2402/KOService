@@ -12,7 +12,7 @@ namespace KOService.Application.Handlers.Activity
    public class CreateActivityHandler : RequestHandler<CreateActivityCommand>
     {
         KOServiceDbContext _dbContext;
-        protected CreateActivityHandler(KOServiceDbContext dbContext)
+        public CreateActivityHandler(KOServiceDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -27,7 +27,7 @@ namespace KOService.Application.Handlers.Activity
             {
 
                 Domain.Entities.Activity activity = new Domain.Entities.Activity(request.Activity.Id, request.RepairId,
-                    request.Activity.Desccription, request.Activity.SequenceNumber);
+                    request.Activity.Description, request.Activity.SequenceNumber);
 
                 _dbContext.Activities.Add(activity);
 

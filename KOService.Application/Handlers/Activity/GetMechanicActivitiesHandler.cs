@@ -24,8 +24,8 @@ namespace KOService.Application.Handlers.Activity
 
         protected override IEnumerable<ActivityDto> Handle(GetMechanicActivitiesQuery request)
         {
-            var activities = _dbContext.Activities.Where(a => a.MechanicId == request.MechanicId);
-            return Mapper.Map<IEnumerable<ActivityDto>>(activities);
+             var activities = _dbContext.Activities.Where(a => a.MechanicId == request.MechanicId);
+             return Mapper.Map<IEnumerable<ActivityDto>>(activities);
         }
 
 
