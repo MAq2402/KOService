@@ -24,6 +24,7 @@ export class AddRepairComponent implements OnInit {
   vehicleList: Vehicle[];
   filterValue = '';
   hasOwner = false;
+  ownerClicked = false;
 
   constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private repairService: RepairService,
     private clientService: ClientService, private vehicleService: VehicleService) {}
@@ -75,6 +76,7 @@ export class AddRepairComponent implements OnInit {
     this.clientFormGroup.controls['code'].setValue(client.code);
     this.clientFormGroup.controls['city'].setValue(client.city);
 
+    this.ownerClicked = true;
   }
 
   public setVehicleForm(vehicle: Vehicle) {
@@ -95,6 +97,16 @@ export class AddRepairComponent implements OnInit {
     this.filterValue = filterValue;
     this.currentVehicleList = this.vehicleList.filter(vehicle =>
       vehicle.registrationNumber.trim().toLowerCase().match(this.filterValue.trim().toLowerCase()));
+
+      if ( this.currentVehicleList.length === 1 ) {
+        this.currentClientList = this.clientList.filter(client =>
+          client.id === this.currentVehicleList[0].clientId);
+        if ( this.currentClientList.length === 0) {
+          this.hasOwner = false;
+        } else {
+          this.hasOwner = true;
+        }
+      }
   }
 
   getClients() {

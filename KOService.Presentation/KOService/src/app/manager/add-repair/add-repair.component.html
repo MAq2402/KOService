@@ -46,7 +46,7 @@
                 </mat-action-list>
               </mat-card>
               </div>
-      <div class="field-div">
+      <div *ngIf="!hasOwner || ownerClicked" class="field-div">
           <mat-form-field class="field">
             <input matInput placeholder="Nazwisko" formControlName="lastName" required>
           </mat-form-field>
@@ -54,7 +54,7 @@
               <input matInput placeholder="Imię" formControlName="firstName" required>
             </mat-form-field>
       </div>
-      <div class="field-div">
+      <div *ngIf="!hasOwner || ownerClicked" class="field-div">
         <mat-form-field class="field">
           <input matInput placeholder="Email" formControlName="email" required>
         </mat-form-field>
@@ -62,7 +62,7 @@
             <input matInput placeholder="Numer telefonu" formControlName="phoneNumber" required>
           </mat-form-field>
       </div>
-      <div class="field-div">
+      <div *ngIf="!hasOwner || ownerClicked" class="field-div">
           <mat-form-field class="field">
               <input matInput placeholder="Ulica" formControlName="street" required>
           </mat-form-field>
@@ -70,13 +70,13 @@
               <input matInput placeholder="Numer domu" formControlName="code" required>
           </mat-form-field>
       </div>
-      <div class="field-div">
+      <div *ngIf="!hasOwner || ownerClicked" class="field-div">
           <mat-form-field class="field-big">
               <input matInput placeholder="Miasto" formControlName="city" required>
           </mat-form-field>
       </div>
     </div>
-      <div>
+      <div *ngIf="!hasOwner || ownerClicked">
         <button mat-button matStepperPrevious>Powrót</button>
         <button mat-button matStepperNext>Dalej</button>
       </div>
