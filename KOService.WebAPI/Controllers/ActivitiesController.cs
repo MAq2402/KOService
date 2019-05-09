@@ -24,8 +24,8 @@ namespace KOService.WebAPI.Controllers
         [HttpGet("mechanic/{mechanicId}")]
         public IActionResult GetMechanicActivities(Guid mechanicId)
         {
-            GetMechanicActivitiesQuery query = new GetMechanicActivitiesQuery();
-            query.MechanicId = mechanicId;
+            GetWorkerActivitiesQuery query = new GetWorkerActivitiesQuery();
+            query.WorkerId = mechanicId;
             return Ok(_mediator.Send(query).Result);
         }
 

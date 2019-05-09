@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KOService.Application.DTOs.Activity;
+using KOService.Application.DTOs.Employee;
 using KOService.Application.Queries.Activity;
 using KOService.Domain.DbContexts;
 using MediatR;
@@ -13,18 +14,18 @@ using System.Threading.Tasks;
 
 namespace KOService.Application.Handlers.Activity
 {
-    class GetMechanicActivitiesHandler : RequestHandler<GetMechanicActivitiesQuery, IEnumerable<ActivityDto>>
+    class GetWorkerActivitiesHandler : RequestHandler<GetWorkerActivitiesQuery, IEnumerable<ActivityDto>>
     {
         private KOServiceDbContext _dbContext;
 
-        public GetMechanicActivitiesHandler(KOServiceDbContext dbContext)
+        public GetWorkerActivitiesHandler(KOServiceDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        protected override IEnumerable<ActivityDto> Handle(GetMechanicActivitiesQuery request)
+        protected override IEnumerable<ActivityDto> Handle(GetWorkerActivitiesQuery request)
         {
-             var activities = _dbContext.Activities.Where(a => a.MechanicId == request.MechanicId);
+             var activities = _dbContext.Activities.Where(a => a.MechanicId == request.WorkerId);
              return Mapper.Map<IEnumerable<ActivityDto>>(activities);
         }
 

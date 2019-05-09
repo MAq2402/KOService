@@ -6,8 +6,8 @@ using KOService.Application.DTOs.Activity;
 
 namespace KOService.Application.Queries.Activity
 {
-    public class GetMechanicActivitiesQuery: IRequest<IEnumerable<ActivityDto>>
+    public class GetWorkerActivitiesQuery: IRequest<IEnumerable<ActivityDto>>
     {
-        public Guid MechanicId { get; set; }
+        public Guid WorkerId { get; set; }
     }
 }
