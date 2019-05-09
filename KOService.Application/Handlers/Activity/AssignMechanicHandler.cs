@@ -22,9 +22,10 @@ namespace KOService.Application.Handlers.Activity
             if (activity != null)
             {
                 var mechanic = _dbContext.Employees.FirstOrDefault(m => m.Id == request.MechanicId);
-                if (mechanic != null && mechanic.Identity.EmployeeRole == Domain.Authentication.EmployeeRole.Mechanic)
+
+                if (mechanic != null)
                 {
-                    activity.AssignMechanic(request.MechanicId);
+                    activity.AssignMechanic(mechanic);
                 }
                 else throw new Exception("connot find mechanic");
 

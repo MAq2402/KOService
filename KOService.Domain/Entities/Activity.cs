@@ -49,12 +49,16 @@ namespace KOService.Domain.Entities
             base.Open();
             SetStatus(ActivityStatus.Open);
         }
-        public void AssignMechanic(Guid mechanicId)
+        public void AssignMechanic(Employee employee)
         {
             if (MechanicId == null)
             {
-                MechanicId = mechanicId;
-                Open();
+                if (employee.Identity.EmployeeRole == Authentication.EmployeeRole.Mechanic)
+                {
+                    MechanicId = employee.Id;
+                    Open();
+                }
+                else throw new DomainException("Worker you want to assign is not a mechanic");
             }
             else throw new DomainException("Mechanic was already assigned for that task");
         }

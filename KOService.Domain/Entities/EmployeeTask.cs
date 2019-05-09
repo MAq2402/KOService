@@ -9,7 +9,8 @@ namespace KOService.Domain.Entities
     {
         public EmployeeTask(Guid id) : base(id)
         {
-            Open();
+            //TODO -> zmienic stan
+            //Open();
         }
         protected EmployeeTask()
         {
