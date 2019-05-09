@@ -4,6 +4,7 @@ import { Employee } from 'src/app/shared/models/employee.model';
 import { Client } from 'src/app/shared/models/Client';
 import { DomElementSchemaRegistry } from '@angular/compiler';
 import { Repair } from 'src/app/shared/models/repair.model';
+import { RepairService } from 'src/app/shared/services/repair.service';
   
   const CLIENT: Client = 
   {
@@ -16,10 +17,6 @@ import { Repair } from 'src/app/shared/models/repair.model';
   }
   
 
-
-
-
-
 @Component({
   selector: 'app-repair-info',
   templateUrl: './repair-info.component.html',
@@ -29,9 +26,11 @@ export class RepairInfoComponent implements OnInit {
   client: Client = CLIENT;
   repair: Repair = null;
 
-  constructor() { }
+  constructor(private repairService: RepairService) { }
 
   ngOnInit() {
+    this.repairService.getRepairs().subscribe(rep=>{this.repair = rep[0]; console.log(rep)})
+
   }
 
 }
