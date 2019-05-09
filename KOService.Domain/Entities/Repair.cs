@@ -15,6 +15,7 @@ namespace KOService.Domain.Entities
             Description = description;
             ManagerId = managerId;
             VehicleId = vehicleId;
+            Open();
         }
 
         private readonly Dictionary<RepairStatus, string> statusDictionary = new Dictionary<RepairStatus, string>()

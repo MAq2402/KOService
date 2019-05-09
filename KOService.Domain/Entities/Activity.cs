@@ -14,7 +14,6 @@ namespace KOService.Domain.Entities
             Description = description;
             SequenceNumber = sequenceNumber;
             RepairId = repairId;
-            MechanicId = null;
         }
         protected override Dictionary<ActivityStatus, string> StatusDictionary => statusDictionary;
 
