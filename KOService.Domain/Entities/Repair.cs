@@ -30,7 +30,6 @@ namespace KOService.Domain.Entities
         {
 
         }
-
         protected override Dictionary<RepairStatus, string> StatusDictionary => statusDictionary;
         public IEnumerable<Activity> Activities => _activities.AsReadOnly();
         public Guid ManagerId { get; private set; }
@@ -38,38 +37,44 @@ namespace KOService.Domain.Entities
         public Vehicle Vehicle { get; private set; }
         public Guid VehicleId { get; private set; }
 
-        public override void Cancel(string result)
+        public void Cancel(string result)
         {
             if(GetStatus() != RepairStatus.InProgress)
             {
                 throw new DomainException($"Can't perform cancelation when current status is {Status}");
             }
-            base.Cancel(result);
+
+            if (string.IsNullOrEmpty(result))
+            {
+                throw new DomainException("Result has not been provided, while canceling");
+            }
+
+            EndDateTime = DateTime.UtcNow;
+            Result = result;
+
             SetStatus(RepairStatus.Canceled);
         }
-        public override void Finish(string result)
+        public void Finish(string result)
         {
             if (GetStatus() != RepairStatus.InProgress)
             {
                 throw new DomainException($"Can't perform cancelation when current status is {Status}");
             }
-            base.Finish(result);
+
+            EndDateTime = DateTime.UtcNow;
+
+            Result = result;
+
             SetStatus(RepairStatus.Finished);
         }
-        public override void ChangeToInProgress()
+        public void ChangeToInProgress()
         {
-            if (GetStatus() != RepairStatus.Open)
-            {
-                throw new DomainException($"Can't perform cancelation when current status is {Status}");
-            }
-            base.ChangeToInProgress();
             SetStatus(RepairStatus.InProgress);
         }
-        protected override void Open()
+        private void Open()
         {
-            base.Open();
+            StartDateTime = DateTime.UtcNow;
             SetStatus(RepairStatus.Open);
         }
-
     }
 }
