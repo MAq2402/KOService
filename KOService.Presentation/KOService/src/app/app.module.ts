@@ -5,22 +5,23 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddEmployeeFormComponent } from './admin/add-employee-form/add-employee-form.component';
 
 
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    CoreModule.forRoot(),
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        CoreModule.forRoot(),
 
-    BrowserAnimationsModule,
-    AppRoutingModule,
+        BrowserAnimationsModule,
+        AppRoutingModule
 
-  ],
-  exports: [],
-  providers: [],
-  bootstrap: [AppComponent]
+    ],
+    exports: [],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

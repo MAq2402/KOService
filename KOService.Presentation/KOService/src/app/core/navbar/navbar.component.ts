@@ -6,51 +6,51 @@ import { NavbarButton } from './models/NavbarButton';
 import { Employee } from 'src/app/shared/models/employee.model';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
 
-  currentEmployee: Employee;
+    currentEmployee: Employee;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-    ) {}
+    constructor(
+        private authService: AuthService,
+        private router: Router
+    ) { }
 
-    adminNavbarButtons: NavbarButton [] = [
-      {'text': 'add_circle', 'redirectTo': 'admin/add', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj pracownika' },
+    adminNavbarButtons: NavbarButton[] = [
+        { 'text': 'add_circle', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj pracownika' },
     ];
 
-    managerNavbarButtons: NavbarButton [] = [
-      {'text': 'add_box', 'redirectTo': 'manager/addRepair', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj naprawę' },
+    managerNavbarButtons: NavbarButton[] = [
+        { 'text': 'add_box', 'redirectTo': 'manager/addRepair', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj naprawę' },
     ];
 
-    mechanicNavbarButtons: NavbarButton [] = [];
+    mechanicNavbarButtons: NavbarButton[] = [];
 
-  ngOnInit() {
-      this.authService.getCurrentEmployee().subscribe(employee => this.currentEmployee = employee);
-  }
-
-  isUserLogged() {
-    return this.authService.isAuthenticated();
-  }
-
-  logout() {
-    this.authService.logout();
-  }
-
-  redirectToHomePage() {
-    this.router.navigate([Role[this.currentEmployee.identityEmployeeRole]]);
-  }
-
-  getNavbarButtons() {
-    switch (this.currentEmployee.identityEmployeeRole) {
-      case Role.admin: return this.adminNavbarButtons;
-      case Role.manager: return this.managerNavbarButtons;
-      case Role.mechanic: return this.mechanicNavbarButtons;
+    ngOnInit() {
+        this.authService.getCurrentEmployee().subscribe(employee => this.currentEmployee = employee);
     }
-  }
+
+    isUserLogged() {
+        return this.authService.isAuthenticated();
+    }
+
+    logout() {
+        this.authService.logout();
+    }
+
+    redirectToHomePage() {
+        this.router.navigate([Role[this.currentEmployee.identityEmployeeRole]]);
+    }
+
+    getNavbarButtons() {
+        switch (this.currentEmployee.identityEmployeeRole) {
+            case Role.admin: return this.adminNavbarButtons;
+            case Role.manager: return this.managerNavbarButtons;
+            case Role.mechanic: return this.mechanicNavbarButtons;
+        }
+    }
 
 }

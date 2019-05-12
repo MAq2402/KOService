@@ -6,12 +6,13 @@ import { SharedModule } from '../shared/shared.module';
 import { AddEmployeeFormComponent } from './add-employee-form/add-employee-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    SharedModule,
-  ],
-  declarations: [HomeComponent, AddEmployeeFormComponent],
-  providers: []
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        SharedModule,
+    ],
+    declarations: [HomeComponent, AddEmployeeFormComponent],
+    providers: [],
+    entryComponents: [AddEmployeeFormComponent]
 })
 export class AdminModule { }
