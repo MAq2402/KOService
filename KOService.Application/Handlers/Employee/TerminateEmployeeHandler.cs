@@ -25,7 +25,7 @@ namespace KOService.Application.Handlers.Employee
                 employee.Terminate();
             }
 
-            if (_dbContext.SaveChanges() == 0 )
+            if (_dbContext.SaveChanges() == 0)
             {
                 throw new Exception("Could not terminate employee");
             }

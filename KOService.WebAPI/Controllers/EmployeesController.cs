@@ -53,7 +53,6 @@ namespace KOService.WebAPI.Controllers
         {
             var result = _mediator.Send(new TerminateEmployeeCommand() {Id = id});
 
-
             if (result.IsFaulted)
             {
                 return BadRequest(result.Exception.InnerException.Message);
