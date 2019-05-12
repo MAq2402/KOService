@@ -28,6 +28,13 @@ namespace KOService.WebAPI.Controllers
             query.WorkerId = mechanicId;
             return Ok(_mediator.Send(query).Result);
         }
+        [HttpGet]
+        public IActionResult GetRepairActivities()
+        {
+            GetWorkersWithActivitiesQuery query = new GetWorkersWithActivitiesQuery();
+            
+            return Ok(_mediator.Send(query).Result);
+        }
 
         [HttpGet("repair/{repairId}")]
         public IActionResult GetRepairActivities(Guid repairId)
@@ -50,8 +57,12 @@ namespace KOService.WebAPI.Controllers
             return Ok(command);
         }
         [HttpPut("{activityId}/{mechanicId}")]
-        public IActionResult AssignWorker([FromBody] CreateActivityCommand command)
+        public IActionResult AssignWorker(Guid activityId,Guid mechanicId)
         {
+
+            AssignMechanicCommand command = new AssignMechanicCommand();
+            command.ActivityId = activityId;
+            command.MechanicId = mechanicId;
             var exception = _mediator.Send(command).Exception;
 
             if (exception != null)

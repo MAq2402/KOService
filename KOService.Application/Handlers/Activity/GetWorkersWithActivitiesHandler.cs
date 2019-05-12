@@ -49,9 +49,10 @@ namespace KOService.Application.Handlers.Activity
                                                 Id = employee.Id,
                                                 IdentityEmployeeRole = employee.Identity.EmployeeRole
                                             },
-                                            activities = employeeActivities.Select(a => new ActivityDto { Description = a.Description })
+                                            activities = employeeActivities.Select 
+                                            (a =>new ActivityDto { Description = a.Description })
                                         };
-            return Mapper.Map<IEnumerable<WorkersWithActivitiesDto>>(workersWithActivities);
+            return workersWithActivities;
         }
 
 
