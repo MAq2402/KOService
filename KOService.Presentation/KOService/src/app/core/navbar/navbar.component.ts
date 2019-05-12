@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 import { Role } from 'src/app/shared/enums/Role';
 import { NavbarButton } from './models/NavbarButton';
 import { Employee } from 'src/app/shared/models/employee.model';
+import { RolePipe } from 'src/app/shared/pipes/role.pipe';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  providers: [RolePipe]
 })
 export class NavbarComponent implements OnInit {
 
@@ -16,7 +18,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private rolePipe: RolePipe
     ) {}
 
     adminNavbarButtons: NavbarButton [] = [
@@ -28,6 +31,10 @@ export class NavbarComponent implements OnInit {
     ];
 
     mechanicNavbarButtons: NavbarButton [] = [];
+
+  transformRole(role: Role): string {
+    return this.rolePipe.transform(role);
+  }
 
   ngOnInit() {
       this.authService.getCurrentEmployee().subscribe(employee => this.currentEmployee = employee);

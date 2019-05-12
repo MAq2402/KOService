@@ -6,18 +6,20 @@ import { EmployeeService } from './services/employee.service';
 import { MaterialModule } from './material/material.module';
 import { DateTimePipe } from './pipes/date-time.pipe';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
+import { RolePipe } from './pipes/role.pipe';
 @NgModule({
   imports: [
     MaterialModule,
     CommonModule,
 
   ],
-  declarations: [DateTimePipe, ConfirmationComponent],
+  declarations: [DateTimePipe, ConfirmationComponent, RolePipe],
   exports: [
     MaterialModule,
     HttpClientModule,
     FormsModule,
-    DateTimePipe
+    DateTimePipe,
+    RolePipe
   ],
   entryComponents: [ConfirmationComponent]
 })

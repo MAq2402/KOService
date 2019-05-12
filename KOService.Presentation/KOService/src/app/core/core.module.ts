@@ -5,11 +5,9 @@ import { CoreContainerComponent } from './core-container/core-container.componen
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AuthService } from '../authentication/services/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
-import { RolePipe } from '../shared/pipes/role.pipe';
 import { NavbarButtonsComponent } from './navbar/navbar-buttons/navbar-buttons.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -18,10 +16,9 @@ import { SharedModule } from '../shared/shared.module';
     HttpClientModule,
     NgxSpinnerModule
   ],
-  declarations: [CoreContainerComponent, NavbarComponent, RolePipe, NavbarButtonsComponent],
+  declarations: [CoreContainerComponent, NavbarComponent, NavbarButtonsComponent],
   exports: [
-    CoreContainerComponent,
-    RolePipe
+    CoreContainerComponent
   ]
 })
 export class CoreModule {
