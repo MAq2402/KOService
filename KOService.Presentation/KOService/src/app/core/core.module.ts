@@ -5,7 +5,6 @@ import { CoreContainerComponent } from './core-container/core-container.componen
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AuthService } from '../authentication/services/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
-import { RolePipe } from '../shared/pipes/role.pipe';
 import { NavbarButtonsComponent } from './navbar/navbar-buttons/navbar-buttons.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -17,13 +16,13 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     HttpClientModule,
     NgxSpinnerModule
   ],
-  declarations: [CoreContainerComponent, NavbarComponent, RolePipe, NavbarButtonsComponent],
+  declarations: [CoreContainerComponent, NavbarComponent, NavbarButtonsComponent],
   exports: [
     CoreContainerComponent
   ]
 })
 export class CoreModule {
-  constructor (@Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     if (parentModule) {
       throw new Error(
         'CoreModule is already loaded. Import it in the AppModule only');
@@ -34,9 +33,8 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        AuthService,
-        RolePipe
+        AuthService
       ]
     };
   }
- }
+}

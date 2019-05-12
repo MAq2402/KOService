@@ -18,10 +18,7 @@ export class AddEmployeeFormComponent implements OnInit {
         firstName: '',
         lastName: '',
         id: '',
-        email: '',
-        phone: '',
-        gender: '',
-        identityEmployeeRole: Role.mechanic
+        role: Role.mechanic
     };
 
     constructor() {

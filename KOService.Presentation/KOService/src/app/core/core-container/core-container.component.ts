@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/authentication/services/auth.service';
 
 @Component({
   selector: 'app-core-container',
@@ -7,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoreContainerComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
-  ngOnInit() {
-    console.log("core container");
+  ngOnInit() {}
+
+  isUserLogged() {
+    return this.authService.isAuthenticated();
   }
 
 }

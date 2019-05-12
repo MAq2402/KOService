@@ -61,7 +61,5 @@ namespace KOService.WebAPI.Controllers
 
             return Ok(command);
         }
-
-
     }
 }

@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 import { Role } from 'src/app/shared/enums/Role';
 import { NavbarButton } from './models/NavbarButton';
 import { Employee } from 'src/app/shared/models/employee.model';
+import { RolePipe } from 'src/app/shared/pipes/role.pipe';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  providers: [RolePipe]
 })
 export class NavbarComponent implements OnInit {
 
@@ -16,7 +18,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private rolePipe: RolePipe
     ) {}
 
     adminNavbarButtons: NavbarButton [] = [
@@ -28,6 +31,10 @@ export class NavbarComponent implements OnInit {
     ];
 
     mechanicNavbarButtons: NavbarButton [] = [];
+
+  transformRole(role: Role): string {
+    return this.rolePipe.transform(role);
+  }
 
   ngOnInit() {
       this.authService.getCurrentEmployee().subscribe(employee => this.currentEmployee = employee);
@@ -42,11 +49,11 @@ export class NavbarComponent implements OnInit {
   }
 
   redirectToHomePage() {
-    this.router.navigate([Role[this.currentEmployee.identityEmployeeRole]]);
+    this.router.navigate([Role[this.currentEmployee.role]]);
   }
 
   getNavbarButtons() {
-    switch (this.currentEmployee.identityEmployeeRole) {
+    switch (this.currentEmployee.role) {
       case Role.admin: return this.adminNavbarButtons;
       case Role.manager: return this.managerNavbarButtons;
       case Role.mechanic: return this.mechanicNavbarButtons;
