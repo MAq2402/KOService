@@ -18,7 +18,8 @@ namespace KOService.WebAPI.Infrastructure
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Employee, EmployeeDto>();
+                cfg.CreateMap<Employee, EmployeeDto>()
+                   .ForMember(dest => dest.Role , opt => opt.MapFrom(src => src.Identity.EmployeeRole));
                 cfg.CreateMap<RegisterCommand, Employee>();
                 cfg.CreateMap<RegisterCommand, Identity>();
 

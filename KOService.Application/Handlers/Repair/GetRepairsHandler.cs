@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using KOService.Application.Commands.Repair;
 using KOService.Application.DTOs.Repair;
+using KOService.Application.Queries.Repair;
 using KOService.Domain.DbContexts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

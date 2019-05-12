@@ -42,11 +42,11 @@ export class NavbarComponent implements OnInit {
   }
 
   redirectToHomePage() {
-    this.router.navigate([Role[this.currentEmployee.identityEmployeeRole]]);
+    this.router.navigate([Role[this.currentEmployee.role]]);
   }
 
   getNavbarButtons() {
-    switch (this.currentEmployee.identityEmployeeRole) {
+    switch (this.currentEmployee.role) {
       case Role.admin: return this.adminNavbarButtons;
       case Role.manager: return this.managerNavbarButtons;
       case Role.mechanic: return this.mechanicNavbarButtons;

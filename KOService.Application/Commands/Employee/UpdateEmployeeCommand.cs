@@ -1,15 +1,16 @@
 ﻿using KOService.Domain.Authentication;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KOService.Application.DTOs.Employee
+namespace KOService.Application.Commands.Employee
 {
-    public class EmployeeDto
+    public class UpdateEmployeeCommand : IRequest
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public EmployeeRole Role { get; set; }
+        public EmployeeRole EmployeeRole { get; set; }
     }
 }

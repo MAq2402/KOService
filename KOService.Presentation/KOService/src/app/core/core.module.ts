@@ -9,6 +9,7 @@ import { RolePipe } from '../shared/pipes/role.pipe';
 import { NavbarButtonsComponent } from './navbar/navbar-buttons/navbar-buttons.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -19,11 +20,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   declarations: [CoreContainerComponent, NavbarComponent, RolePipe, NavbarButtonsComponent],
   exports: [
-    CoreContainerComponent
+    CoreContainerComponent,
+    RolePipe
   ]
 })
 export class CoreModule {
-  constructor (@Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     if (parentModule) {
       throw new Error(
         'CoreModule is already loaded. Import it in the AppModule only');
@@ -34,9 +36,8 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        AuthService,
-        RolePipe
+        AuthService
       ]
     };
   }
- }
+}
