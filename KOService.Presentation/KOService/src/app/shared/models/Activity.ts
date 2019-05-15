@@ -12,5 +12,7 @@ export class Activity {
     activityTypeId: string;
     requestId: string;
     workerId: string;
+    vehicleRegistrationNumbers: string;
+    vehicleBrand: string;
 }
   

@@ -3,6 +3,7 @@ using KOService.Application.DTOs.Activity;
 using KOService.Application.Queries.Activity;
 using KOService.Domain.DbContexts;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,11 @@ namespace KOService.Application.Handlers.Activity
 
         protected override IEnumerable<ActivityDto> Handle(GetMechanicActivitiesQuery request)
         {
-             var activities = _dbContext.Activities.Where(a => a.MechanicId == request.MechanicId);
-             return Mapper.Map<IEnumerable<ActivityDto>>(activities);
+            var activities = _dbContext.Activities.Where(a => a.MechanicId == request.MechanicId)
+                    .Include(a => a.Repair)
+                    .ThenInclude(r => r.Vehicle)
+                    .ThenInclude(v => v.Type);
+            return Mapper.Map<IEnumerable<ActivityDto>>(activities);
         }
 
 

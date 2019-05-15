@@ -26,13 +26,15 @@ export class ActivitiesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   dataSource = new MatTableDataSource<Activity>();
-  repairs: Repair[];
+  repairs: Repair[] = [];
   userId: string;
-  displayedColumns = ['requestTime', 'description', 'status', 'sequenceNumber','carNumbers', 'carBrand'];
+  displayedColumns = ['requestTime', 'description', 'sequenceNumber','vehicleRegistrationNumbers',
+    'status','vehicleBrand'];
   columnsToDisplayMap = [  {name: 'requestTime', display: 'data'},
     {name: 'description', display: 'opis'}, 
-    {name: 'status', display: 'status'},
-    {name: 'sequenceNumber', display: 'poziom ważności'
+    {name: 'sequenceNumber', display: 'poziom ważności'},
+    {name: 'vehicleRegistrationNumbers', display: 'numery rejestracyjne'},
+    {name: 'vehicleBrand', display: 'marka'  
   }];
 
   constructor(
@@ -42,14 +44,13 @@ export class ActivitiesComponent implements OnInit {
   ){ }
 
   ngOnInit() {
-    this.userId = localStorage.getItem('auth_key');
-    this.activityService.getWorkerActivities("1").subscribe(
+    this.activityService.getMechanicActivity("2c26cb8d-e332-4211-97fa-743cf63a59c5").subscribe(
       activities => {
       this.dataSource.data = activities as Activity[];
     });
 
     this.authService.getCurrentEmployee().subscribe(x => {
-      this.repairService.getRepairs(x.id).subscribe(r => this.repairs = r);
+     //this.repairService.getRepairs(x.id).subscribe(r => this.repairs = r);
     });
   }
 
@@ -76,12 +77,5 @@ export class ActivitiesComponent implements OnInit {
       return false;
   }
   
-  getCarNumbers(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).vehicleRegistrationNumbers;
-  }
-
-  getCarBrand(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).vehicleBrand;
-  }
 }
 
