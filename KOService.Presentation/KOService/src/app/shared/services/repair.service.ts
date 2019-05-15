@@ -19,4 +19,8 @@ export class RepairService {
   getRepairs(statusQuery = ''): Observable<Repair[]> {
     return this.httpClient.get<Repair[]>(this.url, {params: new HttpParams().set('status', statusQuery)});
   }
+
+  getRepair(id: string): Observable<Repair> {
+    return this.httpClient.get<Repair>(this.url + id);
+  }
 }

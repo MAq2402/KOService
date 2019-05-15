@@ -1,6 +1,11 @@
 <div cdkDropListGroup>
   <div class="container-fluid margin-top">
     <div class="row center ">
+      <mat-toolbar *ngIf="repair">
+        <span><button (click)="changeToInProgress()" mat-raised-button color="warn">Zmień na "w trakcie"</button></span>
+        <span><button (click)="cancel()" [disabled]="cancelDisabled()" mat-raised-button color="accent">Odwołaj</button></span>
+        <span><button (click)="finish()" mat-raised-button color="primary">Zakończ</button></span>
+      </mat-toolbar>
       <div class="col-md-6">
 
         <mat-card>

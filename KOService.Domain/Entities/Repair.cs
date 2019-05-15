@@ -39,7 +39,7 @@ namespace KOService.Domain.Entities
 
         public void Cancel(string result)
         {
-            if(GetStatus() != RepairStatus.InProgress)
+            if (GetStatus() == RepairStatus.Canceled)
             {
                 throw new DomainException($"Can't perform cancelation when current status is {Status}");
             }
@@ -56,9 +56,9 @@ namespace KOService.Domain.Entities
         }
         public void Finish(string result)
         {
-            if (GetStatus() != RepairStatus.InProgress)
+            if (GetStatus() != RepairStatus.InProgress || GetStatus() == RepairStatus.Finished)
             {
-                throw new DomainException($"Can't perform cancelation when current status is {Status}");
+                throw new DomainException($"Can't perform finish when current status is {Status}");
             }
 
             EndDateTime = DateTime.UtcNow;
@@ -69,6 +69,11 @@ namespace KOService.Domain.Entities
         }
         public void ChangeToInProgress()
         {
+            if (GetStatus() == RepairStatus.InProgress)
+            {
+                throw new DomainException($"Can't perform finish when current status is {Status}");
+            }
+
             SetStatus(RepairStatus.InProgress);
         }
         private void Open()

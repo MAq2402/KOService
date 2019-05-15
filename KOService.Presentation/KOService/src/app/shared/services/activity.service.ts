@@ -30,8 +30,8 @@ export class ActivityService {
   getWorkerActivities(workerId: string): Observable<Activity[]>{
     return of(this.activities.filter(activity=>activity.workerId===workerId));
   }
-  getRequestActivities(requestId:string): Observable<Activity[]>{
-    return of(this.activities.filter(activity=>activity.requestId===requestId));
+  getActivities(repairId :string): Observable<Activity[]>{
+    return of(this.activities.filter(activity=>activity.requestId===repairId));
   }
   
   constructor() { }
