@@ -18,5 +18,6 @@ namespace KOService.Application.DTOs.Activity
         public DateTime EndDateTime { get; set; }
         public string VehicleRegistrationNumbers { get; set; }
         public string VehicleBrand { get; set; }
+        public int SequenceNumber { get; set; }
     }
 }

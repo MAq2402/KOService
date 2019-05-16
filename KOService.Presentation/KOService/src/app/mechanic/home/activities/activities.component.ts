@@ -26,32 +26,32 @@ export class ActivitiesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   dataSource = new MatTableDataSource<Activity>();
-  repairs: Repair[] = [];
-  userId: string;
-  displayedColumns = ['requestTime', 'description', 'sequenceNumber','vehicleRegistrationNumbers',
-    'status','vehicleBrand'];
-  columnsToDisplayMap = [  {name: 'requestTime', display: 'data'},
+  showWithStatusOpen = true;
+  showWithStatusInProgress = true;
+  showWithStatusFinished = false;
+  showWithStatusCanceled = false;
+
+  displayedColumns = ['startDateTime', 'description','vehicleRegistrationNumbers',
+    'vehicleBrand', 'status'];
+  columnsToDisplayMap = [  
     {name: 'description', display: 'opis'}, 
-    {name: 'sequenceNumber', display: 'poziom ważności'},
-    {name: 'vehicleRegistrationNumbers', display: 'numery rejestracyjne'},
-    {name: 'vehicleBrand', display: 'marka'  
+    {name: 'vehicleRegistrationNumbers', display: 'numer rejestracyjny'},
+    {name: 'vehicleBrand', display: 'marka pojazdu'  
   }];
 
   constructor(
     private activityService: ActivityService, 
-    private  repairService: RepairService,
     private authService: AuthService
   ){ }
 
   ngOnInit() {
-    this.activityService.getMechanicActivity("2c26cb8d-e332-4211-97fa-743cf63a59c5").subscribe(
-      activities => {
-      this.dataSource.data = activities as Activity[];
-    });
+    this.authService.getCurrentEmployee().subscribe(user => {
+      this.activityService.getMechanicActivity(user.id).subscribe(
+        activities => {
+        this.dataSource.data = activities as Activity[];
+      });
 
-    this.authService.getCurrentEmployee().subscribe(x => {
-     //this.repairService.getRepairs(x.id).subscribe(r => this.repairs = r);
-    });
+    })
   }
 
   ngAfterViewInit(): void {
@@ -75,6 +75,10 @@ export class ActivitiesComponent implements OnInit {
       return true;
     else
       return false;
+  }
+
+  onStatusCheckboxChange(event: any) {
+    console.log("chexbox changed");
   }
   
 }

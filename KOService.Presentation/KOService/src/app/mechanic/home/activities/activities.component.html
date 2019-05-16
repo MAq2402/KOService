@@ -7,14 +7,21 @@
       </mat-form-field>
     </div>
     <div class="col-sm ">
-      <mat-checkbox class="my-checkbox">Otwarte</mat-checkbox>
-      <mat-checkbox class="my-checkbox">W trakcie</mat-checkbox>
-      <mat-checkbox class="my-checkbox">Odwołane</mat-checkbox>
-      <mat-checkbox class="my-checkbox">Zakończone</mat-checkbox>
+      <mat-checkbox class="my-checkbox" (change)="onStatusCheckboxChange($event)" [(ngModel)]="showWithStatusOpen">Otwarte</mat-checkbox>
+      <mat-checkbox class="my-checkbox" (change)="onStatusCheckboxChange($event)" [(ngModel)]="showWithStatusInProgress">W trakcie</mat-checkbox>
+      <mat-checkbox class="my-checkbox" (change)="onStatusCheckboxChange($event)" [(ngModel)]="showWithStatusFinished">Zakończone</mat-checkbox>
+      <mat-checkbox class="my-checkbox" (change)="onStatusCheckboxChange($event)" [(ngModel)]="showWithStatusCanceled">Anulowane</mat-checkbox>
     </div>
   </div>
   <div class="mat-elevation-z8">
     <table mat-table class="full-width-table" [dataSource]="dataSource" matSort multiTemplateDataRows aria-label="Elements">
+      
+    
+      <ng-container matColumnDef="startDateTime">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> data </th>
+          <td mat-cell *matCellDef="let element"> {{element.startDateTime | date: 'y-MM-d'}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="{{column.name}}" *ngFor="let column of columnsToDisplayMap">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.display}} </th>
         <td mat-cell *matCellDef="let element"> {{element[column.name]}} </td>

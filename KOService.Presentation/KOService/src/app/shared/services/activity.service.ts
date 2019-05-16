@@ -11,7 +11,7 @@ export class ActivityService {
 
   activities: Activity[] = [
     {id:"1",sequenceNumber:0,description:"wymiania filtra paliwa",result:"result",
-    status:ActivityStatus.Open,requestTime:null,closedTime:null,
+    status:ActivityStatus.Open,startDataTime:null,closedTime:null,
     activityTypeId:"0",requestId:"1",workerId:"1", vehicleRegistrationNumbers:"sk-123",
     vehicleBrand: "bmw"},
     
