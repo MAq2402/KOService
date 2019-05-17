@@ -74,6 +74,8 @@ namespace KOService.Domain.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<DateTime?>("TerminationDateTime");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IdentityId");

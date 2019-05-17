@@ -18,7 +18,8 @@ namespace KOService.WebAPI.Infrastructure
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Employee, EmployeeDto>();
+                cfg.CreateMap<Employee, EmployeeDto>()
+                   .ForMember(dest => dest.Role , opt => opt.MapFrom(src => src.Identity.EmployeeRole));
                 cfg.CreateMap<RegisterCommand, Employee>();
                 cfg.CreateMap<RegisterCommand, Identity>();
 
@@ -30,8 +31,9 @@ namespace KOService.WebAPI.Infrastructure
 
                 cfg.CreateMap<Activity, ActivityDto>()
                    .ForMember(dest => dest.MechanicName, opt => opt.MapFrom(src => $"{src.Mechanic.FirstName} {src.Mechanic.LastName}"))
-                   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
-
+                   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()))
+                   .ForMember(dest => dest.VehicleRegistrationNumbers, opt => opt.MapFrom(src => src.Repair.Vehicle.RegistrationNumbers))
+                   .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Repair.Vehicle.Type.Brand));
 
             });
         }

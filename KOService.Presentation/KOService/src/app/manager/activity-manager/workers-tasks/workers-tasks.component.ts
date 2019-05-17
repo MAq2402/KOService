@@ -9,6 +9,8 @@ import {ActivityCreatorComponent} from '../activity-creator/activity-creator.com
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 import { Employee } from 'src/app/shared/models/employee.model';
 import { WorkerActivities } from '../workers-table/workers-table.component';
+import { EmployeeService } from 'src/app/shared/services/employee.service';
+import { Role } from 'src/app/shared/enums/Role';
 
 
 
@@ -30,16 +32,19 @@ export class WorkersTasksComponent implements OnInit {
   requestId = '0';
  
   repairActivities: Activity[];
-  workers:Employee[] = [{id: "0",firstName: "Alojz",lastName:"Brzechwa",identityEmployeeRole:0, email: "abrzechwa@email.com", phone: "123456789", gender: "male"}];
+  workers: Employee[];
   assigned:WorkerActivities[] = [];
 
   columnsToDisplay = ['description', 'type', 'status','worker'];
-  name;animal;
-  constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog) { }
+  name; animal;
+  constructor(private activityService: ActivityService,
+    private activityCreatorDialog: MatDialog,
+    private employeeService: EmployeeService) { }
 
 
   ngOnInit() {
      this.activityService.getRequestActivities(this.requestId).subscribe(activities => this.repairActivities = activities );
+     this.employeeService.getEmployees(Role.mechanic).subscribe(data => this.workers = data);
   }
 
   openActivityCreatorDialog(): void{

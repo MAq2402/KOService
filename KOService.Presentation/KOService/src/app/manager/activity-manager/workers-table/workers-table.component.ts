@@ -47,7 +47,7 @@ export class WorkersTableComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.employeeService.getEmployeesByRole(Role.mechanic).subscribe(
+    this.employeeService.getEmployees(Role.mechanic).subscribe(
       mechanics =>(this.workers = mechanics,mechanics.map(
 
         //mechanic => this.activityService.getWorkerActivities(mechanic.id)

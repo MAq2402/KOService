@@ -1,4 +1,6 @@
-<app-navbar></app-navbar>
+<div *ngIf="isUserLogged()">
+  <app-navbar></app-navbar>
+</div>
 <ngx-spinner
   bdOpacity = 0.6
   bdColor = "#333"

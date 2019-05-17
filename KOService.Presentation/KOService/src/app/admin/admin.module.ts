@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { AddEmployeeFormComponent } from './add-employee-form/add-employee-form.component';
+import { RolePipe } from '../shared/pipes/role.pipe';
 
 @NgModule({
     imports: [

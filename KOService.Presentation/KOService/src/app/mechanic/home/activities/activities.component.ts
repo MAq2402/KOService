@@ -26,31 +26,32 @@ export class ActivitiesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   dataSource = new MatTableDataSource<Activity>();
-  repairs: Repair[];
-  userId: string;
-  displayedColumns = ['requestTime', 'description', 'status', 'sequenceNumber','carNumbers', 'carBrand'];
-  columnsToDisplayMap = [  {name: 'requestTime', display: 'data'},
+  showWithStatusOpen = true;
+  showWithStatusInProgress = true;
+  showWithStatusFinished = false;
+  showWithStatusCanceled = false;
+
+  displayedColumns = ['startDateTime', 'description','vehicleRegistrationNumbers',
+    'vehicleBrand', 'status'];
+  columnsToDisplayMap = [  
     {name: 'description', display: 'opis'}, 
-    {name: 'status', display: 'status'},
-    {name: 'sequenceNumber', display: 'poziom ważności'
+    {name: 'vehicleRegistrationNumbers', display: 'numer rejestracyjny'},
+    {name: 'vehicleBrand', display: 'marka pojazdu'  
   }];
 
   constructor(
     private activityService: ActivityService, 
-    private  repairService: RepairService,
     private authService: AuthService
   ){ }
 
   ngOnInit() {
-    this.userId = localStorage.getItem('auth_key');
-    this.activityService.getWorkerActivities("1").subscribe(
-      activities => {
-      this.dataSource.data = activities as Activity[];
-    });
+    this.authService.getCurrentEmployee().subscribe(user => {
+      this.activityService.getMechanicActivity(user.id).subscribe(
+        activities => {
+        this.dataSource.data = activities as Activity[];
+      });
 
-    this.authService.getCurrentEmployee().subscribe(x => {
-      this.repairService.getRepairs(x.id).subscribe(r => this.repairs = r);
-    });
+    })
   }
 
   ngAfterViewInit(): void {
@@ -75,13 +76,10 @@ export class ActivitiesComponent implements OnInit {
     else
       return false;
   }
-  
-  getCarNumbers(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).vehicleRegistrationNumbers;
-  }
 
-  getCarBrand(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).vehicleBrand;
+  onStatusCheckboxChange(event: any) {
+    console.log("chexbox changed");
   }
+  
 }
 

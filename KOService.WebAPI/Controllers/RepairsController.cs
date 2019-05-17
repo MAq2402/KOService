@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KOService.Application.Commands.Repair;
+using KOService.Application.Queries.Repair;
 using KOService.WebAPI.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -24,11 +25,10 @@ namespace KOService.WebAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{managerId}")]
-        public IActionResult GetRepairs([FromRoute] string managerId,[FromQuery] GetRepairsQuery query)
+        [HttpGet()]
+        public IActionResult GetRepairs([FromQuery] GetRepairsQuery query)
         {
             query = query ?? new GetRepairsQuery();
-            query.ManagerId = managerId;
             return Ok(_mediator.Send(query).Result);
         }
 

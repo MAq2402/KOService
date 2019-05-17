@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOService.Domain", "KOServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KOService.Application", "KOService.Application\KOService.Application.csproj", "{9DFCD621-29A1-4236-9F7B-BADDBB617F0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KOService.Tests", "KOService.Tests\KOService.Tests.csproj", "{B8B8FE2B-FFB6-47BE-B313-1D95ABFC0EEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9DFCD621-29A1-4236-9F7B-BADDBB617F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DFCD621-29A1-4236-9F7B-BADDBB617F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DFCD621-29A1-4236-9F7B-BADDBB617F0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B8FE2B-FFB6-47BE-B313-1D95ABFC0EEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B8FE2B-FFB6-47BE-B313-1D95ABFC0EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B8FE2B-FFB6-47BE-B313-1D95ABFC0EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B8FE2B-FFB6-47BE-B313-1D95ABFC0EEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

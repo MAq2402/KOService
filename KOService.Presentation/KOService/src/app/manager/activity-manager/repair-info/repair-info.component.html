@@ -16,9 +16,9 @@
           Samochód
         </mat-card-title>
         <mat-card-content>
-            <p>marka: {{repair.carBrand}} </p>
-            <p>model: e90</p>
-            <p>rejestracja: {{repair.carNumbers}}</p>
+            <p>marka: {{repair?.vehicleBrand}} </p>
+            <p>model: {{repair?.vehicleModel}}</p>
+            <p>rejestracja: {{repair?.vehicleRegistrationNumbers}}</p>
             
           </mat-card-content>
       </mat-card>
@@ -27,10 +27,10 @@
             Naprawa
           </mat-card-title>
           <mat-card-content>
-              <p>opis: {{repair.description}} </p>
-              <p>status: {{repair.statusDisplay}} </p>
+              <p>opis: {{repair?.description}} </p>
+              <p>status: {{repair?.status}} </p>
               
-              <p>data przyjęcia: {{repair.startDateTime}}</p>
+              <p>data przyjęcia: {{repair?.startDateTime}}</p>
               
             </mat-card-content>
         </mat-card>
