@@ -22,9 +22,9 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpGet("mechanic/{mechanicId}")]
-        public IActionResult GetMechanicActivities(Guid mechanicId)
+        public IActionResult GetMechanicActivities(Guid mechanicId, [FromQuery] GetMechanicActivitiesQuery query)
         {
-            GetMechanicActivitiesQuery query = new GetMechanicActivitiesQuery();
+            query = query ?? new GetMechanicActivitiesQuery();
             query.MechanicId = mechanicId;
             return Ok(_mediator.Send(query).Result);
         }
