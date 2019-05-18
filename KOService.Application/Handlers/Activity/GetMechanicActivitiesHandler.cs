@@ -34,8 +34,6 @@ namespace KOService.Application.Handlers.Activity
             {
                 activities = ApplyFilter(activities, request);
             }
-             
-          //  activities
 
             return Mapper.Map<IEnumerable<ActivityDto>>(activities);
         }
