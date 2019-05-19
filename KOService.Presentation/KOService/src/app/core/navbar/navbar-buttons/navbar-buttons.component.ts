@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NavbarButton } from '../models/NavbarButton';
 import { Router } from '@angular/router';
 import { AddEmployeeFormComponent } from 'src/app/admin/add-employee-form/add-employee-form.component';
-import { MatDialog, MatDialogConfig } from "@angular/material";
 
 @Component({
     selector: 'app-navbar-buttons',
@@ -13,8 +12,7 @@ export class NavbarButtonsComponent implements OnInit {
 
     @Input() buttons: NavbarButton[];
 
-    constructor(private router: Router,
-        private dialog: MatDialog) {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
@@ -46,9 +44,5 @@ export class NavbarButtonsComponent implements OnInit {
         } else {
             return false;
         }
-    }
-
-    onDialog() {
-        this.dialog.open(AddEmployeeFormComponent);
     }
 }

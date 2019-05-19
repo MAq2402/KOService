@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
     ) {}
 
     adminNavbarButtons: NavbarButton[] = [
-        { 'text': 'add_circle', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj pracownika' },
+        { 'text': 'add_circle', 'redirectTo': 'admin/add-employee', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj pracownika' },
     ];
 
     managerNavbarButtons: NavbarButton[] = [
