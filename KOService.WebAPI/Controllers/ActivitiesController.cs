@@ -29,7 +29,7 @@ namespace KOService.WebAPI.Controllers
             return Ok(_mediator.Send(query).Result);
         }
         [HttpGet]
-        public IActionResult GetRepairActivities()
+        public IActionResult GetWorkerWithActivities()
         {
             GetWorkersWithActivitiesQuery query = new GetWorkersWithActivitiesQuery();
             

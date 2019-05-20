@@ -39,7 +39,7 @@ export class WorkersTasksComponent implements OnInit {
 
 
   ngOnInit() {
-     this.activityService.getRequestActivities(this.requestId).subscribe(activities => this.repairActivities = activities );
+     this.activityService.getRepairActivities(this.requestId).subscribe(activities => this.repairActivities = activities );
   }
 
   openActivityCreatorDialog(): void{
