@@ -30,9 +30,9 @@ namespace KOService.WebAPI.Infrastructure
                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
 
                 cfg.CreateMap<Activity, ActivityDto>()
-                   .ForMember(dest => dest.MechanicName, opt => opt.MapFrom(src => $"{src.Mechanic.FirstName} {src.Mechanic.LastName}"))
-                   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
-
+                   .ForMember(dest => dest.MechanicName, opt => opt.MapFrom(src => $"{src.Mechanic.FirstName} {src.Mechanic.LastName}"))                
+                   .ForMember(dest => dest.VehicleRegistrationNumbers, opt => opt.MapFrom(src => src.Repair.Vehicle.RegistrationNumbers))
+                   .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Repair.Vehicle.Type.Brand));
 
             });
         }
