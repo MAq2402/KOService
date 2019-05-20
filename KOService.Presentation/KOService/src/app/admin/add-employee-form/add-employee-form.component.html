@@ -26,15 +26,17 @@
                             value="other">Inna<br>
                     </div>
                     <div class="selectRoleBlock">
-                        <label for="role">Rola:</label>
-                        <select id="role" name="role" class="form-control">
+                    <mat-form-field>
+                        <mat-label for="role">Rola:</mat-label>
+                        <select matNativeControl id="role" name="role" class="form-control">
                             <option *ngFor="let key of keys">{{roles[key]}}</option>
                         </select>
+                    </mat-form-field>
                     </div>
 
                 </div>
                 <div class="submitButtonBlock"><br>
-                    <button mat-button type="submit" class="form-control submitButton">
+                    <button mat-button type="submit" (click)="onSubmit()" class="form-control submitButton">
                         Dodaj pracownika
                     </button>
                 </div>
