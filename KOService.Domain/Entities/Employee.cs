@@ -21,5 +21,14 @@ namespace KOService.Domain.Entities
         public Identity Identity { get; private set; }
         public IEnumerable<Repair> Repairs => _repairs.AsReadOnly();
         public IEnumerable<Activity> Activities => _activities.AsReadOnly();
+
+        //Do wywalenia jak ktoś wymyśli lepszy sposob seedowania danych...
+        public Employee(Guid id,string firstname, string lastName, EmployeeRole role) : base(id)
+        {
+            FirstName = firstname;
+            LastName = lastName;
+            Identity = new Identity();
+            Identity.EmployeeRole = role;
+        }
     }
 }

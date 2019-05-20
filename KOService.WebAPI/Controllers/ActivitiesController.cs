@@ -73,6 +73,56 @@ namespace KOService.WebAPI.Controllers
             return Ok(command);
         }
 
+        [HttpPut("cancel/{activityId}")]
+        public IActionResult CancelActivity(Guid activityId, [FromBody] string comment)
+        {
+            CancelActivityCommand command = new CancelActivityCommand();
+
+            command.ActivityId = activityId;
+            command.Comment = comment;
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                return BadRequest(exception.InnerException);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("finish/{activityId}")]
+        public IActionResult FinishActivity(Guid activityId, [FromBody] string comment)
+        {
+            FinishActivityCommand command = new FinishActivityCommand();
+
+            command.ActivityId = activityId;
+            command.Comment = comment;
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                return BadRequest(exception.InnerException);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("open/{activityId}")]
+        public IActionResult OpenActivity(Guid activityId)
+        {
+            OpenActivityCommand command = new OpenActivityCommand();
+
+            command.ActivityId = activityId;
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                return BadRequest(exception.InnerException);
+            }
+
+            return NoContent();
+        }
+
 
     }
 }

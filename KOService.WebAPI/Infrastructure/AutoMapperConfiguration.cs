@@ -32,8 +32,15 @@ namespace KOService.WebAPI.Infrastructure
                    .ForMember(dest => dest.MechanicName, opt => opt.MapFrom(src => $"{src.Mechanic.FirstName} {src.Mechanic.LastName}"))
                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
 
+                cfg.CreateMap<Employee, WorkersWithActivitiesDto>();
+                    
+
+
 
             });
+            //Mapper configuration debugging
+            //Mapper.AssertConfigurationIsValid();
+
         }
     }
 }

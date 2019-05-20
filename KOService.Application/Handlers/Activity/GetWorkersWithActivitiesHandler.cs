@@ -4,6 +4,7 @@ using KOService.Application.DTOs.Employee;
 using KOService.Application.Queries.Activity;
 using KOService.Domain.DbContexts;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,34 +26,12 @@ namespace KOService.Application.Handlers.Activity
 
         protected override IEnumerable<WorkersWithActivitiesDto> Handle(GetWorkersWithActivitiesQuery request)
         {
-            /*
-            var legalLinks = from category in db.Categories
-                 join link in db.Links on category.Id equals link.CategoryId into categoryLinks
-                 orderby category.Title
-                 select new LegalLinks_categoriesDTO()
-                 {
-                     CategoryId = category.Id,
-                     Category = category.Title,
-                     Links = categoryLinks.Select(l => new LegalLinks_linksDTO { Title = l.Title, LinkURL = l.LinkURL })
-                 };
-                 */
+            var workers = _dbContext.Employees.Include(e => e.Activities)
+                 
+                     .Where(e => e.Identity.EmployeeRole == Domain.Authentication.EmployeeRole.Mechanic);
+            return Mapper.Map<IEnumerable<WorkersWithActivitiesDto>>(workers);
 
-            var workersWithActivities = from employee in _dbContext.Employees
-                                        join activity in _dbContext.Activities on employee.Id equals activity.MechanicId into employeeActivities
-                                        orderby employee.Id
-                                        select new WorkersWithActivitiesDto()
-                                        {
-                                            worker = new EmployeeDto()
-                                            {
-                                                FirstName = employee.FirstName,
-                                                LastName = employee.LastName,
-                                                Id = employee.Id,
-                                                IdentityEmployeeRole = employee.Identity.EmployeeRole
-                                            },
-                                            activities = employeeActivities.Select 
-                                            (a =>new ActivityDto { Description = a.Description })
-                                        };
-            return workersWithActivities;
+           
         }
 
 
