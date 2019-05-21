@@ -46,7 +46,7 @@ export class ActivityService {
     return of(this.activities.filter(activity=>activity.workerId===workerId));
   }
   getRepairActivities(repairId:string): Observable<Activity[]>{
-    return of(this.activities.filter(activity=>activity.repairId===repairId));
+    return this.httpClinet.get<Activity[]>(this.baseUrl + 'repair/' + repairId);
   }
 
   addActivity(activity: ActivityCreation): Observable<Activity>{

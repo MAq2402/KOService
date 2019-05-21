@@ -9,6 +9,7 @@ import {ActivityCreatorComponent} from '../activity-creator/activity-creator.com
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 import { Employee } from 'src/app/shared/models/employee.model';
 import { WorkerActivities } from '../workers-table/workers-table.component';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -26,34 +27,27 @@ import { WorkerActivities } from '../workers-table/workers-table.component';
 })
 export class WorkersTasksComponent implements OnInit {
 
-  //TODO: request id as input
-  repairId = '0';
  
+  repairId: string;
+  
   repairActivities: Activity[];
-  workers:Employee[] = [{id: "0",firstName: "Alojz",lastName:"Brzechwa",identityEmployeeRole:0, email: "abrzechwa@email.com", phone: "123456789", gender: "male"}];
   assigned:WorkerActivities[] = [];
 
   columnsToDisplay = ['description', 'type', 'status','worker'];
   
-  constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog) { }
+  constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,private route: ActivatedRoute) { }
 
 
   ngOnInit() {
+     this.route.params.subscribe(params=>(this.repairId = params['id'],console.log(this.repairId)));
      this.activityService.getRepairActivities(this.repairId).subscribe(activities => this.repairActivities = activities );
   }
 
   openActivityCreatorDialog(): void{
     const dialogRef = this.activityCreatorDialog.open(ActivityCreatorComponent, {
-     
-      data: {description: null, sequenceNumber: null}
+     data: {repairId: this.repairId}
   });
-  
-
-  dialogRef.afterClosed().subscribe(result => {
-    console.log('The dialog was closed');
-    console.log(result)
-  });
-  }
+}
   
 
 drop(event: CdkDragDrop<string[]>) {
