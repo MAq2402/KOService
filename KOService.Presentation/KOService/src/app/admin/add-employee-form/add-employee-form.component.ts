@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { Employee } from '../../shared/models/employee.model';
 import { Role } from '../../shared/enums/Role';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
+import { RegisterEmployee } from 'src/app/shared/models/register.model';
 
 @Component({
     selector: 'app-add-employee-form',
@@ -15,11 +15,14 @@ export class AddEmployeeFormComponent implements OnInit {
     @ViewChild('firstName') firstName: ElementRef;
     @ViewChild('lastName') lastName: ElementRef;
 
-    employee: Employee = {
+    register: RegisterEmployee = {
         firstName: '',
         lastName: '',
-        id: '',
-        role: Role.mechanic
+        userName: '',
+        password: '',
+        confirmPassword: '',
+        employeeRole: Role.mechanic,
+        identityId: ''
     };
 
     constructor(private service: EmployeeService) {
@@ -31,15 +34,14 @@ export class AddEmployeeFormComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log("wszedl");
         const model = {
-            password: "123",
-            confirmPassword: "123",
-            firstName: "kuba",
-            lastName: "kuba",
-            userName: "adminaKuba",
-            employeeRole: 2,
-            identityId: "string"
+            password: this.register.password,
+            confirmPassword: this.register.confirmPassword,
+            firstName: this.register.firstName,
+            lastName: this.register.lastName,
+            userName: this.register.userName,
+            employeeRole: this.register.employeeRole,
+            identityId: "xd"
         }
 
         this.service.addEmployee(model).subscribe();

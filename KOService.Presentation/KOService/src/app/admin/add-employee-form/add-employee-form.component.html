@@ -5,33 +5,31 @@
             <div class=container>
                 <div class="textFieldsBlock">
                     <label for="firstName">Imię:</label>
-                    <input #firstName matinput type="text" id="firstName" name="firstName" class="form-control"
-                        required>
+                    <input #firstName matinput type="text" [(ngModel)]="register.firstName" id="firstName"
+                        name="firstName" class="form-control" required>
                     <label for="lastName">Nazwisko:</label>
-                    <input #lastName matinput type="text" id="lastName" name="lastName" class="form-control" required>
-                    <label for="e-mail">Adres e-mail:</label>
-                    <input #email matinput type="email" id="e-mail" name="e-mail" class="form-control" required>
-                    <label for="phone">Numer telefonu:</label>
-                    <input #phone matinput type="tel" id="phone" name="phone" class="form-control" pattern="[0-9]{9}"
-                        required>
+                    <input #lastName matinput type="text" [(ngModel)]="register.lastName" id="lastName" name="lastName"
+                        class="form-control" required>
+                    <label for="userName">Nickname:</label>
+                    <input #lastName matinput type="text" [(ngModel)]="register.userName" id="userName" name="userName"
+                        class="form-control" required>
+                    <label for="password">Hasło:</label>
+                    <input #lastName matinput type="text" [(ngModel)]="register.password" id="password" name="password"
+                        class="form-control" required>
+                    <label for="confirmPassword">Potwierdź hasło:</label>
+                    <input #lastName matinput type="text" [(ngModel)]="register.confirmPassword" id="confirmPassword"
+                        name="confirmPassword" class="form-control" required>
+
                 </div>
                 <div class="otherInputsBlock">
-                    <label for="gender">Płeć:</label>
-                    <div class="radioButtonsBlock">
-                        <input matinput type="radio" id="gender" name="gender" class="form-control genderRadioButton"
-                            value="male" checked>Mężczyzna<br>
-                        <input matinput type="radio" id="gender" name="gender" class="form-control genderRadioButton"
-                            value="female">Kobieta<br>
-                        <input type="radio" id="gender" name="gender" class="form-control genderRadioButton"
-                            value="other">Inna<br>
-                    </div>
                     <div class="selectRoleBlock">
-                    <mat-form-field>
-                        <mat-label for="role">Rola:</mat-label>
-                        <select matNativeControl id="role" name="role" class="form-control">
-                            <option *ngFor="let key of keys">{{roles[key]}}</option>
-                        </select>
-                    </mat-form-field>
+                        <mat-form-field>
+                            <mat-label for="role">Rola:</mat-label>
+                            <select matNativeControl [(ngModel)]="register.employeeRole" id="role" name="role"
+                                class="form-control">
+                                <option *ngFor="let key of keys">{{roles[key]}}</option>
+                            </select>
+                        </mat-form-field>
                     </div>
 
                 </div>
