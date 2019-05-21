@@ -3,7 +3,12 @@ import {Activity} from '../models/Activity'
 import { ActivityStatus } from '../enums/ActivityStatus';
 import { Observable, of } from 'rxjs';
 import { WorkerActivities } from 'src/app/manager/activity-manager/workers-table/workers-table.component';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { ActivityCreation } from '../models/activity-creation.model';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +47,10 @@ export class ActivityService {
   }
   getRepairActivities(repairId:string): Observable<Activity[]>{
     return of(this.activities.filter(activity=>activity.repairId===repairId));
+  }
+
+  addActivity(activity: ActivityCreation): Observable<Activity>{
+    return this.httpClinet.post<Activity>(this.baseUrl,activity,httpOptions);
   }
   
   

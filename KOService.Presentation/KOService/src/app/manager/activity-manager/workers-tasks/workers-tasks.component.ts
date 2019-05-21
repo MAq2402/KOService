@@ -27,28 +27,35 @@ import { WorkerActivities } from '../workers-table/workers-table.component';
 export class WorkersTasksComponent implements OnInit {
 
   //TODO: request id as input
-  requestId = '0';
+  repairId = '0';
  
   repairActivities: Activity[];
   workers:Employee[] = [{id: "0",firstName: "Alojz",lastName:"Brzechwa",identityEmployeeRole:0, email: "abrzechwa@email.com", phone: "123456789", gender: "male"}];
   assigned:WorkerActivities[] = [];
 
   columnsToDisplay = ['description', 'type', 'status','worker'];
-  name;animal;
+  
   constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog) { }
 
 
   ngOnInit() {
-     this.activityService.getRepairActivities(this.requestId).subscribe(activities => this.repairActivities = activities );
+     this.activityService.getRepairActivities(this.repairId).subscribe(activities => this.repairActivities = activities );
   }
 
   openActivityCreatorDialog(): void{
     const dialogRef = this.activityCreatorDialog.open(ActivityCreatorComponent, {
      
-      data: {name: this.name, animal: this.animal}
+      data: {description: null, sequenceNumber: null}
   });
   
-}
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed');
+    console.log(result)
+  });
+  }
+  
+
 drop(event: CdkDragDrop<string[]>) {
   if (event.previousContainer === event.container) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);

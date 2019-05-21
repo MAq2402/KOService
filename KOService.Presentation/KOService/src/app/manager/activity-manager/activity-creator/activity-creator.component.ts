@@ -1,10 +1,12 @@
-import { Component, OnInit, Inject} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Component, OnInit, Inject,} from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA,} from '@angular/material';
+import { ActivityCreation } from 'src/app/shared/models/activity-creation.model';
+import { ActivityService } from 'src/app/shared/services/activity.service';
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  repairId: string;
 }
+
 
  
 
@@ -14,14 +16,27 @@ export interface DialogData {
   styleUrls: ['./activity-creator.component.css']
 })
 export class ActivityCreatorComponent implements OnInit {
-  activityTypes: string[] = ["Mechaniczne","Elektroniczne","Blacharskie"];
- 
+  
+ activity : ActivityCreation;
 
-  constructor(
-    public dialogRef: MatDialogRef<ActivityCreatorComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  constructor(public dialogRef: MatDialogRef<ActivityCreatorComponent>,
+     @Inject(MAT_DIALOG_DATA) public data: DialogData,public activityService : ActivityService){
+       this.activity = new ActivityCreation();
+     } 
 
   ngOnInit() {
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  onSubmit(){
+    this.activity.repairId = this.data.repairId
+    this.activityService.addActivity(this.activity).subscribe(activity=>console.log(activity));
+
+
+    
   }
 
 }
