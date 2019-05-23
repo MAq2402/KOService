@@ -22,8 +22,9 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpGet("mechanic/{mechanicId}")]
-        public IActionResult GetMechanicActivities(Guid mechanicId)
+        public IActionResult GetMechanicActivities(Guid mechanicId, [FromQuery] string status)
         {
+
             GetWorkerActivitiesQuery query = new GetWorkerActivitiesQuery();
             query.WorkerId = mechanicId;
             return Ok(_mediator.Send(query).Result);
@@ -33,6 +34,7 @@ namespace KOService.WebAPI.Controllers
         {
             GetWorkersWithActivitiesQuery query = new GetWorkersWithActivitiesQuery();
             
+
             return Ok(_mediator.Send(query).Result);
         }
 
@@ -72,6 +74,7 @@ namespace KOService.WebAPI.Controllers
 
             return Ok(command);
         }
+
 
         [HttpPut("cancel/{activityId}")]
         public IActionResult CancelActivity(Guid activityId, [FromBody] string comment)
@@ -122,6 +125,7 @@ namespace KOService.WebAPI.Controllers
 
             return NoContent();
         }
+
 
 
     }

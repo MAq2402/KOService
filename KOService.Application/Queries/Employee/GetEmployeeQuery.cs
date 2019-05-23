@@ -1,5 +1,4 @@
 ﻿using KOService.Application.DTOs.Employee;
-using KOService.Domain.Authentication;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -7,9 +6,8 @@ using System.Text;
 
 namespace KOService.Application.Queries.Employee
 {
-    public class GetEmployeesQuery : IRequest<IEnumerable<EmployeeDto>>
+    public class GetEmployeeQuery : IRequest<EmployeeDto>
     {
-        public EmployeeRole? Role { get; set; }
+        public string Id { get; set; }
     }
 }
-

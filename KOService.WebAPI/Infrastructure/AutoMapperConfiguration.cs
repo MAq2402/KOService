@@ -18,7 +18,8 @@ namespace KOService.WebAPI.Infrastructure
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Employee, EmployeeDto>();
+                cfg.CreateMap<Employee, EmployeeDto>()
+                   .ForMember(dest => dest.Role , opt => opt.MapFrom(src => src.Identity.EmployeeRole));
                 cfg.CreateMap<RegisterCommand, Employee>();
                 cfg.CreateMap<RegisterCommand, Identity>();
 
@@ -33,11 +34,7 @@ namespace KOService.WebAPI.Infrastructure
                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
 
                 cfg.CreateMap<Employee, WorkersWithActivitiesDto>();
-                    
-
-
-
-            });
+             });
             //Mapper configuration debugging
             //Mapper.AssertConfigurationIsValid();
 

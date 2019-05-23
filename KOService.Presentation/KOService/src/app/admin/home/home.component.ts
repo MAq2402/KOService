@@ -1,64 +1,64 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Repair } from 'src/app/shared/models/repair.model';
-import { RepairStatus } from 'src/app/shared/enums/repair-status.enum';
-import { ColumnDef } from 'src/app/shared/models/column-def.model';
-import { RepairSubTask } from 'src/app/shared/models/repair-sub-task.model';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { DetailExpandAnimation } from 'src/app/manager/animations/detail-expand-animation';
-import { AuthService } from 'src/app/authentication/services/auth.service';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
-import { Role } from 'src/app/shared/enums/Role';
 import { Employee } from 'src/app/shared/models/employee.model';
-
-
-
-
+import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/material';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-  animations: [
-    DetailExpandAnimation
-  ],
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
-  employeesDataSource = new MatTableDataSource();
-  employees: Employee[];
- 
-  repairsColumnsToDisplay: ColumnDef[] = [
-    { name: 'id', display: 'Id' },
-    { name: 'firstName', display: 'Imie' },
-    { name: 'lastName', display: 'Nazwisko' },
-    { name: 'identityEmployeeRole', display: 'Stanowisko' },
+  dataSource: MatTableDataSource<Employee>;
+  displayedColumns = [
+    'firstName', 'lastName', 'role', 'edit', 'terminate'
   ];
-
-  subTasksColumnsToDisplay: ColumnDef[] = [
-    { name: 'phone', display: 'Numer Telefonu' },
-    { name: 'email', display: 'Adres Email' },
-    { name: 'gender', display: 'Płeć'},
-  ];
-
-  expandedElement: any | null;
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private authService: AuthService, private employeeService: EmployeeService) { }
+  constructor(private spinnerService: NgxSpinnerService,
+    public dialog: MatDialog,
+    private employeeService: EmployeeService) {
+   }
 
   ngOnInit() {
-   this.employeeService.getEmployeesByRole(Role.mechanic).subscribe(employees => (
-     this.employees = employees, this.employeesDataSource = new MatTableDataSource(this.employees), console.log(employees)));
+    this.getData();
   }
 
-  getRepairsColumnsToDisplayNames(): string[] {
-    return this.repairsColumnsToDisplay.map(x => x.name);
+  private getData() {
+    this.spinnerService.show();
+    this.employeeService.getEmployees().subscribe(employees => {
+      this.dataSource = new MatTableDataSource(employees);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.spinnerService.hide();
+    });
   }
 
-  getSubTasksColumnsToDisplayNames(): string[] {
-    return this.subTasksColumnsToDisplay.map(x => x.name);
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+
+
+  terminate(employee: Employee) {
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: {header: `Jesteś pewny, że chcesz zwolnić pracownika ${employee.firstName} ${employee.lastName}?`}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.confirmed) {
+        this.employeeService.terminate(employee.id).subscribe(res => {
+          this.getData();
+        });
+      }
+    });
   }
 }
-
-

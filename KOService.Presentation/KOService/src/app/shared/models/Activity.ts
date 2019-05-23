@@ -7,10 +7,12 @@ export class Activity {
     description: string;
     result: string;
     status: ActivityStatus;
-    requestTime: string;
+    startDataTime: string;
     closedTime: string;
     activityTypeId: string;
     repairId: string;
     workerId: string;
+    vehicleRegistrationNumbers: string;
+    vehicleBrand: string;
 }
   

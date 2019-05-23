@@ -19,7 +19,7 @@ namespace KOService.Application.Handlers.Authentication
         }
         protected override void Handle(RegisterCommand request)
         {
-            var employee = Mapper.Map<Domain.Entities.Employee>(request);
+            var employee = new Domain.Entities.Employee(Guid.NewGuid(),request.FirstName, request.LastName, request.IdentityId);
             _dbContext.Employees.Add(employee);
 
             if(_dbContext.SaveChanges() == 0)

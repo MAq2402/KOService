@@ -15,42 +15,31 @@ const httpOptions = {
 })
 export class ActivityService {
 
-  private baseUrl = 'https://localhost:44340/api/activities/';
+  private baseUrl = 'https://localhost:44340/api/activities/'
 
-  activities: Activity[] = [
-    {id:"1",sequenceNumber:0,description:"wymiania filtra paliwa",result:"result",
-    status:ActivityStatus.Open,requestTime:null,closedTime:null,
-    activityTypeId:"0",repairId:"1",workerId:"1"},
-    {id:"2",sequenceNumber:1,description:"diagnoza silnika",result:"result2",
-    status:ActivityStatus.Finished,requestTime:null,closedTime:null,
-    activityTypeId:"0",repairId:"0",workerId:"1"},
-    {id:"2",sequenceNumber:1,description:"wymiana oleju",result:"result2",
-    status:ActivityStatus.Open,requestTime:null,closedTime:null,
-    activityTypeId:"0",repairId:"0",workerId:"1"},
-    {id:"2",sequenceNumber:1,description:"wymiania filtra powietrza",result:"result2",
-    status:ActivityStatus.Canceled,requestTime:null,closedTime:null,
-    activityTypeId:"0",repairId:"0",workerId:"1"},
-    {id:"2",sequenceNumber:1,description:"czyszczenie klimatyzacji",result:"result2",
-    status:ActivityStatus.Progress,requestTime:null,closedTime:null,
-    activityTypeId:"0",repairId:"0",workerId:"1"}
 
-]
 
-  constructor(private httpClinet: HttpClient){}
+
+  constructor(private httpClient: HttpClient){}
 
   getWorkersWithActivities(): Observable<any>{
-    return this.httpClinet.get(this.baseUrl);
+    return this.httpClient.get(this.baseUrl);
   }
 
-  getWorkerActivities(workerId: string): Observable<Activity[]>{
-    return of(this.activities.filter(activity=>activity.workerId===workerId));
+  getWorkerActivities(workerId: string){
+   
   }
   getRepairActivities(repairId:string): Observable<Activity[]>{
-    return this.httpClinet.get<Activity[]>(this.baseUrl + 'repair/' + repairId);
+    return this.httpClient.get<Activity[]>(this.baseUrl + 'repair/' + repairId);
   }
 
   addActivity(activity: ActivityCreation): Observable<Activity>{
-    return this.httpClinet.post<Activity>(this.baseUrl,activity,httpOptions);
+    return this.httpClient.post<Activity>(this.baseUrl,activity,httpOptions);
+  }
+
+  getMechanicActivity(mechanicId: string, statusQuery = ''): Observable<Activity[]>{
+    return this.httpClient.get<Activity[]>(this.baseUrl + '/mechanic/'+mechanicId,
+     {params: new HttpParams().set('status', statusQuery)});
   }
   
   
