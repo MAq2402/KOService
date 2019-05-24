@@ -31,7 +31,8 @@ namespace KOService.WebAPI.Infrastructure
 
                 cfg.CreateMap<Activity, ActivityDto>()
                    .ForMember(dest => dest.MechanicName, opt => opt.MapFrom(src => $"{src.Mechanic.FirstName} {src.Mechanic.LastName}"))
-                   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
+                   .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Repair.Vehicle.Type.Brand))
+                   .ForMember(dest => dest.VehicleRegistrationNumbers, opt => opt.MapFrom(src => src.Repair.Vehicle.RegistrationNumbers));
 
                 cfg.CreateMap<Employee, WorkersWithActivitiesDto>();
              });

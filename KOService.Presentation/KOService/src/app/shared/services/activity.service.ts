@@ -38,7 +38,7 @@ export class ActivityService {
   }
 
   getMechanicActivity(mechanicId: string, statusQuery = ''): Observable<Activity[]>{
-    return this.httpClient.get<Activity[]>(this.baseUrl + '/mechanic/'+mechanicId,
+    return this.httpClient.get<Activity[]>(this.baseUrl + 'mechanic/'+mechanicId,
      {params: new HttpParams().set('status', statusQuery)});
   }
   
