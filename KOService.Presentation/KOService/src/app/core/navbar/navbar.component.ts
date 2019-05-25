@@ -14,7 +14,7 @@ import { RolePipe } from 'src/app/shared/pipes/role.pipe';
 })
 export class NavbarComponent implements OnInit {
 
-  currentEmployee: Employee;
+    currentEmployee: Employee;
 
   constructor(
     private authService: AuthService,
@@ -22,15 +22,15 @@ export class NavbarComponent implements OnInit {
     private rolePipe: RolePipe
     ) {}
 
-    adminNavbarButtons: NavbarButton [] = [
-      {'text': 'add_circle', 'redirectTo': 'admin/add', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj pracownika' },
+    adminNavbarButtons: NavbarButton[] = [
+        { 'text': 'add_circle', 'redirectTo': 'admin/add-employee', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj pracownika' },
     ];
 
-    managerNavbarButtons: NavbarButton [] = [
-      {'text': 'add_box', 'redirectTo': 'manager/addRepair', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj naprawę' },
+    managerNavbarButtons: NavbarButton[] = [
+        { 'text': 'add_box', 'redirectTo': 'manager/addRepair', 'alignedToRight': true, 'isIcon': true, 'tooltip': 'Dodaj naprawę' },
     ];
 
-    mechanicNavbarButtons: NavbarButton [] = [];
+    mechanicNavbarButtons: NavbarButton[] = [];
 
   transformRole(role: Role): string {
     return this.rolePipe.transform(role);
@@ -40,13 +40,13 @@ export class NavbarComponent implements OnInit {
       this.authService.getCurrentEmployee().subscribe(employee => this.currentEmployee = employee);
   }
 
-  isUserLogged() {
-    return this.authService.isAuthenticated();
-  }
+    isUserLogged() {
+        return this.authService.isAuthenticated();
+    }
 
-  logout() {
-    this.authService.logout();
-  }
+    logout() {
+        this.authService.logout();
+    }
 
   redirectToHomePage() {
     this.router.navigate([Role[this.currentEmployee.role]]);

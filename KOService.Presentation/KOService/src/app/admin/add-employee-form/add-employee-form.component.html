@@ -1,7 +1,7 @@
 <body>
     <div class="col-md-4 mx-auto mt-5">
         <h3 class="my-title-font">Add new employee</h3>
-        <form #employeeForm="ngForm">
+        <form>
             <div class=container>
                 <div class="textFieldsBlock">
                     <label for="firstName">Imię:</label>
@@ -28,7 +28,7 @@
                     <div class="selectRoleBlock">
                         <label for="role">Rola:</label>
                         <select id="role" name="role" class="form-control">
-                            <option *ngFor="let key of keys" [ngValue]="key">{{roles[key]}}</option>
+                            <option *ngFor="let key of keys">{{roles[key]}}</option>
                         </select>
                     </div>
 

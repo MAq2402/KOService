@@ -6,7 +6,7 @@ import { AddEmployeeFormComponent } from './add-employee-form/add-employee-form.
 
 const adminRoutes: Routes = [
     { path: '', component: HomeComponent },
-    {path: 'add', component: AddEmployeeFormComponent}
+    {path: 'add-employee', component: AddEmployeeFormComponent}
 ];
 
 @NgModule({

@@ -1,32 +1,32 @@
 <div class="row">
-  <div class="col">
-    <div *ngIf="leftButtonsPresent()">
-      <div name="left-buttons"
-      *ngFor="let button of getLeftButtons()"
-      class="float-left my-clickable my-navbar-button my-button-left"
-      (click)="navigate(button.redirectTo)">
-        <i *ngIf="button.isIcon" class="material-icons my-icon" [ngbTooltip]='button.tooltip'>
-          {{button.text}}
-        </i>
-        <h5 *ngIf="!button.isIcon" class="my-text-button" [ngbTooltip]='button.tooltip'>
-          {{button.text}}
-        </h5>
-      </div>
+    <div class="col">
+        <div *ngIf="leftButtonsPresent()">
+            <div *ngFor="let button of getLeftButtons()">
+                <div *ngIf="button.redirectTo" name="left-buttons"
+                    class="float-left my-clickable my-navbar-button my-button-left"
+                    (click)="navigate(button.redirectTo)">
+                    <i *ngIf="button.isIcon" class="material-icons my-icon" [ngbTooltip]='button.tooltip'>
+                        {{button.text}}
+                    </i>
+                    <h5 *ngIf="!button.isIcon" class="my-text-button" [ngbTooltip]='button.tooltip'>
+                        {{button.text}}
+                    </h5>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-auto">
-    <div *ngIf="rightButtonsPresent()">
-      <div name="right-buttons"
-      *ngFor="let button of getRightButtons()"
-      class="float-right my-clickable my-navbar-button my-button-right"
-      (click)="navigate(button.redirectTo)">
-        <i *ngIf="button.isIcon" class="material-icons my-icon" [ngbTooltip]="button.tooltip">
-            {{button.text}}
-        </i>
-        <h5 *ngIf="!button.isIcon" class="my-text-button" [ngbTooltip]='button.tooltip'>
-            {{button.text}}
-        </h5>
-      </div>
+    <div class="col-auto">
+        <div *ngIf="rightButtonsPresent()">
+            <div name="right-buttons" *ngFor="let button of getRightButtons()"
+                class="float-right my-clickable my-navbar-button my-button-right"
+                (click)="navigate(button.redirectTo)">
+                <i *ngIf="button.isIcon" class="material-icons my-icon" [ngbTooltip]="button.tooltip">
+                    {{button.text}}
+                </i>
+                <h5 *ngIf="!button.isIcon" class="my-text-button" [ngbTooltip]='button.tooltip'>
+                    {{button.text}}
+                </h5>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
