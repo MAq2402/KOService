@@ -1,4 +1,5 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, NgZone, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Role } from '../../shared/enums/Role';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { RegisterEmployee } from 'src/app/shared/models/register.model';
@@ -25,7 +26,7 @@ export class AddEmployeeFormComponent implements OnInit {
         identityId: ''
     };
 
-    constructor(private service: EmployeeService) {
+    constructor(private service: EmployeeService, private router: Router, private zone: NgZone) {
         this.keys = Object.keys(Role).filter(k => !isNaN(Number(k)));
     }
 
@@ -44,7 +45,6 @@ export class AddEmployeeFormComponent implements OnInit {
             identityId: "xd"
         }
 
-        this.service.addEmployee(model).subscribe();
+        this.service.addEmployee(model).subscribe(result => {this.zone.run(() => this.router.navigate(['/admin']))});
     }
-
 }
