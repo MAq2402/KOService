@@ -97,16 +97,16 @@ export class HomeComponent implements OnInit {
   private buildStatusQuery() {
     let statusQuery = '';
     if (this.showWithStatusOpen) {
-      statusQuery += 'OPN,';
+      statusQuery += '0,';
     }
     if (this.showWithStatusInProgress) {
-      statusQuery += 'PRO,';
+      statusQuery += '1,';
     }
     if (this.showWithStatusCanceled) {
-      statusQuery += 'CAN,';
+      statusQuery += '2,';
     }
     if (this.showWithStatusFinished) {
-      statusQuery += 'FIN';
+      statusQuery += '3';
     }
     return statusQuery;
   }

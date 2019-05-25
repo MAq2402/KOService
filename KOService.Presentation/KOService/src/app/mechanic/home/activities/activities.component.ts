@@ -4,8 +4,6 @@ import { ActivityService } from 'src/app/shared/services/activity.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
-import { RepairService } from 'src/app/shared/services/repair.service';
-import { Repair } from 'src/app/shared/models/repair.model';
 import { AuthService } from 'src/app/authentication/services/auth.service';
 
 @Component({
@@ -25,14 +23,15 @@ export class ActivitiesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource = new MatTableDataSource<Activity>();
+
+  dataSource: MatTableDataSource<Activity>;
   showWithStatusOpen = true;
   showWithStatusInProgress = true;
   showWithStatusFinished = false;
   showWithStatusCanceled = false;
+  filterValue = '';
 
-  displayedColumns = ['startDateTime', 'description','vehicleRegistrationNumbers',
-    'vehicleBrand', 'status'];
+  displayedColumns = ['startDateTime', 'description','vehicleRegistrationNumbers', 'vehicleBrand', 'status'];
   columnsToDisplayMap = [  
     {name: 'description', display: 'opis'}, 
     {name: 'vehicleRegistrationNumbers', display: 'numer rejestracyjny'},
@@ -44,23 +43,34 @@ export class ActivitiesComponent implements OnInit {
     private authService: AuthService
   ){ }
 
-  ngOnInit() {
-    this.authService.getCurrentEmployee().subscribe(user => {
-      this.activityService.getMechanicActivity(user.id).subscribe(
-        activities => {
-        this.dataSource.data = activities as Activity[];
-      });
+  getData(){
+    var statusQuery = this.buildStatusQuery();
+    if (this.showWithStatusCanceled || this.showWithStatusFinished || this.showWithStatusInProgress || this.showWithStatusOpen) {
+      this.authService.getCurrentEmployee().subscribe(user => {
+        this.activityService.getMechanicActivity(user.id, statusQuery).subscribe(
+          activities => {   
+            this.dataSource = new MatTableDataSource(activities);
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.filter = this.filterValue.trim().toLowerCase();
+        });
 
-    })
+      })
+    }
+    else{
+      this.dataSource = null;
+    }
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  ngOnInit() {
+    this.getData();
   }
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   checkIfNotHistorical(status: ActivityStatus): boolean{
@@ -78,8 +88,24 @@ export class ActivitiesComponent implements OnInit {
   }
 
   onStatusCheckboxChange(event: any) {
-    console.log("chexbox changed");
+    this.getData();
   }
-  
+    
+  private buildStatusQuery() {
+    let statusQuery = '';
+    if (this.showWithStatusOpen) {
+      statusQuery += '0,';
+    }
+    if (this.showWithStatusInProgress) {
+      statusQuery += '1,';
+    }
+    if (this.showWithStatusCanceled) {
+      statusQuery += '2,';
+    }
+    if (this.showWithStatusFinished) {
+      statusQuery += '3';
+    }
+    return statusQuery;
+  }
 }
 

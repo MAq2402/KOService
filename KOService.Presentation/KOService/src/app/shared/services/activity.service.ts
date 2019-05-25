@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Activity} from '../models/Activity'
 import { ActivityStatus } from '../enums/ActivityStatus';
 import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,6 @@ export class ActivityService {
     
 
 ]
-
-
 private baseUrl = 'https://localhost:44340/api/Activities';
 
 constructor(private http: HttpClient) { }
@@ -31,8 +29,9 @@ constructor(private http: HttpClient) { }
     return of(this.activities.filter(activity=>activity.requestId===requestId));
   }
 
-  getMechanicActivity(mechanicId: string): Observable<Activity[]>{
-    return this.http.get<Activity[]>(this.baseUrl + '/mechanic/'+mechanicId);
+  getMechanicActivity(mechanicId: string, statusQuery = ''): Observable<Activity[]>{
+    return this.http.get<Activity[]>(this.baseUrl + '/mechanic/'+mechanicId,
+     {params: new HttpParams().set('status', statusQuery)});
   }
   
 }

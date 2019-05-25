@@ -9,5 +9,6 @@ namespace KOService.Application.Queries.Activity
     public class GetMechanicActivitiesQuery: IRequest<IEnumerable<ActivityDto>>
     {
         public Guid MechanicId { get; set; }
+        public string Status { get; set; }
     }
 }
