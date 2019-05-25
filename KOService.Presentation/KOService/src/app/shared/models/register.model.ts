@@ -7,5 +7,4 @@ export class RegisterEmployee {
     lastName: string;
     userName: string;
     employeeRole: Role;
-    identityId: string;
 }

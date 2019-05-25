@@ -24,7 +24,6 @@ export class AddEmployeeFormComponent implements OnInit, OnDestroy {
         password: '',
         confirmPassword: '',
         employeeRole: Role.mechanic,
-        identityId: ''
     };
 
     constructor(private service: EmployeeService, private zone: NgZone) {
@@ -47,7 +46,6 @@ export class AddEmployeeFormComponent implements OnInit, OnDestroy {
             lastName: this.register.lastName,
             userName: this.register.userName,
             employeeRole: this.register.employeeRole,
-            identityId: "xd"
         }
 
         this.registerSubscription = this.service.addEmployee(model).subscribe();
