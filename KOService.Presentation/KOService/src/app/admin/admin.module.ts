@@ -7,12 +7,13 @@ import { AddEmployeeFormComponent } from './add-employee-form/add-employee-form.
 import { RolePipe } from '../shared/pipes/role.pipe';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    SharedModule
-  ],
-  declarations: [HomeComponent, AddEmployeeFormComponent],
-  providers: []
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        SharedModule,
+    ],
+    declarations: [HomeComponent, AddEmployeeFormComponent],
+    providers: [],
+    entryComponents: [AddEmployeeFormComponent]
 })
 export class AdminModule { }
