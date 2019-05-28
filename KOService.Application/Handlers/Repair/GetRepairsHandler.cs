@@ -23,10 +23,15 @@ namespace KOService.Application.Handlers.Repair
         {
             var repairs = _dbContext.Repairs.AsQueryable();
 
+
+            //problem z filtrowaniem -> z bazy przychodzi np 'OPN'
+            //a z frontu enum
+            /*
             if(!string.IsNullOrEmpty(request.Status))
             {
                 repairs = ApplyFilter(repairs, request);
             }
+            */
 
             repairs.Include(r => r.Activities)
                    .ThenInclude(a => a.Mechanic)

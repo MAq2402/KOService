@@ -34,6 +34,7 @@ export class ActivityService {
   }
 
   addActivity(activity: ActivityCreation): Observable<Activity>{
+    console.log("jestem")
     return this.httpClient.post<Activity>(this.baseUrl,activity,httpOptions);
   }
 

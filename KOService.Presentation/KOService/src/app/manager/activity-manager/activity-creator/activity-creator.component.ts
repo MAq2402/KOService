@@ -25,6 +25,7 @@ export class ActivityCreatorComponent implements OnInit {
      } 
 
   ngOnInit() {
+    console.log(this.data.repairId)
   }
 
   onCancel(): void {
