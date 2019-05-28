@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using KOService.Application.Commands.Repair;
 using KOService.Application.DTOs.Repair;
+using KOService.Application.Queries.Repair;
 using KOService.Domain.DbContexts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +22,15 @@ namespace KOService.Application.Handlers.Repair
         protected override IEnumerable<RepairDto> Handle(GetRepairsQuery request)
         {
             var repairs = _dbContext.Repairs.AsQueryable();
-
+            
+            //problem ze statusami -> z bazy przychodzi 'OPN' a z frontu enum
+            /*
+            
             if(!string.IsNullOrEmpty(request.Status))
             {
                 repairs = ApplyFilter(repairs, request);
             }
+           */
 
             repairs.Include(r => r.Activities)
                    .ThenInclude(a => a.Mechanic)

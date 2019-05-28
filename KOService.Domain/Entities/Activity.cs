@@ -14,6 +14,7 @@ namespace KOService.Domain.Entities
             Description = description;
             SequenceNumber = sequenceNumber;
             RepairId = repairId;
+            Open();
         }
         protected override Dictionary<ActivityStatus, string> StatusDictionary => statusDictionary;
 
@@ -29,29 +30,49 @@ namespace KOService.Domain.Entities
         public Repair Repair { get; set; }
         public Guid? MechanicId { get; set; }
         public Employee Mechanic { get; set; }
-        public override void Cancel(string result)
+        public void Cancel(string result)
         {
-            base.Cancel(result);
+            if (GetStatus() != ActivityStatus.InProgress)
+            {
+                throw new DomainException($"Can't perform cancelation when current status is {Status}");
+            }
+
+            if (string.IsNullOrEmpty(result))
+            {
+                throw new DomainException("Result has not been provided, while canceling");
+            }
+
+            EndDateTime = DateTime.UtcNow;
+
+            Result = result;
+
             SetStatus(ActivityStatus.Canceled);
         }
-        public override void Finish(string result)
+        public void Finish(string result)
         {
-            base.Finish(result);
+            if (GetStatus() != ActivityStatus.InProgress)
+            {
+                throw new DomainException($"Can't perform cancelation when current status is {Status}");
+            }
+
+            EndDateTime = DateTime.UtcNow;
+
+            Result = result;
+
             SetStatus(ActivityStatus.Finished);
         }
-        public override void ChangeToInProgress()
+        public void ChangeToInProgress()
         {
-            base.ChangeToInProgress();
             SetStatus(ActivityStatus.InProgress);
         }
-        protected override void Open()
+        private void Open()
         {
-            base.Open();
+            StartDateTime = DateTime.UtcNow;
             SetStatus(ActivityStatus.Open);
         }
         public void AssignMechanic(Employee employee)
         {
-            if (MechanicId == null)
+            if (Mechanic == null)
             {
                 if (employee.Identity.EmployeeRole == Authentication.EmployeeRole.Mechanic)
                 {

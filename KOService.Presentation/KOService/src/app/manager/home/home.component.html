@@ -46,7 +46,7 @@
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let element" [attr.colspan]="repairsColumnsToDisplay.length">
         <div [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" class="element-detail">
-          <button *ngIf="expandedElement" mat-raised-button color="primary" routerLink="activities"+{{element.id}}>Zobacz szczegóły</button>
+          <button *ngIf="expandedElement" mat-raised-button color="primary" routerLink="activities">Zobacz szczegóły</button>
           <table mat-table [dataSource]="activitiesDataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="{{column.name}}" *ngFor="let column of activitiesColumnsToDisplay">
       <th mat-header-cell *matHeaderCellDef> {{column.display}} </th>

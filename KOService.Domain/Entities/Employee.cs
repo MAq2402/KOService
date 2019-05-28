@@ -11,19 +11,25 @@ namespace KOService.Domain.Entities
     {
         private readonly List<Activity> _activities = new List<Activity>();
         private readonly List<Repair> _repairs = new List<Repair>();
-        public Employee() { }
-        public Employee(Guid id) : base(id)
-        {
 
+        public Employee(Guid id, string firstName, string lastName, string identityId) : base(id)
+
+        {
+            SetFirstName(firstName);
+            SetLastName(lastName);
+
+            IdentityId = identityId;
         }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string IdentityId { get; private set; }
         public Identity Identity { get; private set; }
+        public DateTime? TerminationDateTime { get; private set; }
+        public bool IsTerminated => TerminationDateTime.HasValue;
         public IEnumerable<Repair> Repairs => _repairs.AsReadOnly();
         public IEnumerable<Activity> Activities => _activities.AsReadOnly();
 
-        //Do wywalenia jak ktoś wymyśli lepszy sposob seedowania danych...
+
         
         public Employee(Guid id,string firstname, string lastName, EmployeeRole role) : base(id)
         {
@@ -33,5 +39,45 @@ namespace KOService.Domain.Entities
             Identity.EmployeeRole = role;
         }
         
+
+        public void Terminate()
+        {
+            if(IsTerminated)
+            {
+                throw new Exception("Employee has been terminated previously");
+            }
+
+            TerminationDateTime = DateTime.UtcNow;
+        }
+
+        public void Update(string firstName, string lastName, EmployeeRole role)
+        {
+            SetFirstName(firstName);
+            SetLastName(lastName);
+
+            
+            Identity.EmployeeRole = role;
+        }
+
+        private void SetLastName(string lastName)
+        {
+            if (string.IsNullOrEmpty(lastName))
+            {
+                throw new DomainException("Last name has not been provided");
+            }
+
+            LastName = lastName;
+        }
+
+        private void SetFirstName(string firstName)
+        {
+            if (string.IsNullOrEmpty(firstName))
+            {
+                throw new DomainException("First name has not been provided");
+            }
+
+            FirstName = firstName;
+        }
+
     }
 }

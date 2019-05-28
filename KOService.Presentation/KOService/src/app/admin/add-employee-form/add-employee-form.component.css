@@ -1,8 +1,5 @@
 body {
-    /* background-color:  rgb(165, 165, 247); */
-    background-image: linear-gradient(to bottom right, rgb(74, 74, 252) , rgb(214, 215, 255));
-    padding: 20px;
-    max-width: 400px;
+    background-image: linear-gradient(to bottom right, rgb(145, 145, 177) , rgb(248, 248, 248));
     margin: auto;
 }
 
@@ -10,6 +7,12 @@ body {
     margin: auto;
     margin-top: 20px;
     text-align: center;
+}
+
+label{
+    margin-top: 5px;
+    margin-bottom: 1px;
+    font-weight: 600;
 }
 
 .header {
@@ -24,15 +27,32 @@ body {
 .otherInputsBlock {
     margin-left: 40px;
     display: inline-block;
-    transform: translateY(-18px);
 }
 
 .selectRoleBlock{
     margin-top: 20px;
 }
 
+.submitButtonBlock {
+    padding-bottom: 10px;
+}
+
+.submitButton {
+    font-weight: 800; 
+}
+
 input {
     text-align: center;
+}
+
+.radioButtonsBlock {
+    margin:auto;
+}
+
+.genderRadioButton {
+    max-height: 25px;
+    max-width: 25px;
+    margin: auto;
 }
 
 p {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KOService.Application.Commands.Repair;
+using KOService.Application.Queries.Repair;
 using KOService.WebAPI.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

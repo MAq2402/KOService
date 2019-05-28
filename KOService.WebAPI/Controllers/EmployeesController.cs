@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KOService.Application.Commands.Employee;
 using KOService.Application.Queries.Employee;
 using KOService.WebAPI.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace KOService.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/employees")]
     [ApiController]
+    [EnableCors(Constants.Cors.AppPolicy)]
     public class EmployeesController : Controller
     {
         private IMediator _mediator;
@@ -22,10 +25,40 @@ namespace KOService.WebAPI.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpGet]
         public IActionResult GetEmployees()
         {
-            return Ok(_mediator.Send(new GetEmployeesQuery()));
+            return Ok(_mediator.Send(new GetEmployeesQuery()).Result);
+        }
+
+        [HttpPut("{id}")]
+
+        public IActionResult UpdateEmployee(string id,[FromBody] UpdateEmployeeCommand command)
+        {
+            command.Id = id;
+
+            var result = _mediator.Send(command);
+
+            if (result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}/terminate")]
+        public IActionResult TerminateEmployee(string id)
+        {
+            var result = _mediator.Send(new TerminateEmployeeCommand() {Id = id});
+
+            if (result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return NoContent();
         }
     }
 }

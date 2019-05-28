@@ -13,7 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 
 import { NgModule } from '@angular/core';
-import { MatPaginatorModule } from '@angular/material';
+import { MatPaginatorModule, MatIconModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -29,7 +29,8 @@ import { MatPaginatorModule } from '@angular/material';
     DragDropModule,
     MatCheckboxModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatIconModule
   ],
   exports: [
     MatTableModule,
@@ -44,7 +45,8 @@ import { MatPaginatorModule } from '@angular/material';
     DragDropModule,
     MatCheckboxModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatIconModule
   ],
 })
 export class MaterialModule { }

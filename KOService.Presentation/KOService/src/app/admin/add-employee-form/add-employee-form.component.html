@@ -1,35 +1,44 @@
 <body>
-    <p class="header">Add new employee</p>
-    <form #employeeForm="ngForm">
-        <div class=container>
-            <div class="textFieldsBlock">
-                <p>First name:</p>                  
-                <input type="text" name="firstName" required>
-                <p>Last name:</p>
-                <input type="text" name="lastName" required>
-                <p>E-mail address:</p>
-                <input type="email" name="e-mail" required>
-                <p>Phone number:</p>
-                <input type="tel" id="phone" name="phone" pattern="[0-9]{9}" required>
-            </div>
-            <div class="otherInputsBlock">
-                <p>Gender:</p>
-                <input type="radio" name="gender" value="male" checked> Male<br>
-                <input type="radio" name="gender" value="female"> Female<br>
-                <input type="radio" name="gender" value="other"> Other<br>
-                <div  class="selectRoleBlock">
-                    <p>Role:</p>
-                <select id="role" name="role">
-                    <option *ngFor="let key of keys" [ngValue]="key">{{roles[key]}}</option>
-                </select>
+    <div class="col-md-4 mx-auto mt-5">
+        <h3 class="my-title-font">Add new employee</h3>
+        <form #employeeForm="ngForm">
+            <div class=container>
+                <div class="textFieldsBlock">
+                    <label for="firstName">Imię:</label>
+                    <input #firstName matinput type="text" id="firstName" name="firstName" class="form-control"
+                        required>
+                    <label for="lastName">Nazwisko:</label>
+                    <input #lastName matinput type="text" id="lastName" name="lastName" class="form-control" required>
+                    <label for="e-mail">Adres e-mail:</label>
+                    <input #email matinput type="email" id="e-mail" name="e-mail" class="form-control" required>
+                    <label for="phone">Numer telefonu:</label>
+                    <input #phone matinput type="tel" id="phone" name="phone" class="form-control" pattern="[0-9]{9}"
+                        required>
                 </div>
-                
+                <div class="otherInputsBlock">
+                    <label for="gender">Płeć:</label>
+                    <div class="radioButtonsBlock">
+                        <input matinput type="radio" id="gender" name="gender" class="form-control genderRadioButton"
+                            value="male" checked>Mężczyzna<br>
+                        <input matinput type="radio" id="gender" name="gender" class="form-control genderRadioButton"
+                            value="female">Kobieta<br>
+                        <input type="radio" id="gender" name="gender" class="form-control genderRadioButton"
+                            value="other">Inna<br>
+                    </div>
+                    <div class="selectRoleBlock">
+                        <label for="role">Rola:</label>
+                        <select id="role" name="role" class="form-control">
+                            <option *ngFor="let key of keys" [ngValue]="key">{{roles[key]}}</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="submitButtonBlock"><br>
+                    <button mat-button type="submit" class="form-control submitButton">
+                        Dodaj pracownika
+                    </button>
+                </div>
             </div>
-            <div class="buttonBlock"><br>
-                <button type="submit">
-                    Add employee
-                </button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </body>
