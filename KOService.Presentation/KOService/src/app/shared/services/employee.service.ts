@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Employee } from '../models/employee.model';
+import { RegisterEmployee } from '../models/register.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
 
-  private baseUrl = 'https://localhost:44340/api/employees';
+  private baseUrl = 'https://localhost:44340/api/employees';  
 
   constructor(private http: HttpClient) { }
 
@@ -18,5 +19,9 @@ export class EmployeeService {
 
   terminate(id: string): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}\\${id}\\terminate`, {});
+  }
+
+  addEmployee(model: RegisterEmployee) : Observable<any> {
+    return this.http.post('https://localhost:44340/api/register', model);
   }
 }
