@@ -31,6 +31,13 @@ namespace KOService.WebAPI.Controllers
             query = query ?? new GetRepairsQuery();
             return Ok(_mediator.Send(query).Result);
         }
+        [HttpGet("info/{repairId}")]
+        public IActionResult GetRepairInfo(Guid repairId)
+        {
+            var query =  new GetRepairInfoQuery();
+            query.Id = repairId;
+            return Ok(_mediator.Send(query).Result);
+        }
 
         [HttpPost]
         [Authorize(Constants.Roles.Manager)]

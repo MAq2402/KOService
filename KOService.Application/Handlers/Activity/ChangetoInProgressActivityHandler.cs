@@ -8,14 +8,14 @@ using System.Text;
 
 namespace KOService.Application.Handlers.Activity
 {
-    public class OpenActivityHandler : RequestHandler<OpenActivityCommand>
+    public class ChangeToInProgressActivityHandler : RequestHandler<ChangeToInProgressActivityCommand>
     {
         KOServiceDbContext _dbContext;
-        public OpenActivityHandler(KOServiceDbContext dbContext)
+        public ChangeToInProgressActivityHandler(KOServiceDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        protected override void Handle(OpenActivityCommand request)
+        protected override void Handle(ChangeToInProgressActivityCommand request)
         {
             var activity = _dbContext.Activities.FirstOrDefault(a => a.Id == request.ActivityId);
             if (activity != null)

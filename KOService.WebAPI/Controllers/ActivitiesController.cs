@@ -111,10 +111,10 @@ namespace KOService.WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpPut("open/{activityId}")]
-        public IActionResult OpenActivity(Guid activityId)
+        [HttpPut("changeToInProgress/{activityId}")]
+        public IActionResult ChangeToInProgressActivity(Guid activityId)
         {
-            OpenActivityCommand command = new OpenActivityCommand();
+            ChangeToInProgressActivityCommand command = new ChangeToInProgressActivityCommand();
 
             command.ActivityId = activityId;
             var exception = _mediator.Send(command).Exception;
