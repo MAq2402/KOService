@@ -5,6 +5,7 @@ import { Role } from 'src/app/shared/enums/Role';
 import { NavbarButton } from './models/NavbarButton';
 import { Employee } from 'src/app/shared/models/employee.model';
 import { RolePipe } from 'src/app/shared/pipes/role.pipe';
+import { SpinnerService } from '../services/spinner.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,7 +20,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private rolePipe: RolePipe
+    private rolePipe: RolePipe,
+    private spinnerService: SpinnerService
     ) {}
 
     adminNavbarButtons: NavbarButton[] = [
@@ -37,7 +39,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.authService.getCurrentEmployee().subscribe(employee => this.currentEmployee = employee);
+    this.authService.getCurrentEmployee().subscribe(employee => this.currentEmployee = employee);
   }
 
     isUserLogged() {
@@ -53,11 +55,13 @@ export class NavbarComponent implements OnInit {
   }
 
   getNavbarButtons() {
+    let navbarButtonsToReturn = null;
     switch (this.currentEmployee.role) {
-      case Role.admin: return this.adminNavbarButtons;
-      case Role.manager: return this.managerNavbarButtons;
-      case Role.mechanic: return this.mechanicNavbarButtons;
+      case Role.admin: navbarButtonsToReturn = this.adminNavbarButtons; break;
+      case Role.manager: navbarButtonsToReturn = this.managerNavbarButtons; break;
+      case Role.mechanic: navbarButtonsToReturn = this.mechanicNavbarButtons; break;
     }
+    return navbarButtonsToReturn;
   }
 
 }
