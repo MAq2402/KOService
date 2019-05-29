@@ -1,14 +1,13 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="repairInfo">
   <div class="row justify-content-between">
     <mat-card>
       <mat-card-title>
         Klient
       </mat-card-title>
       <mat-card-content>
-        <p>{{client.firstName}} 
-        {{client.lastName}}</p>
-        <p> telefon: {{client.phoneNumber}}</p>
-        <p> email: {{client.email}}</p>
+        <p>{{repairInfo.clientName}} </p>
+        <p> telefon: {{repairInfo.clientPhoneNumber}}</p>
+        <p> email: {{repairInfo.clientEmail}}</p>
       </mat-card-content>
     </mat-card>
     <mat-card>
@@ -16,9 +15,9 @@
           Samochód
         </mat-card-title>
         <mat-card-content>
-            <p>marka: {{repair?.vehicleBrand}} </p>
-            <p>model: {{repair?.vehicleModel}}</p>
-            <p>rejestracja: {{repair?.vehicleRegistrationNumbers}}</p>
+            <p>marka: {{repairInfo.vehicleBrand}} </p>
+            <p>model: {{repairInfo.vehicleModel}}</p>
+            <p>rejestracja: {{repairInfo.vehicleRegistrationNumbers}}</p>
             
           </mat-card-content>
       </mat-card>
@@ -27,10 +26,15 @@
             Naprawa
           </mat-card-title>
           <mat-card-content>
-              <p>opis: {{repair?.description}} </p>
-              <p>status: {{repair?.status}} </p>
-              
-              <p>data przyjęcia: {{repair?.startDateTime}}</p>
+              <p>opis: {{repairInfo.description}} </p>
+              <p [ngSwitch]="repairInfo.status">
+                <i *ngSwitchCase="0" class="material-icons" id="status-open">new_releases</i>
+                <i *ngSwitchCase="1" class="material-icons" id="status-progress">schedule</i>
+                <i *ngSwitchCase="2" class="material-icons" id="status-finished">check_circle_outline </i>
+                <i *ngSwitchCase="3" class="material-icons" id="status-canceled"> cancel</i>
+              </p>
+              <p>komentarz: {{repairInfo.result}} </p>
+              <p>data przyjęcia: {{repairInfo.startDateTime}}</p>
               
             </mat-card-content>
         </mat-card>
