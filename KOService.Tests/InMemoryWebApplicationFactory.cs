@@ -16,13 +16,14 @@ namespace KOService.Tests
         {
             builder.ConfigureServices(services =>
             {
-                
+
                 var serviceProvider = new ServiceCollection().AddEntityFrameworkInMemoryDatabase().BuildServiceProvider();
 
                 services.AddDbContext<KOServiceDbContext>(options =>
                 {
                     options.UseInMemoryDatabase("InMemoryAppDb");
                     options.UseInternalServiceProvider(serviceProvider);
+          
                 });
 
                 var builtServiceProvider = services.BuildServiceProvider();

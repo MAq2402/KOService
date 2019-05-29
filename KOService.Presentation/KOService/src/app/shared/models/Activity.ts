@@ -10,7 +10,7 @@ export class Activity {
     startDataTime: string;
     closedTime: string;
     activityTypeId: string;
-    requestId: string;
+    repairId: string;
     workerId: string;
     vehicleRegistrationNumbers: string;
     vehicleBrand: string;

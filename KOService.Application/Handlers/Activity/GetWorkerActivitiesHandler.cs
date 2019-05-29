@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KOService.Application.DTOs.Activity;
+using KOService.Application.DTOs.Employee;
 using KOService.Application.Queries.Activity;
 using KOService.Domain.DbContexts;
 using MediatR;
@@ -14,18 +15,19 @@ using System.Threading.Tasks;
 
 namespace KOService.Application.Handlers.Activity
 {
-    class GetMechanicActivitiesHandler : RequestHandler<GetMechanicActivitiesQuery, IEnumerable<ActivityDto>>
+    class GetWorkerActivitiesHandler : RequestHandler<GetWorkerActivitiesQuery, IEnumerable<ActivityDto>>
     {
         private KOServiceDbContext _dbContext;
 
-        public GetMechanicActivitiesHandler(KOServiceDbContext dbContext)
+        public GetWorkerActivitiesHandler(KOServiceDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        protected override IEnumerable<ActivityDto> Handle(GetMechanicActivitiesQuery request)
+        protected override IEnumerable<ActivityDto> Handle(GetWorkerActivitiesQuery request)
         {
-            var activities = _dbContext.Activities.Where(a => a.MechanicId == request.MechanicId)
+
+            var activities = _dbContext.Activities.Where(a => a.MechanicId == request.WorkerId)
                 .Include(a => a.Repair)
                     .ThenInclude(r => r.Vehicle)
                     .ThenInclude(v => v.Type).AsQueryable(); 
@@ -38,7 +40,7 @@ namespace KOService.Application.Handlers.Activity
             return Mapper.Map<IEnumerable<ActivityDto>>(activities);
         }
 
-        private IQueryable<Domain.Entities.Activity> ApplyFilter(IQueryable<Domain.Entities.Activity> activities, GetMechanicActivitiesQuery request)
+        private IQueryable<Domain.Entities.Activity> ApplyFilter(IQueryable<Domain.Entities.Activity> activities, GetWorkerActivitiesQuery request)
         {
             string predicate = BuildPredicate(request.Status);
 
