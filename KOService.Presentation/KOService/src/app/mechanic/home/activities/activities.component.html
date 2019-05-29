@@ -42,17 +42,19 @@
         <div class="element-detail"
             [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
             <div class="container">
-             <form *ngIf=" checkIfNotHistorical(element.status); else historicalTask">
+             <form *ngIf=" checkIfNotHistorical(element.status); else historicalTask" >
                 <div class="row">  
                 <mat-form-field class="my-input">
-                  <textarea matInput placeholder="Zostaw komentarz"></textarea>
+                  <textarea matInput placeholder="Zostaw komentarz" [(ngModel)]="result" [ngModelOptions]="{standalone: true}"
+                  ></textarea>
                 </mat-form-field>
                 </div>
                 <div class="row my-row">
-                  <button [disabled]="!checkIfOpen(element.status)" mat-raised-button color="basic">
+                  <button [disabled]="!checkIfOpen(element.status)" mat-raised-button color="basic"
+                  (click)="changeToInProgress(element.id)">
                     Rozpocznij</button>
-                  <button mat-raised-button color="primary">Zakończ</button>
-                  <button mat-raised-button color="warn">Anuluj</button>
+                  <button mat-raised-button color="primary" type="submit" (click)="finish(element.id)">Zakończ</button>
+                  <button mat-raised-button color="warn" type="submit" (click)="cancel()">Anuluj</button>
                 </div> 
               </form>
             </div>                 

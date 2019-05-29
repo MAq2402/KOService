@@ -78,7 +78,7 @@ namespace KOService.WebAPI.Controllers
 
 
         [HttpPut("cancel/{activityId}")]
-        public IActionResult CancelActivity(Guid activityId, [FromBody] string comment)
+        public IActionResult CancelActivity(Guid activityId, [FromQuery] string comment)
         {
             CancelActivityCommand command = new CancelActivityCommand();
 
@@ -95,7 +95,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("finish/{activityId}")]
-        public IActionResult FinishActivity(Guid activityId, [FromBody] string comment)
+        public IActionResult FinishActivity(Guid activityId, [FromQuery] string comment)
         {
             FinishActivityCommand command = new FinishActivityCommand();
 

@@ -30,6 +30,7 @@ export class ActivitiesComponent implements OnInit {
   showWithStatusFinished = false;
   showWithStatusCanceled = false;
   filterValue = '';
+  result: string;
 
   displayedColumns = ['startDateTime', 'description','vehicleRegistrationNumbers', 'vehicleBrand', 'status'];
   columnsToDisplayMap = [  
@@ -94,18 +95,37 @@ export class ActivitiesComponent implements OnInit {
   private buildStatusQuery() {
     let statusQuery = '';
     if (this.showWithStatusOpen) {
-      statusQuery += '0,';
+      statusQuery += 'OPN,';
     }
     if (this.showWithStatusInProgress) {
-      statusQuery += '1,';
+      statusQuery += 'PRO,';
     }
     if (this.showWithStatusCanceled) {
-      statusQuery += '2,';
+      statusQuery += 'CAN,';
     }
     if (this.showWithStatusFinished) {
-      statusQuery += '3';
+      statusQuery += 'FIN';
     }
     return statusQuery;
+  }
+
+    changeToInProgress(activityId: string){    
+    this.activityService.changeToInProgress(activityId).subscribe();
+  }
+
+  finish(activityId: string){
+    if (this.result === undefined) {
+      this.result = 'brak komentarza';
+    }
+    this.activityService.finishActivity(activityId, this.result).subscribe();
+  }
+
+  cancel(activityId: string){
+    if (this.result === undefined) {
+      //comment is requires
+    }
+    this.activityService.cancelActivity(activityId, this.result).subscribe();
+
   }
 }
 
