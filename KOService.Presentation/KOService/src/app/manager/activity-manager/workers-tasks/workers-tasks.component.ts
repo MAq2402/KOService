@@ -11,7 +11,10 @@ import { Employee } from 'src/app/shared/models/employee.model';
 import { WorkerActivities } from '../workers-table/workers-table.component';
 import { ActivatedRoute } from '@angular/router';
 
-
+export interface Assignment{
+ activityId: string;
+ workerId: string;
+}
 
 @Component({
   selector: 'app-workers-tasks',
@@ -29,8 +32,8 @@ export class WorkersTasksComponent implements OnInit {
 
   repairId: string;
   repairActivities: Activity[];
-  
-  assigned:WorkerActivities[] = [];
+  workerId: string;
+  assignments:Assignment[] = [];
 
   columnsToDisplay = ['description', 'type', 'status','worker'];
   
@@ -39,7 +42,8 @@ export class WorkersTasksComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params=>(this.repairId = params['id'],console.log(this.repairId)));
-     this.activityService.getRepairActivities(this.repairId).subscribe(activities => this.repairActivities = activities );
+     this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
+       this.repairActivities = activities ));
   }
 
   openActivityCreatorDialog(): void{
@@ -50,15 +54,11 @@ export class WorkersTasksComponent implements OnInit {
   
 
 drop(event: CdkDragDrop<string[]>) {
-  if (event.previousContainer === event.container) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    console.log("move")
-  } else {
-    transferArrayItem(event.previousContainer.data,
-                      event.container.data,
-                      event.previousIndex,
-                      event.currentIndex);
-    console.log(this.assigned);
+  if (event.previousContainer !== event.container) {
+    this.workerId = event.previousContainer.data[event.previousIndex]['id'];
+    
+    this.assignments.push({workerId: this.workerId,activityId: "blablabla"})
+    console.log(this.assignments);
   }
 }
 evenPredicate(item: CdkDrag<number>) {
