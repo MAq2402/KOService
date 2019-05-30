@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { Employee } from 'src/app/shared/models/employee.model';
 import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/material';
@@ -21,10 +21,12 @@ export class HomeComponent implements OnInit {
 
   constructor(private spinnerService: NgxSpinnerService,
     public dialog: MatDialog,
-    private employeeService: EmployeeService) {
+    private employeeService: EmployeeService,
+    private zone:NgZone) {
    }
 
   ngOnInit() {
+    console.log("home component ngOnInit");
     this.getData();
   }
 

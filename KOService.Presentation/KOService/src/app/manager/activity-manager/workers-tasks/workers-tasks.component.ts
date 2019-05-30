@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityService } from 'src/app/shared/services/activity.service';
@@ -9,8 +9,7 @@ import {ActivityCreatorComponent} from '../activity-creator/activity-creator.com
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
 import { Employee } from 'src/app/shared/models/employee.model';
 import { WorkerActivities } from '../workers-table/workers-table.component';
-import { EmployeeService } from 'src/app/shared/services/employee.service';
-import { Role } from 'src/app/shared/enums/Role';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -28,34 +27,26 @@ import { Role } from 'src/app/shared/enums/Role';
 })
 export class WorkersTasksComponent implements OnInit {
 
-  //TODO: request id as input
-  repairId = '0';
- 
+  repairId: string;
   repairActivities: Activity[];
-  workers: Employee[];
+  
   assigned:WorkerActivities[] = [];
 
   columnsToDisplay = ['description', 'type', 'status','worker'];
   
-  constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog) { }
+  constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,private route: ActivatedRoute) { }
 
 
   ngOnInit() {
+    this.route.params.subscribe(params=>(this.repairId = params['id'],console.log(this.repairId)));
      this.activityService.getRepairActivities(this.repairId).subscribe(activities => this.repairActivities = activities );
   }
 
   openActivityCreatorDialog(): void{
     const dialogRef = this.activityCreatorDialog.open(ActivityCreatorComponent, {
-     
-      data: {description: null, sequenceNumber: null}
+     data: {repairId: this.repairId}
   });
-  
-
-  dialogRef.afterClosed().subscribe(result => {
-    console.log('The dialog was closed');
-    console.log(result)
-  });
-  }
+}
   
 
 drop(event: CdkDragDrop<string[]>) {

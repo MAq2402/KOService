@@ -25,6 +25,7 @@ export class ActivityCreatorComponent implements OnInit {
      } 
 
   ngOnInit() {
+    console.log(this.data.repairId)
   }
 
   onCancel(): void {
@@ -34,9 +35,6 @@ export class ActivityCreatorComponent implements OnInit {
   onSubmit(){
     this.activity.repairId = this.data.repairId
     this.activityService.addActivity(this.activity).subscribe(activity=>console.log(activity));
-
-
-    
-  }
+}
 
 }

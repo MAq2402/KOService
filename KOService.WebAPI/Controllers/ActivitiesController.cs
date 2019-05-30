@@ -26,7 +26,9 @@ namespace KOService.WebAPI.Controllers
         {
 
             GetWorkerActivitiesQuery query = new GetWorkerActivitiesQuery();
+
             query.MechanicId = mechanicId;
+
             query.Status = status;
             return Ok(_mediator.Send(query).Result);
         }
@@ -76,6 +78,7 @@ namespace KOService.WebAPI.Controllers
             return Ok(command);
         }
 
+
         [HttpPut("cancel/{activityId}")]
         public IActionResult CancelActivity(Guid activityId, [FromBody] string comment)
         {
@@ -110,10 +113,10 @@ namespace KOService.WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpPut("open/{activityId}")]
-        public IActionResult OpenActivity(Guid activityId)
+        [HttpPut("changeToInProgress/{activityId}")]
+        public IActionResult ChangeToInProgressActivity(Guid activityId)
         {
-            OpenActivityCommand command = new OpenActivityCommand();
+            ChangeToInProgressActivityCommand command = new ChangeToInProgressActivityCommand();
 
             command.ActivityId = activityId;
             var exception = _mediator.Send(command).Exception;

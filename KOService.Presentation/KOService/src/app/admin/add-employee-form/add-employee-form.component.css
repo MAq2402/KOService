@@ -1,35 +1,8 @@
 body {
-    background-image: linear-gradient(to bottom right, rgb(145, 145, 177) , rgb(248, 248, 248));
     margin: auto;
 }
 
-.container {
-    margin: auto;
-    margin-top: 20px;
-    text-align: center;
-}
-
-label{
-    margin-top: 5px;
-    margin-bottom: 1px;
-    font-weight: 600;
-}
-
-.header {
-    font-size: 25px;
-    text-align: center;
-}
-
-.textFieldsBlock {
-    display: inline-block;
-}
-
-.otherInputsBlock {
-    margin-left: 40px;
-    display: inline-block;
-}
-
-.selectRoleBlock{
+form {
     margin-top: 20px;
 }
 
@@ -38,26 +11,16 @@ label{
 }
 
 .submitButton {
-    font-weight: 800; 
+    font-weight: 600; 
+    margin-top: 20px;
+}
+
+.mat-form-field {
+    display: block;
+    max-width: 300px;
+    margin: auto;
 }
 
 input {
     text-align: center;
-}
-
-.radioButtonsBlock {
-    margin:auto;
-}
-
-.genderRadioButton {
-    max-height: 25px;
-    max-width: 25px;
-    margin: auto;
-}
-
-p {
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
-    font-size: 16px;
 }

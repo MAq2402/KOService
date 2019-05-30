@@ -74,8 +74,8 @@ namespace KOService.Tests.Controllers
             var stringResult = await httpResponse.Content.ReadAsStringAsync();
 
             _output.WriteLine(stringResult);
-            //httpResponse.EnsureSuccessStatusCode();
-            Assert.NotNull(httpResponse);
+            httpResponse.EnsureSuccessStatusCode();
+           
         }
     }
 }

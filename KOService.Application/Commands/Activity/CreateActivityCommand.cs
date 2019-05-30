@@ -8,7 +8,8 @@ namespace KOService.Application.Commands.Activity
 {
     public class CreateActivityCommand:IRequest
     {
-        public ActivityForCreationDto Activity { get; set; }
+        public string Description { get; set; }
+        public int SequenceNumber { get; set; }
         public Guid RepairId { get; set; }
     }
 }
