@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class ActivityService {
 
-  private baseUrl = 'https://localhost:44340/api/Activities/'
+  private baseUrl = 'https://localhost:44340/api/activities/'
 
 
 

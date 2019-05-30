@@ -125,26 +125,22 @@ export class ActivitiesComponent implements OnInit {
   } 
 
   finish(activityId: string){
-    if (this.result === '') {
-      this.result = 'brak';
-    }
-
+    
     const dialogRef = this.dialog.open(ConfirmationComponent, {
       data: {header: `Jesteś pewny, że chcesz zakończyć to zadanie?`}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.confirmed) {
+        if (this.result === '') {
+          this.result = 'brak';
+        }
+    
         this.activityService.finishActivity(activityId, this.result).subscribe(
           res => { 
             this.getData();
             this.clearResult();
         });
-      }
-      else{
-        if(!result.confirmed){
-          this.clearResult();
-        }
       }
     }); 
   }
