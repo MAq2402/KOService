@@ -44,22 +44,16 @@ export class ActivityService {
   }
   
   changeToInProgress(activityId: string):Observable<Activity>{
-    console.log("clicked");
     return this.httpClient.put<Activity>(this.baseUrl + "open/" + activityId, httpOptions);
   }
 
   cancelActivity(activityId: string, comment: string):Observable<Activity>{
-    
-    return this.httpClient.put<Activity>(this.baseUrl + "cancel/" + activityId, 
+    return this.httpClient.put<Activity>(this.baseUrl + "cancel/" + activityId,{}, 
     {params: new HttpParams().set('comment', comment)});
   }
 
   finishActivity(activityId: string, comment: string):Observable<Activity>{
-    console.log("finish");
-    return this.httpClient.put<Activity>(this.baseUrl + "finish/" + activityId,
-    {params: new HttpParams().set('comment', comment )});
-  }
-
-
-  
+    return this.httpClient.put<Activity>(this.baseUrl + "finish/" + activityId,{},
+    {params: new HttpParams().set('comment', comment)});
+  } 
 }

@@ -32,7 +32,7 @@ namespace KOService.Domain.Entities
         public Employee Mechanic { get; set; }
         public void Cancel(string result)
         {
-            if (GetStatus() != ActivityStatus.InProgress)
+            if (GetStatus() > ActivityStatus.InProgress)
             {
                 throw new DomainException($"Can't perform cancelation when current status is {Status}");
             }
@@ -50,7 +50,7 @@ namespace KOService.Domain.Entities
         }
         public void Finish(string result)
         {
-            if (GetStatus() != ActivityStatus.InProgress)
+            if (GetStatus() > ActivityStatus.InProgress)
             {
                 throw new DomainException($"Can't perform cancelation when current status is {Status}");
             }

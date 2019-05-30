@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
 import { ActivityService } from 'src/app/shared/services/activity.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
 import { AuthService } from 'src/app/authentication/services/auth.service';
+import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-activities',
@@ -30,18 +31,21 @@ export class ActivitiesComponent implements OnInit {
   showWithStatusFinished = false;
   showWithStatusCanceled = false;
   filterValue = '';
-  result: string;
+  result = '';
 
-  displayedColumns = ['startDateTime', 'description','vehicleRegistrationNumbers', 'vehicleBrand', 'status'];
+  displayedColumns = ['startDateTime', 'description','vehicleRegistrationNumbers', 'vehicleBrand', 'status', 'sequenceNumber'];
   columnsToDisplayMap = [  
-    {name: 'description', display: 'opis'}, 
-    {name: 'vehicleRegistrationNumbers', display: 'numer rejestracyjny'},
-    {name: 'vehicleBrand', display: 'marka pojazdu'  
+    {name: 'description', display: 'Opis'}, 
+    {name: 'vehicleRegistrationNumbers', display: 'Numer rejestracyjny'},
+    {name: 'vehicleBrand', display: 'Marka pojazdu'},
+    {name: 'sequenceNumber', display: 'Numer w sekwencji'   
   }];
 
   constructor(
     private activityService: ActivityService, 
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ){ }
 
   getData(){
@@ -54,8 +58,8 @@ export class ActivitiesComponent implements OnInit {
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.dataSource.filter = this.filterValue.trim().toLowerCase();
+            this.applyFilter(this.filterValue);
         });
-
       })
     }
     else{
@@ -68,7 +72,8 @@ export class ActivitiesComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = this.filterValue;
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -76,9 +81,13 @@ export class ActivitiesComponent implements OnInit {
 
   checkIfNotHistorical(status: ActivityStatus): boolean{
     if(status <= ActivityStatus.Progress)
-        return true;
+      return true;
     else
       return false;
+  }
+
+  clearResult(){
+    this.result = '';  
   }
 
   checkIfOpen(status: ActivityStatus): boolean{
@@ -109,23 +118,58 @@ export class ActivitiesComponent implements OnInit {
     return statusQuery;
   }
 
-    changeToInProgress(activityId: string){    
-    this.activityService.changeToInProgress(activityId).subscribe();
-  }
+  changeToInProgress(activityId: string){    
+    this.activityService.changeToInProgress(activityId).subscribe(
+      res => this.getData()
+    ); 
+  } 
 
   finish(activityId: string){
-    if (this.result === undefined) {
-      this.result = 'brak komentarza';
+    if (this.result === '') {
+      this.result = 'brak';
     }
-    this.activityService.finishActivity(activityId, this.result).subscribe();
+
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: {header: `Jesteś pewny, że chcesz zakończyć to zadanie?`}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.confirmed) {
+        this.activityService.finishActivity(activityId, this.result).subscribe(
+          res => { 
+            this.getData();
+            this.clearResult();
+        });
+      }
+      else{
+        if(!result.confirmed){
+          this.clearResult();
+        }
+      }
+    }); 
   }
 
   cancel(activityId: string){
-    if (this.result === undefined) {
-      //comment is requires
+    if (this.result === '') {
+      this.snackBar.open('Podaj przyczynę anulowania!', '',
+        {duration: 4000}
+      );
     }
-    this.activityService.cancelActivity(activityId, this.result).subscribe();
-
+    else{ 
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        data: {header: `Jesteś pewny, że chcesz anulować to zadanie?`}
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result && result.confirmed) {
+          this.activityService.cancelActivity(activityId, this.result).subscribe(
+            res => {
+              this.getData();
+              this.clearResult();
+          });
+        }
+      }); 
+    }
   }
 }
 
