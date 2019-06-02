@@ -42,6 +42,10 @@ export class ActivityService {
     return this.httpClient.get<Activity[]>(this.baseUrl + 'mechanic/'+mechanicId,
      {params: new HttpParams().set('status', statusQuery)});
   }
+
+  assignWorker(workerId: string, activityId: string){
+    return this.httpClient.put(this.baseUrl + activityId + '/' + workerId,httpOptions);
+  }
   
   
 }

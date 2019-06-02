@@ -37,8 +37,8 @@
               <td mat-cell *matCellDef="let activity">
                 <div id="{{activity.id}}" cdkDropList [cdkDropListData]="assigned" class="example-list"
                   (cdkDropListDropped)="drop($event)">
-                  <div class="example-box" *ngFor="let workerActivities of assigned" cdkDrag [cdkDragData]="workerActivities">
-                    <p *ngIf="workerActivities">{{workerActivities.firstName}}</p>
+                  <div class="example-box">
+                    <p>{{assignments[activity.id].Name}}</p>
                   </div>
                 </div>
 
