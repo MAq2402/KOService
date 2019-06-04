@@ -10,8 +10,13 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angul
 import { Employee } from 'src/app/shared/models/employee.model';
 import { WorkerActivities } from '../workers-table/workers-table.component';
 import { ActivatedRoute } from '@angular/router';
-
-
+export interface WorkerDto{
+  Id: string;
+ Name: string;
+}
+export interface Assignment{
+ [activityId: string]:WorkerDto;
+}
 
 @Component({
   selector: 'app-workers-tasks',
@@ -26,11 +31,9 @@ import { ActivatedRoute } from '@angular/router';
   ],
 })
 export class WorkersTasksComponent implements OnInit {
-
   repairId: string;
   repairActivities: Activity[];
-  
-  assigned:WorkerActivities[] = [];
+  assignments:Assignment[] = [];
 
   columnsToDisplay = ['description', 'type', 'status','worker'];
   
@@ -39,7 +42,8 @@ export class WorkersTasksComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params=>(this.repairId = params['id'],console.log(this.repairId)));
-     this.activityService.getRepairActivities(this.repairId).subscribe(activities => this.repairActivities = activities );
+     this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
+       this.repairActivities = activities, activities.map(activity=>this.assignments[activity.id]={Id: null,Name: null}) ));
   }
 
   openActivityCreatorDialog(): void{
@@ -50,19 +54,14 @@ export class WorkersTasksComponent implements OnInit {
   
 
 drop(event: CdkDragDrop<string[]>) {
-  if (event.previousContainer === event.container) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    console.log("move")
-  } else {
-    transferArrayItem(event.previousContainer.data,
-                      event.container.data,
-                      event.previousIndex,
-                      event.currentIndex);
-    console.log(this.assigned);
+  if (event.previousContainer !== event.container) {
+    let workerId = event.previousContainer.data[event.previousIndex]['id'];
+    let activityId = event.container.id;
+    this.assignments[activityId].Id = workerId;
+    let workerName = event.previousContainer.data[event.previousIndex]['firstName'] + 
+        event.previousContainer.data[event.previousIndex]['lastName'];
+    this.assignments[activityId].Name = workerName;
+    this.activityService.assignWorker(workerId,activityId).subscribe();
   }
-}
-evenPredicate(item: CdkDrag<number>) {
-  
- 
 }
 }
