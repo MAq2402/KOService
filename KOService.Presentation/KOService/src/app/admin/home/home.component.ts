@@ -2,8 +2,8 @@ import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { Employee } from 'src/app/shared/models/employee.model';
 import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/material';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private spinnerService: NgxSpinnerService,
+  constructor(private spinnerService: SpinnerService,
     public dialog: MatDialog,
     private employeeService: EmployeeService,
     private zone:NgZone) {
@@ -31,12 +31,11 @@ export class HomeComponent implements OnInit {
   }
 
   private getData() {
-    this.spinnerService.show();
     this.employeeService.getEmployees().subscribe(employees => {
       this.dataSource = new MatTableDataSource(employees);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.spinnerService.hide();
+      this.spinnerService.hide(); // show in auth.service -> login
     });
   }
 

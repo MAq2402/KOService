@@ -5,6 +5,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
 import { AuthService } from 'src/app/authentication/services/auth.service';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 
 @Component({
   selector: 'app-activities',
@@ -32,15 +33,16 @@ export class ActivitiesComponent implements OnInit {
   filterValue = '';
 
   displayedColumns = ['startDateTime', 'description','vehicleRegistrationNumbers', 'vehicleBrand', 'status'];
-  columnsToDisplayMap = [  
-    {name: 'description', display: 'opis'}, 
+  columnsToDisplayMap = [
+    {name: 'description', display: 'opis'},
     {name: 'vehicleRegistrationNumbers', display: 'numer rejestracyjny'},
-    {name: 'vehicleBrand', display: 'marka pojazdu'  
+    {name: 'vehicleBrand', display: 'marka pojazdu'
   }];
 
   constructor(
-    private activityService: ActivityService, 
-    private authService: AuthService
+    private activityService: ActivityService,
+    private authService: AuthService,
+    private spinnerService: SpinnerService
   ){ }
 
   getData(){
@@ -48,17 +50,19 @@ export class ActivitiesComponent implements OnInit {
     if (this.showWithStatusCanceled || this.showWithStatusFinished || this.showWithStatusInProgress || this.showWithStatusOpen) {
       this.authService.getCurrentEmployee().subscribe(user => {
         this.activityService.getMechanicActivity(user.id, statusQuery).subscribe(
-          activities => {   
+          activities => {
             this.dataSource = new MatTableDataSource(activities);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.dataSource.filter = this.filterValue.trim().toLowerCase();
+            this.spinnerService.hide(); // show in auth.service -> login
         });
 
       })
     }
     else{
       this.dataSource = null;
+      this.spinnerService.hide(); // show in auth.service -> login
     }
   }
 
@@ -90,7 +94,7 @@ export class ActivitiesComponent implements OnInit {
   onStatusCheckboxChange(event: any) {
     this.getData();
   }
-    
+
   private buildStatusQuery() {
     let statusQuery = '';
     if (this.showWithStatusOpen) {
