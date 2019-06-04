@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-
-import { Observable, of } from 'rxjs';
-import { RepairStatus } from '../enums/repair-status';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Repair } from '../models/repair.model';
+import { RepairInfo } from '../models/repair-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +17,8 @@ export class RepairService {
 
   getRepairs(statusQuery = ''): Observable<Repair[]> {
     return this.httpClient.get<Repair[]>(this.url, {params: new HttpParams().set('status', statusQuery)});
+  }
+  getRepairInfo(repairId): Observable<RepairInfo>{
+    return this.httpClient.get<RepairInfo>(this.url + "info/"+ repairId);
   }
 }

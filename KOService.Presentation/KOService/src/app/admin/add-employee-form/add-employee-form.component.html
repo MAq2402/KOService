@@ -1,43 +1,44 @@
 <body>
     <div class="col-md-4 mx-auto mt-5">
-        <h3 class="my-title-font">Add new employee</h3>
+        <h3 class="my-title-font">Zarejestruj nowego pracownika</h3>
         <form>
-            <div class=container>
-                <div class="textFieldsBlock">
-                    <label for="firstName">Imię:</label>
-                    <input #firstName matinput type="text" id="firstName" name="firstName" class="form-control"
-                        required>
-                    <label for="lastName">Nazwisko:</label>
-                    <input #lastName matinput type="text" id="lastName" name="lastName" class="form-control" required>
-                    <label for="e-mail">Adres e-mail:</label>
-                    <input #email matinput type="email" id="e-mail" name="e-mail" class="form-control" required>
-                    <label for="phone">Numer telefonu:</label>
-                    <input #phone matinput type="tel" id="phone" name="phone" class="form-control" pattern="[0-9]{9}"
-                        required>
-                </div>
-                <div class="otherInputsBlock">
-                    <label for="gender">Płeć:</label>
-                    <div class="radioButtonsBlock">
-                        <input matinput type="radio" id="gender" name="gender" class="form-control genderRadioButton"
-                            value="male" checked>Mężczyzna<br>
-                        <input matinput type="radio" id="gender" name="gender" class="form-control genderRadioButton"
-                            value="female">Kobieta<br>
-                        <input type="radio" id="gender" name="gender" class="form-control genderRadioButton"
-                            value="other">Inna<br>
-                    </div>
-                    <div class="selectRoleBlock">
-                        <label for="role">Rola:</label>
-                        <select id="role" name="role" class="form-control">
-                            <option *ngFor="let key of keys">{{roles[key]}}</option>
-                        </select>
-                    </div>
+            <mat-form-field>
+                <mat-label for="firstName">Imię:</mat-label>
+                <input #firstName matInput type="text" [(ngModel)]="register.firstName" id="firstName" name="firstName"
+                    class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="lastName">Nazwisko:</mat-label>
+                <input #lastName matInput type="text" [(ngModel)]="register.lastName" id="lastName" name="lastName"
+                    class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="userName">Nickname:</mat-label>
+                <input #lastName matInput type="text" [(ngModel)]="register.userName" id="userName" name="userName"
+                    class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="password">Hasło:</mat-label>
+                <input #lastName matInput type="password" [(ngModel)]="register.password" id="password" name="password"
+                    class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="confirmPassword">Potwierdź hasło:</mat-label>
+                <input #lastName matInput type="password" [(ngModel)]="register.confirmPassword" id="confirmPassword"
+                    name="confirmPassword" class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="role">Rola:</mat-label>
+                <select matNativeControl [(ngModel)]="register.employeeRole" id="role" name="role" class="form-control"
+                    required>
+                    <option *ngFor="let key of keys">{{roles[key]}}</option>
+                </select>
+            </mat-form-field>
 
-                </div>
-                <div class="submitButtonBlock"><br>
-                    <button mat-button type="submit" class="form-control submitButton">
-                        Dodaj pracownika
-                    </button>
-                </div>
+            <div class="submitButtonBlock">
+                <button mat-button type="submit" (click)="onSubmit()" class="form-control submitButton">
+                    Dodaj pracownika
+                </button>
             </div>
         </form>
     </div>

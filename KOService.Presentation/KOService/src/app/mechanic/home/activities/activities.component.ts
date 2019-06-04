@@ -6,6 +6,7 @@ import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
 import { AuthService } from 'src/app/authentication/services/auth.service';
 import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 
 @Component({
   selector: 'app-activities',
@@ -45,7 +46,8 @@ export class ActivitiesComponent implements OnInit {
     private activityService: ActivityService, 
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private spinnerService: SpinnerService
   ){ }
 
   getData(){
@@ -53,17 +55,19 @@ export class ActivitiesComponent implements OnInit {
     if (this.showWithStatusCanceled || this.showWithStatusFinished || this.showWithStatusInProgress || this.showWithStatusOpen) {
       this.authService.getCurrentEmployee().subscribe(user => {
         this.activityService.getMechanicActivity(user.id, statusQuery).subscribe(
-          activities => {   
+          activities => {
             this.dataSource = new MatTableDataSource(activities);
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.dataSource.filter = this.filterValue.trim().toLowerCase();
             this.applyFilter(this.filterValue);
+            this.spinnerService.hide(); // show in auth.service -> login
         });
       })
     }
     else{
       this.dataSource = null;
+      this.spinnerService.hide(); // show in auth.service -> login
     }
   }
 
@@ -100,7 +104,7 @@ export class ActivitiesComponent implements OnInit {
   onStatusCheckboxChange(event: any) {
     this.getData();
   }
-    
+
   private buildStatusQuery() {
     let statusQuery = '';
     if (this.showWithStatusOpen) {

@@ -5,16 +5,10 @@ import { Client } from 'src/app/shared/models/Client';
 import { DomElementSchemaRegistry } from '@angular/compiler';
 import { Repair } from 'src/app/shared/models/repair.model';
 import { RepairService } from 'src/app/shared/services/repair.service';
+import { RepairInfo } from 'src/app/shared/models/repair-info.model';
+import { ActivatedRoute } from '@angular/router';
   
-  const CLIENT: Client = 
-  {
-    id: '1',
-    firstName: "Janusz",
-    lastName: "Kowalski",
-    phoneNumber: "123456789",
-    email: "jkowalski@domena.com"
 
-  }
   
 
 @Component({
@@ -23,14 +17,16 @@ import { RepairService } from 'src/app/shared/services/repair.service';
   styleUrls: ['./repair-info.component.css']
 })
 export class RepairInfoComponent implements OnInit {
-  client: Client = CLIENT;
-  repair: Repair = null;
+  repairId: string;
+  repairInfo: RepairInfo;
 
-  constructor(private repairService: RepairService) { }
+  constructor(private repairService: RepairService,private route: ActivatedRoute) { 
+    this.repairId = "499b6e90-56fa-4074-abfa-2c4438c97f2b";
+  }
 
   ngOnInit() {
-    this.repairService.getRepairs().subscribe(rep=>{this.repair = rep[0]; console.log(rep)})
-
+    this.route.params.subscribe(params=>(this.repairId = params['id']));
+    this.repairService.getRepairInfo(this.repairId).subscribe(rep=>this.repairInfo = rep)
   }
 
 }

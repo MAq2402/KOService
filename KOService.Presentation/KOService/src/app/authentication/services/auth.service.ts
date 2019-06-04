@@ -7,9 +7,8 @@ import { Role } from 'src/app/shared/enums/Role';
 import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import { Employee } from 'src/app/shared/models/employee.model';
-import { EmployeeService } from 'src/app/shared/services/employee.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { throwError, Observable, of } from 'rxjs';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 
 const EMPLOYEE_ROLE = 'employee_role';
 const AUTH_TOKEN = 'auth_token';
@@ -27,7 +26,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private spinnerService: NgxSpinnerService
+    private spinnerService: SpinnerService
     ) {
       if (this.isAuthenticated() && this.currentEmployee === null) {
         this.getCurrentEmployee().subscribe();
@@ -44,7 +43,10 @@ export class AuthService {
   }
 
   login(credentials: LoginCredentials) {
-    this.spinnerService.show();
+    this.spinnerService.show(); /*hide in getData() methods of:
+                                      admin/home/home.component,
+                                      manager/home/home.component,
+                                      mechanic/home/activities/activities.component*/
     return this.http.post<LoginResponse>(this.baseUrl + 'login', credentials)
       .pipe(
         tap(response => {
@@ -53,10 +55,8 @@ export class AuthService {
           this.getCurrentEmployee().subscribe();
           const decodedToken = jwt_decode(response.auth_token);
           this.router.navigate([decodedToken[EMPLOYEE_ROLE]]);
-          this.spinnerService.hide();
         }),
         catchError(error => {
-          this.spinnerService.hide();
           return throwError(error);
         })
       ).subscribe();

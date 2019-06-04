@@ -42,9 +42,13 @@ export class ActivityService {
     return this.httpClient.get<Activity[]>(this.baseUrl + 'mechanic/'+mechanicId,
      {params: new HttpParams().set('status', statusQuery)});
   }
+
+  assignWorker(workerId: string, activityId: string){
+    return this.httpClient.put(this.baseUrl + activityId + '/' + workerId,httpOptions);
+  }
   
   changeToInProgress(activityId: string):Observable<Activity>{
-    return this.httpClient.put<Activity>(this.baseUrl + "open/" + activityId, httpOptions);
+    return this.httpClient.put<Activity>(this.baseUrl + "changeToInProgress/" + activityId, httpOptions);
   }
 
   cancelActivity(activityId: string, comment: string):Observable<Activity>{
