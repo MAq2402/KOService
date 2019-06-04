@@ -8,7 +8,7 @@ export class Activity {
     result: string;
     status: ActivityStatus;
     startDataTime: string;
-    closedTime: string;
+    endDateTime: string;
     activityTypeId: string;
     repairId: string;
     workerId: string;
