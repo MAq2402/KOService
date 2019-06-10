@@ -21,22 +21,16 @@ namespace KOService.Application.Handlers.Repair
 
         protected override IEnumerable<RepairDto> Handle(GetRepairsQuery request)
         {
-            var repairs = _dbContext.Repairs.AsQueryable();
+            var repairs = _dbContext.Repairs.Include(r => r.Activities)
+                                            .ThenInclude(a => a.Mechanic)
+                                            .Include(r => r.Vehicle)
+                                            .ThenInclude(v => v.Type).AsQueryable();
 
 
-            //problem z filtrowaniem -> z bazy przychodzi np 'OPN'
-            //a z frontu enum
-            /*
-            if(!string.IsNullOrEmpty(request.Status))
+            if (!string.IsNullOrEmpty(request.Status))
             {
                 repairs = ApplyFilter(repairs, request);
             }
-            */
-
-            repairs.Include(r => r.Activities)
-                   .ThenInclude(a => a.Mechanic)
-                   .Include(r => r.Vehicle)
-                   .ThenInclude(v => v.Type);
 
             return Mapper.Map<IEnumerable<RepairDto>>(repairs);
         }
