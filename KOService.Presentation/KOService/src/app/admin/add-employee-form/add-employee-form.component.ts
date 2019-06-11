@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef, NgZone, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Role } from '../../shared/enums/Role';
+import { Router } from '@angular/router';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { RegisterEmployee } from 'src/app/shared/models/register.model';
 
@@ -42,7 +43,7 @@ export class AddEmployeeFormComponent implements OnInit, OnDestroy {
         employeeRole: Role.mechanic
     };
 
-    constructor(private service: EmployeeService, private zone: NgZone) {
+    constructor(private service: EmployeeService, private zone: NgZone, private router: Router) {
         this.keys = Object.keys(Role).filter(k => !isNaN(Number(k)));
     }
 
@@ -51,7 +52,11 @@ export class AddEmployeeFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.registerSubscription.unsubscribe();
+        
+    }
+
+    delay(ms: number) {
+        return new Promise( resolve => setTimeout(resolve, ms) );
     }
 
     onSubmit() {
@@ -64,6 +69,8 @@ export class AddEmployeeFormComponent implements OnInit, OnDestroy {
             employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
         }
 
-        this.registerSubscription = this.service.addEmployee(model).subscribe();
+        this.service.addEmployee(model).subscribe(res => {            
+            console.log("robie subscriba elo");
+        });
     }
 }
