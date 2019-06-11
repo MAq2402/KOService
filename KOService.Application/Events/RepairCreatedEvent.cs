@@ -14,8 +14,7 @@ namespace KOService.Application.Events
         }
 
         public Guid RepairId{get; }
-
-        public string UserMail {get; }
+        public string UserMail{get; }
 
     }
 }
