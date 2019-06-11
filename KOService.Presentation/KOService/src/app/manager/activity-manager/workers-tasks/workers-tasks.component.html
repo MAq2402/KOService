@@ -1,5 +1,10 @@
 <div cdkDropListGroup>
   <div class="container-fluid margin-top">
+    <div class="row buttons">
+      <button (click)="startRepair()" mat-raised-button color="basic">Rozpocznij</button>
+      <button (click)="cancelRepair()" mat-raised-button color="warn">Anuluj</button>
+      <button (click)="finishRepair()" mat-raised-button color="primary">Zakońćż</button>
+    </div>
     <div class="row center ">
       <div class="col-md-6">
 

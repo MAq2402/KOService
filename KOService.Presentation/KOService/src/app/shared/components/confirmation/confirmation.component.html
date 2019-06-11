@@ -3,7 +3,7 @@
     <p>{{data.header}}</p>
   </div>
   <form *ngIf="data.withInput">
-    <mat-form-field [formControl]="formControl" class="example-full-width">
+    <mat-form-field formControl="formControl" class="example-full-width">
       <textarea matInput placeholder="data.placeholder"></textarea>
     </mat-form-field>
   </form>

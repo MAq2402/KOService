@@ -45,3 +45,12 @@ table {
 .margin-top{
   margin-top:40px;
 }
+
+.buttons {
+  margin-left: 15px;
+  margin-bottom: 30px;
+}
+
+.buttons button {
+  margin: 5px;
+}
