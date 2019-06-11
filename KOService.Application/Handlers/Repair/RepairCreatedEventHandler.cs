@@ -25,7 +25,9 @@ namespace KOService.Application.Handlers.Repair
 
             BodyBuilder bodyBuilder = new BodyBuilder();
             bodyBuilder.HtmlBody = "<h1>KOService</h1>" +
-                "Dziękujemy za skorzystanie z naszych uslug";
+                "Dziękujemy za skorzystanie z naszych uslug. <br>" +
+                "Twój numer naprawy: " + notification.RepairId + "<br>"+
+                "Aby sprawdzić status swojej naprawy przejdź do strony xxx i podaj swój numer naprawy.";
             bodyBuilder.TextBody = "Dziekujemy za skorzystanie z naszych uslug";
 
             message.Body = bodyBuilder.ToMessageBody();
