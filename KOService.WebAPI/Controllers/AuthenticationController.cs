@@ -61,7 +61,7 @@ namespace KOService.WebAPI.Controllers
                 return BadRequest(commandResult.Exception.InnerException.Message);
             }
 
-            return Ok("Account created");
+            return Ok(new { message = "Account created" });
         }
 
         [HttpPost("login")]

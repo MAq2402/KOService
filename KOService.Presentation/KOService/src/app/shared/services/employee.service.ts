@@ -21,7 +21,7 @@ export class EmployeeService {
     return this.http.put<any>(`${this.baseUrl}\\${id}\\terminate`, {});
   }
 
-  addEmployee(model: RegisterEmployee) : Observable<any> {
-    return this.http.post('https://localhost:44340/api/register', model);
+  addEmployee(model: RegisterEmployee): Observable<void> {
+    return this.http.post<void>('https://localhost:44340/api/register', model);
   }
 }
