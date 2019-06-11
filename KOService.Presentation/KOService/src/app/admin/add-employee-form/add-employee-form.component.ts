@@ -64,8 +64,6 @@ export class AddEmployeeFormComponent implements OnInit, OnDestroy {
             employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
         }
 
-        console.log("rola: " + model.employeeRole);
-
         this.registerSubscription = this.service.addEmployee(model).subscribe();
     }
 }
