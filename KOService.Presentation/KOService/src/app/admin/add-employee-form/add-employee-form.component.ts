@@ -26,9 +26,9 @@ export class AddEmployeeFormComponent implements OnInit, OnDestroy {
 
     mapPolishRoleToEnglish = function (role: string) {
         switch(role){
-            case "Mechanik": return Role.mechanic;
-            case "Manager": return Role.manager;
-            case "Administrator": return Role.admin;
+            case this.rolesPolish[0]: return Role.mechanic;//.mechanic;
+            case this.rolesPolish[1]: return Role.manager;//.manager;
+            case this.rolesPolish[2]: return Role.admin;//.admin;
             default: return Role.mechanic;
         }
     }
