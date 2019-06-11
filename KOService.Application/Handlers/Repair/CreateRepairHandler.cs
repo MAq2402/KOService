@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using KOService.Application.Events;
 
 
 namespace KOService.Application.Handlers.Repair
@@ -15,10 +16,12 @@ namespace KOService.Application.Handlers.Repair
     public class CreateRepairHandler : RequestHandler<CreateRepairCommand>
     {
         private KOServiceDbContext _dbContext;
+        private readonly IMediator _mediator;
 
-        public CreateRepairHandler(KOServiceDbContext dbContext)
+        public CreateRepairHandler(KOServiceDbContext dbContext, IMediator mediator)
         {
             _dbContext = dbContext;
+            _mediator = mediator;
         }
         protected override void Handle(CreateRepairCommand request)
         {
@@ -72,6 +75,9 @@ namespace KOService.Application.Handlers.Repair
             {
                 throw new Exception("Could not create new repair");
             }
+
+            var @event = new RepairCreatedEvent(repair.Id, client.ContactDetails.Email);
+            _mediator.Publish(@event);
         }
     }
 }
