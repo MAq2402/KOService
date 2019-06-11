@@ -9,13 +9,29 @@ import { RegisterEmployee } from 'src/app/shared/models/register.model';
     templateUrl: './add-employee-form.component.html',
     styleUrls: ['./add-employee-form.component.css']
 })
+
 export class AddEmployeeFormComponent implements OnInit, OnDestroy {
     registerSubscription: Subscription;
     roles = Role;
+    chosenPolishRole = "Mechanik";
+    rolesPolish = [
+        "Mechanik",
+        "Manager",
+        "Administrator"
+    ]
     keys: any[];
 
     @ViewChild('firstName') firstName: ElementRef;
     @ViewChild('lastName') lastName: ElementRef;
+
+    mapPolishRoleToEnglish = function (role: string) {
+        switch(role){
+            case "Mechanik": return Role.mechanic;
+            case "Manager": return Role.manager;
+            case "Administrator": return Role.admin;
+            default: return Role.mechanic;
+        }
+    }
 
     register: RegisterEmployee = {
         firstName: '',
@@ -23,7 +39,7 @@ export class AddEmployeeFormComponent implements OnInit, OnDestroy {
         userName: '',
         password: '',
         confirmPassword: '',
-        employeeRole: Role.mechanic,
+        employeeRole: Role.mechanic
     };
 
     constructor(private service: EmployeeService, private zone: NgZone) {
@@ -45,8 +61,10 @@ export class AddEmployeeFormComponent implements OnInit, OnDestroy {
             firstName: this.register.firstName,
             lastName: this.register.lastName,
             userName: this.register.userName,
-            employeeRole: this.register.employeeRole,
+            employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
         }
+
+        console.log("rola: " + model.employeeRole);
 
         this.registerSubscription = this.service.addEmployee(model).subscribe();
     }
