@@ -92,12 +92,12 @@ export class HomeComponent implements OnInit {
           this.repairsDataSource.sort = this.sort;
           this.repairsDataSource.paginator = this.paginator;
           this.repairsDataSource.filter = this.filterValue.trim().toLowerCase();
-          this.spinnerService.hide(); // show in auth.service -> login
+          this.spinnerService.hide();
         });
       });
     } else {
       this.repairsDataSource = null;
-      this.spinnerService.hide(); // show in auth.service -> login
+      this.spinnerService.hide();
     }
   }
 

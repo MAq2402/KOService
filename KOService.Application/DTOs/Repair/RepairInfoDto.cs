@@ -12,6 +12,7 @@ namespace KOService.Application.DTOs.Repair
         public string Result { get; set; }
         public DateTime StartDateTime { get; set; }
         public RepairStatus Status { get; set; }
+        public DateTime EndDateTime { get; set; }
 
         public string VehicleRegistrationNumbers { get; set; }
         public string VehicleBrand { get; set; }

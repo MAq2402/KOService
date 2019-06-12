@@ -1,23 +1,23 @@
 table {
-    width: 100%;
-  }
+  width: 100%;
+}
 
-  .toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .toolbar:hover {
-   opacity:0.7;
-    }
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.toolbar:hover {
+  opacity: 0.7;
+}
 
-  .footeritem{
-    margin:0 auto;
-    font-size: 2em;
-    color: rgb(186, 186, 186);
-  }
-  
+.footeritem {
+  margin: 0 auto;
+  font-size: 2em;
+  color: rgb(186, 186, 186);
+}
+
 .example-box {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;
@@ -31,6 +31,7 @@ table {
   background: white;
   font-size: 14px;
 }
+
 .example-list {
   border: solid 1px #ccc;
   min-height: 60px;
@@ -39,9 +40,15 @@ table {
   overflow: hidden;
   display: block;
 }
-.repair-info{
-  margin-top:60px;
+
+.repair-info {
+  margin-top: 60px;
 }
-.margin-top{
-  margin-top:40px;
+
+.margin-top {
+  margin-top: 40px;
+}
+
+.mat-toolbar {
+  margin-bottom: 10px;
 }
