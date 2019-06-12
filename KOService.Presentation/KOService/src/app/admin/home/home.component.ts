@@ -5,6 +5,8 @@ import { Employee } from 'src/app/shared/models/employee.model';
 import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/material';
 import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
+import { EditEmployeeService } from 'src/app/shared/services/editEmployee.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,11 +25,11 @@ export class HomeComponent implements OnInit {
   constructor(private spinnerService: SpinnerService,
     public dialog: MatDialog,
     private employeeService: EmployeeService,
+    private editEmployeeService: EditEmployeeService,
     private router: Router) {
    }
 
   ngOnInit() {
-    console.log("home component ngOnInit");
     this.getData();
   }
 
@@ -49,6 +51,7 @@ export class HomeComponent implements OnInit {
   }
 
   edit(employee: Employee) {
+    this.editEmployeeService.employee = employee;
     this.router.navigate(['/admin/add-employee']);
   }
 
