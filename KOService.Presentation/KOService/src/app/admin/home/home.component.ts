@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
   displayedColumns = [
     'firstName', 'lastName', 'role', 'edit', 'terminate'
   ];
+  editIconClicked = false;
+  employeeToEdit : Employee;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -25,12 +27,17 @@ export class HomeComponent implements OnInit {
   constructor(private spinnerService: SpinnerService,
     public dialog: MatDialog,
     private employeeService: EmployeeService,
-    private editEmployeeService: EditEmployeeService,
-    private router: Router) {
+    private router: Router,
+    private editEmployeeService: EditEmployeeService) {
    }
 
   ngOnInit() {
     this.getData();
+  }
+
+  ngOnDestroy() {
+    console.log(this.employeeToEdit);
+    if (this.editIconClicked) this.editEmployeeService.employee = this.employeeToEdit;
   }
 
   private getData() {
@@ -51,7 +58,8 @@ export class HomeComponent implements OnInit {
   }
 
   edit(employee: Employee) {
-    this.editEmployeeService.employee = employee;
+    this.employeeToEdit = employee;
+    this.editIconClicked = true;
     this.router.navigate(['/admin/add-employee']);
   }
 

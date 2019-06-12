@@ -57,7 +57,11 @@ export class AddEmployeeFormComponent implements OnInit {
         if (this.editEmployeeService) {
             // this.spinnerService.show();
             console.log(this.editEmployeeService.employee.firstName + " " + this.editEmployeeService.employee.lastName);
-            // this.service.getEmployee(this.editEmployeeService.employee.firstName, this.editEmployeeService.employee.lastName);
+            let response = this.service.getEmployee(this.editEmployeeService.employee.id);
+            console.log(response);
+            console.log(JSON.stringify(response));
+
+
             // this.spinnerService.hide();
         }
     }

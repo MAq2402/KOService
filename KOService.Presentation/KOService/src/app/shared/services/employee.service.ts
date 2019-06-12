@@ -10,11 +10,16 @@ import { RegisterEmployee } from '../models/register.model';
 export class EmployeeService {
 
   private baseUrl = 'https://localhost:44340/api/employees';  
+  private userUrl = 'https://localhost:44340/api/user';
 
   constructor(private http: HttpClient) { }
 
   getEmployees(role = null): Observable<Employee[]> {
     return this.http.get<Employee[]>(this.baseUrl, { params: new HttpParams().set('role', role ? role.toString() : null) });
+  }
+
+  getEmployee(id): Observable<Employee> {
+    return this.http.get<Employee>(this.userUrl + '/' + id.toString(), {params: new HttpParams().set('identityId', id ? id.toString() : null)});
   }
 
   terminate(id: string): Observable<any> {
