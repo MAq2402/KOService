@@ -4,6 +4,7 @@ import { Role } from '../../shared/enums/Role';
 import { Router } from '@angular/router';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { RegisterEmployee } from 'src/app/shared/models/register.model';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 
 @Component({
     selector: 'app-add-employee-form',
@@ -44,7 +45,7 @@ export class AddEmployeeFormComponent implements OnInit {
         }
     }
 
-    constructor(private service: EmployeeService, private router: Router) {
+    constructor(private service: EmployeeService, private router: Router, private spinnerService: SpinnerService) {
         this.keys = Object.keys(Role).filter(k => !isNaN(Number(k)));
     }
 
@@ -62,7 +63,9 @@ export class AddEmployeeFormComponent implements OnInit {
             employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
         };
 
+        this.spinnerService.show();
         this.service.addEmployee(model).subscribe(() => {
+            this.spinnerService.hide();
             this.router.navigate(['/admin']);
         });
     }
