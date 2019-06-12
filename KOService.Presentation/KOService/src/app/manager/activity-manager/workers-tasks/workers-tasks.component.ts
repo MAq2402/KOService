@@ -2,20 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityService } from 'src/app/shared/services/activity.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
-import { MatTableDataSource } from '@angular/material/table';
-import { DataSource } from '@angular/cdk/table';
+import { MatDialog} from '@angular/material';
 import { ActivityCreatorComponent } from '../activity-creator/activity-creator.component'
-import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angular/cdk/drag-drop';
-import { Employee } from 'src/app/shared/models/employee.model';
-import { WorkerActivities } from '../workers-table/workers-table.component';
+import { CdkDragDrop} from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
-import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
-import { ConfirmationModel } from 'src/app/shared/models/confirmation.model';
-import { RepairService } from 'src/app/shared/services/repair.service';
-import { CancelModel } from '../../models/cancel.model';
-import { SpinnerService } from 'src/app/core/services/spinner.service';
-import { FinishModel } from '../../models/finish.model';
 export interface WorkerDto {
   Id: string;
   Name: string;
@@ -59,7 +49,6 @@ export class WorkersTasksComponent implements OnInit {
       data: { repairId: this.repairId }
     });
   }
-
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer !== event.container) {
