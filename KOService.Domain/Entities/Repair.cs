@@ -36,6 +36,9 @@ namespace KOService.Domain.Entities
         public Employee Manager { get; private set; }
         public Vehicle Vehicle { get; private set; }
         public Guid VehicleId { get; private set; }
+        public Pricing Pricing { get; private set; }
+        public Guid PricingId { get; private set; }
+
 
         public void Cancel(string result)
         {
@@ -70,6 +73,10 @@ namespace KOService.Domain.Entities
         public void ChangeToInProgress()
         {
             SetStatus(RepairStatus.InProgress);
+        }
+        public void PricingAccepted()
+        {
+            SetStatus(RepairStatus.PricingAccepted);
         }
         private void Open()
         {

@@ -19,6 +19,7 @@ namespace KOService.Domain.DbContexts
         public DbSet<VehicleType> VehicleTypes { get; set; }
         public DbSet<Repair> Repairs { get; set; }
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<Pricing> Pricings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -28,6 +29,7 @@ namespace KOService.Domain.DbContexts
             builder.ApplyConfiguration(new VehicleTypeConfiguration());
             builder.ApplyConfiguration(new RepairConfiguration());
             builder.ApplyConfiguration(new ActivityConfiguration());
+            builder.ApplyConfiguration(new PricingConfiguration());
 
             base.OnModelCreating(builder);
         }

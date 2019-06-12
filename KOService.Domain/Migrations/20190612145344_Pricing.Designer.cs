@@ -4,14 +4,16 @@ using KOService.Domain.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KOService.Domain.Migrations
 {
     [DbContext(typeof(KOServiceDbContext))]
-    partial class KOServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190612145344_Pricing")]
+    partial class Pricing
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,28 +83,6 @@ namespace KOService.Domain.Migrations
                     b.HasIndex("IdentityId");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Part", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Manufacturer");
-
-                    b.Property<string>("ManufacturerId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<double>("Price");
-
-                    b.Property<Guid>("PricingId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PricingId");
-
-                    b.ToTable("Part");
                 });
 
             modelBuilder.Entity("KOService.Domain.Entities.Pricing", b =>
@@ -419,14 +399,6 @@ namespace KOService.Domain.Migrations
                     b.HasOne("KOService.Domain.Authentication.Identity", "Identity")
                         .WithMany()
                         .HasForeignKey("IdentityId");
-                });
-
-            modelBuilder.Entity("KOService.Domain.Entities.Part", b =>
-                {
-                    b.HasOne("KOService.Domain.Entities.Pricing", "Pricing")
-                        .WithMany("Parts")
-                        .HasForeignKey("PricingId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("KOService.Domain.Entities.Pricing", b =>
