@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq.Dynamic.Core;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace KOService.Application.Handlers.Activity
 {
@@ -21,16 +22,17 @@ namespace KOService.Application.Handlers.Activity
             var activity = _dbContext.Activities.FirstOrDefault(x => x.Id == request.ActivityId);
             if (activity != null)
             {
-                var mechanic = _dbContext.Employees.FirstOrDefault(m => m.Id == request.MechanicId);
+                var mechanic = _dbContext.Employees.Include(e=>e.Identity).
+                    FirstOrDefault(m => m.Id == request.MechanicId);
 
                 if (mechanic != null)
                 {
                     activity.AssignMechanic(mechanic);
                 }
-                else throw new Exception("connot find mechanic");
+                else throw new Exception("cannot find mechanic");
 
             }
-            else throw new Exception("connot find activity");
+            else throw new Exception("cannot find activity");
 
             if (_dbContext.SaveChanges() == 0)
             {

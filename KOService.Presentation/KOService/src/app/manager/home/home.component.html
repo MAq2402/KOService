@@ -35,8 +35,8 @@
       <td mat-cell *matCellDef="let element" [ngSwitch]="element.status">
         <i *ngSwitchCase="0" class="material-icons" id="status-open">new_releases</i>
         <i *ngSwitchCase="1" class="material-icons" id="status-progress">schedule</i>
-        <i *ngSwitchCase="2" class="material-icons" id="status-finished">check_circle_outline </i>
-        <i *ngSwitchCase="3" class="material-icons" id="status-canceled"> cancel</i>
+        <i *ngSwitchCase="2" class="material-icons" id="status-canceled"> cancel</i>
+        <i *ngSwitchCase="3" class="material-icons" id="status-finished">check_circle_outline </i>
       </td>
     </ng-container>
     <ng-container matColumnDef="startDateTime">
@@ -46,7 +46,8 @@
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let element" [attr.colspan]="repairsColumnsToDisplay.length">
         <div [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" class="element-detail">
-          <button *ngIf="expandedElement" mat-raised-button color="primary" [routerLink]="['repair-details', element.id]">Zobacz szczegóły</button>
+          <button *ngIf="expandedElement" mat-raised-button color="primary" [routerLink]="['repair-details', element.id]">Zobacz
+            szczegóły</button>
           <table mat-table [dataSource]="activitiesDataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="{{column.name}}" *ngFor="let column of activitiesColumnsToDisplay">
       <th mat-header-cell *matHeaderCellDef> {{column.display}} </th>

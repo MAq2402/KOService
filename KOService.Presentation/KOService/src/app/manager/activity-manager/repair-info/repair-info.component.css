@@ -1,0 +1,11 @@
+.buttons button {
+    margin: 5px;
+}
+
+.repair-info {
+    margin-top: 10px;
+}
+
+.mat-card {
+    min-height: 250px;
+}

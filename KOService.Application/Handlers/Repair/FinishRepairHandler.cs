@@ -20,6 +20,11 @@ namespace KOService.Application.Handlers.Repair
             var repair = _dbContext.Repairs.FirstOrDefault(r => r.Id.ToString() == request.Id);
 
             repair.Finish(request.Result);
+
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new Exception("Could not finish repair");
+            }
         }
     }
 }

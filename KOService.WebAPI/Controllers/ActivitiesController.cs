@@ -22,10 +22,20 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpGet("mechanic/{mechanicId}")]
-        public IActionResult GetMechanicActivities(Guid mechanicId)
+        public IActionResult GetMechanicActivities(Guid mechanicId, [FromQuery] string status)
         {
-            GetMechanicActivitiesQuery query = new GetMechanicActivitiesQuery();
-            query.MechanicId = mechanicId;
+
+            GetWorkerActivitiesQuery query = new GetWorkerActivitiesQuery();
+            query.WorkerId = mechanicId;
+            query.Status = status;
+            return Ok(_mediator.Send(query).Result);
+        }
+        [HttpGet]
+        public IActionResult GetWorkerWithActivities()
+        {
+            GetWorkersWithActivitiesQuery query = new GetWorkersWithActivitiesQuery();
+            
+
             return Ok(_mediator.Send(query).Result);
         }
 
@@ -50,8 +60,12 @@ namespace KOService.WebAPI.Controllers
             return Ok(command);
         }
         [HttpPut("{activityId}/{mechanicId}")]
-        public IActionResult AssignWorker([FromBody] CreateActivityCommand command)
+        public IActionResult AssignWorker(Guid activityId,Guid mechanicId)
         {
+
+            AssignMechanicCommand command = new AssignMechanicCommand();
+            command.ActivityId = activityId;
+            command.MechanicId = mechanicId;
             var exception = _mediator.Send(command).Exception;
 
             if (exception != null)
@@ -61,5 +75,59 @@ namespace KOService.WebAPI.Controllers
 
             return Ok(command);
         }
+
+
+        [HttpPut("cancel/{activityId}")]
+        public IActionResult CancelActivity(Guid activityId, [FromQuery] string comment)
+        {
+            CancelActivityCommand command = new CancelActivityCommand();
+
+            command.ActivityId = activityId;
+            command.Comment = comment;
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                return BadRequest(exception.InnerException);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("finish/{activityId}")]
+        public IActionResult FinishActivity(Guid activityId, [FromQuery] string comment)
+        {
+            FinishActivityCommand command = new FinishActivityCommand();
+
+            command.ActivityId = activityId;
+            command.Comment = comment;
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                return BadRequest(exception.InnerException);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("changeToInProgress/{activityId}")]
+        public IActionResult ChangeToInProgressActivity(Guid activityId)
+        {
+            ChangeToInProgressActivityCommand command = new ChangeToInProgressActivityCommand();
+
+            command.ActivityId = activityId;
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                return BadRequest(exception.InnerException);
+            }
+
+            return NoContent();
+        }
+
+
+
     }
 }

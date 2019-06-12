@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar, MatDialog } from '@angular/material';
 import { ActivityService } from 'src/app/shared/services/activity.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
-import { RepairService } from 'src/app/shared/services/repair.service';
-import { Repair } from 'src/app/shared/models/repair.model';
 import { AuthService } from 'src/app/authentication/services/auth.service';
+import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 
 @Component({
   selector: 'app-activities',
@@ -25,48 +25,73 @@ export class ActivitiesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource = new MatTableDataSource<Activity>();
-  repairs: Repair[];
-  userId: string;
-  displayedColumns = ['requestTime', 'description', 'status', 'sequenceNumber','carNumbers', 'carBrand'];
-  columnsToDisplayMap = [  {name: 'requestTime', display: 'data'},
-    {name: 'description', display: 'opis'}, 
-    {name: 'status', display: 'status'},
-    {name: 'sequenceNumber', display: 'poziom ważności'
+
+  dataSource: MatTableDataSource<Activity>;
+  showWithStatusOpen = true;
+  showWithStatusInProgress = true;
+  showWithStatusFinished = false;
+  showWithStatusCanceled = false;
+  filterValue = '';
+  result = '';
+
+  displayedColumns = ['startDateTime', 'description','vehicleRegistrationNumbers', 'vehicleBrand', 'status', 'sequenceNumber'];
+  columnsToDisplayMap = [  
+    {name: 'description', display: 'Opis'}, 
+    {name: 'vehicleRegistrationNumbers', display: 'Numer rejestracyjny'},
+    {name: 'vehicleBrand', display: 'Marka pojazdu'},
+    {name: 'sequenceNumber', display: 'Numer w sekwencji'   
   }];
 
   constructor(
     private activityService: ActivityService, 
-    private  repairService: RepairService,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private spinnerService: SpinnerService
   ){ }
 
-  ngOnInit() {
-    this.userId = localStorage.getItem('auth_key');
-    this.activityService.getWorkerActivities("1").subscribe(
-      activities => {
-      this.dataSource.data = activities as Activity[];
-    });
-
-    this.authService.getCurrentEmployee().subscribe(x => {
-      this.repairService.getRepairs(x.id).subscribe(r => this.repairs = r);
-    });
+  getData(){
+    var statusQuery = this.buildStatusQuery();
+    if (this.showWithStatusCanceled || this.showWithStatusFinished || this.showWithStatusInProgress || this.showWithStatusOpen) {
+      this.authService.getCurrentEmployee().subscribe(user => {
+        this.activityService.getMechanicActivity(user.id, statusQuery).subscribe(
+          activities => {
+            this.dataSource = new MatTableDataSource(activities);
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.filter = this.filterValue.trim().toLowerCase();
+            this.applyFilter(this.filterValue);
+            this.spinnerService.hide(); // show in auth.service -> login
+        });
+      })
+    }
+    else{
+      this.dataSource = null;
+      this.spinnerService.hide(); // show in auth.service -> login
+    }
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  ngOnInit() {
+    this.getData();
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.filterValue = filterValue.trim().toLowerCase();
+    this.dataSource.filter = this.filterValue;
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   checkIfNotHistorical(status: ActivityStatus): boolean{
     if(status <= ActivityStatus.Progress)
-        return true;
+      return true;
     else
       return false;
+  }
+
+  clearResult(){
+    this.result = '';  
   }
 
   checkIfOpen(status: ActivityStatus): boolean{
@@ -75,13 +100,76 @@ export class ActivitiesComponent implements OnInit {
     else
       return false;
   }
-  
-  getCarNumbers(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).vehicleRegistrationNumbers;
+
+  onStatusCheckboxChange(event: any) {
+    this.getData();
   }
 
-  getCarBrand(repairId: string): string{
-    return this.repairs.find(r => r.id === repairId).vehicleBrand;
+  private buildStatusQuery() {
+    let statusQuery = '';
+    if (this.showWithStatusOpen) {
+      statusQuery += 'OPN,';
+    }
+    if (this.showWithStatusInProgress) {
+      statusQuery += 'PRO,';
+    }
+    if (this.showWithStatusCanceled) {
+      statusQuery += 'CAN,';
+    }
+    if (this.showWithStatusFinished) {
+      statusQuery += 'FIN';
+    }
+    return statusQuery;
+  }
+
+  changeToInProgress(activityId: string){    
+    this.activityService.changeToInProgress(activityId).subscribe(
+      res => this.getData()
+    ); 
+  } 
+
+  finish(activityId: string){
+    
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: {header: `Jesteś pewny, że chcesz zakończyć to zadanie?`}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.confirmed) {
+        if (this.result === '') {
+          this.result = 'brak';
+        }
+    
+        this.activityService.finishActivity(activityId, this.result).subscribe(
+          res => { 
+            this.getData();
+            this.clearResult();
+        });
+      }
+    }); 
+  }
+
+  cancel(activityId: string){
+    if (this.result === '') {
+      this.snackBar.open('Podaj przyczynę anulowania!', '',
+        {duration: 4000}
+      );
+    }
+    else{ 
+      const dialogRef = this.dialog.open(ConfirmationComponent, {
+        data: {header: `Jesteś pewny, że chcesz anulować to zadanie?`}
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result && result.confirmed) {
+          this.activityService.cancelActivity(activityId, this.result).subscribe(
+            res => {
+              this.getData();
+              this.clearResult();
+          });
+        }
+      }); 
+    }
   }
 }
 

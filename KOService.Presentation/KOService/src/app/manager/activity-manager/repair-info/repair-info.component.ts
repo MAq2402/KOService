@@ -5,17 +5,17 @@ import { Client } from 'src/app/shared/models/Client';
 import { DomElementSchemaRegistry } from '@angular/compiler';
 import { Repair } from 'src/app/shared/models/repair.model';
 import { RepairService } from 'src/app/shared/services/repair.service';
-  
-  const CLIENT: Client = 
-  {
-    id: '1',
-    firstName: "Janusz",
-    lastName: "Kowalski",
-    phoneNumber: "123456789",
-    email: "jkowalski@domena.com"
+import { RepairInfo } from 'src/app/shared/models/repair-info.model';
+import { ActivatedRoute } from '@angular/router';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
+import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
+import { ConfirmationModel } from 'src/app/shared/models/confirmation.model';
+import { CancelModel } from '../../models/cancel.model';
+import { FinishModel } from '../../models/finish.model';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
-  }
-  
+
+
 
 @Component({
   selector: 'app-repair-info',
@@ -23,14 +23,122 @@ import { RepairService } from 'src/app/shared/services/repair.service';
   styleUrls: ['./repair-info.component.css']
 })
 export class RepairInfoComponent implements OnInit {
-  client: Client = CLIENT;
-  repair: Repair = null;
+  repairId: string;
+  repairInfo: RepairInfo;
 
-  constructor(private repairService: RepairService) { }
-
-  ngOnInit() {
-    this.repairService.getRepairs().subscribe(rep=>{this.repair = rep[0]; console.log(rep)})
-
+  constructor(private repairService: RepairService,
+    private route: ActivatedRoute,
+    private spinnerService: SpinnerService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar) {
   }
 
+  ngOnInit() {
+    this.route.params.subscribe(params => (this.repairId = params['id']));
+    this.getData();
+  }
+
+
+  private getData() {
+    this.spinnerService.show();
+    this.repairService.getRepairInfo(this.repairId).subscribe(rep => {
+      this.repairInfo = rep; this.spinnerService.hide();
+    });
+  }
+
+  changeToInProgressRepair() {
+    const confirmationModel: ConfirmationModel = {
+      header: 'Jesteś pewny, że chcesz rozpocząć naprawę?',
+      confirmed: null,
+      withInput: false,
+      placeholder: '',
+      isInputRequired: null,
+      confirmationMessage: ''
+    };
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: confirmationModel
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.repairService.changeToInProgress(this.repairId).subscribe(res => {
+          this.getData();
+        },
+          err => this.openSnackBar('Rozpoczęcie nie powiodło się'),
+          () => this.openSnackBar('Rozpoczęcie powiodło się'));
+      }
+    });
+  }
+
+  cancelRepair() {
+    const confirmationModel: ConfirmationModel = {
+      header: 'Jesteś pewny, że chcesz odwołać naprawę?',
+      confirmed: null,
+      withInput: true,
+      placeholder: 'Powód',
+      isInputRequired: true,
+      confirmationMessage: ''
+    };
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: confirmationModel
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const model: CancelModel = {
+          result: result.confirmationMessage
+        };
+
+        this.repairService.cancel(this.repairId, model).subscribe(res => {
+          this.getData();
+        },
+          err => this.openSnackBar('Anulowanie nie powiodło się'),
+          () => this.openSnackBar('Anulowanie powiodło się'));
+      }
+    });
+  }
+
+  finishRepair() {
+    const confirmationModel: ConfirmationModel = {
+      header: 'Jesteś pewny, że chcesz zakonczyć naprawę?',
+      confirmed: null,
+      withInput: true,
+      placeholder: 'Powód',
+      isInputRequired: false,
+      confirmationMessage: ''
+    };
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: confirmationModel
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const model: FinishModel = {
+          result: result.confirmationMessage
+        };
+
+        this.repairService.finish(this.repairId, model).subscribe(res => {
+          this.getData();
+        },
+          err => this.openSnackBar('Zakończenie nie powiodło się'),
+          () => this.openSnackBar('Zakończenie powiodło się'));
+      }
+    });
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message);
+  }
+
+  disableCancel(): boolean {
+    return this.repairInfo.status === RepairStatus.Canceled;
+  }
+
+  disableFinish(): boolean {
+    return this.repairInfo.status !== RepairStatus.InProgress;
+  }
+
+  disableChangeToInProgress(): boolean {
+    return this.repairInfo.status === RepairStatus.InProgress;
+  }
 }

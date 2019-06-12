@@ -7,52 +7,62 @@
       </mat-form-field>
     </div>
     <div class="col-sm ">
-      <mat-checkbox class="my-checkbox">Otwarte</mat-checkbox>
-      <mat-checkbox class="my-checkbox">W trakcie</mat-checkbox>
-      <mat-checkbox class="my-checkbox">Odwołane</mat-checkbox>
-      <mat-checkbox class="my-checkbox">Zakończone</mat-checkbox>
+      <mat-checkbox class="my-checkbox" (change)="onStatusCheckboxChange($event)" [(ngModel)]="showWithStatusOpen">Otwarte</mat-checkbox>
+      <mat-checkbox class="my-checkbox" (change)="onStatusCheckboxChange($event)" [(ngModel)]="showWithStatusInProgress">W trakcie</mat-checkbox>
+      <mat-checkbox class="my-checkbox" (change)="onStatusCheckboxChange($event)" [(ngModel)]="showWithStatusFinished">Zakończone</mat-checkbox>
+      <mat-checkbox class="my-checkbox" (change)="onStatusCheckboxChange($event)" [(ngModel)]="showWithStatusCanceled">Anulowane</mat-checkbox>
     </div>
   </div>
   <div class="mat-elevation-z8">
-    <table mat-table class="full-width-table" [dataSource]="dataSource" matSort multiTemplateDataRows aria-label="Elements">
+    <table mat-table class="full-width-table" [dataSource]="dataSource" matSort multiTemplateDataRows aria-label="Elements">    
+      <ng-container matColumnDef="startDateTime">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Data utworzenia </th>
+          <td mat-cell *matCellDef="let element"> {{element.startDateTime | date: 'y-MM-d'}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="{{column.name}}" *ngFor="let column of columnsToDisplayMap">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column.display}} </th>
         <td mat-cell *matCellDef="let element"> {{element[column.name]}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="carBrand">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> marka </th>
-        <td mat-cell *matCellDef="let element"> {{getCarBrand(element.requestId)}} </td>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let element" [ngSwitch]="element.status">
+        <i *ngSwitchCase="0" class="material-icons" id="status-open" matTooltip="Otwarte">
+            new_releases</i>
+        <i *ngSwitchCase="1" class="material-icons" id="status-progress" matTooltip="W trakcie">
+            schedule</i>
+        <i *ngSwitchCase="2" class="material-icons" id="status-canceled"  matTooltip="Anulowane">
+             cancel</i>
+        <i *ngSwitchCase="3" class="material-icons" id="status-finished" matTooltip="Zakończone">
+            check_circle_outline </i>
+      </td>
       </ng-container>
-
-      <ng-container matColumnDef="carNumbers">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> numery rejestracyjne </th>
-        <td mat-cell *matCellDef="let element"> {{getCarNumbers(element.requestId)}} </td>
-      </ng-container>
-    
+     
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
         <div class="element-detail"
-            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
             <div class="container">
-             <form *ngIf=" checkIfNotHistorical(element.status); else historicalTask">
+             <form *ngIf=" checkIfNotHistorical(element.status); else historicalTask" >
                 <div class="row">  
                 <mat-form-field class="my-input">
-                  <textarea matInput placeholder="Zostaw komentarz"></textarea>
+                  <textarea matInput placeholder="Zostaw komentarz" [(ngModel)]="result" [ngModelOptions]="{standalone: true}">
+                  </textarea>
                 </mat-form-field>
                 </div>
                 <div class="row my-row">
-                  <button [disabled]="!checkIfOpen(element.status)" mat-raised-button color="basic">
-                    Rozpocznij</button>
-                  <button mat-raised-button color="primary">Zakończ</button>
-                  <button mat-raised-button color="warn">Anuluj</button>
+                  <button [disabled]="!checkIfOpen(element.status)" mat-raised-button color="basic"
+                  (click)="changeToInProgress(element.id)">Rozpocznij</button>
+                  <button mat-raised-button color="primary" type="submit" (click)="finish(element.id)">Zakończ</button>
+                  <button mat-raised-button color="warn" type="submit" (click)="cancel(element.id)">Anuluj</button>
                 </div> 
               </form>
             </div>                 
               
             <ng-template #historicalTask>
-              <div class="row my-row"> Data zakończenia: {{element.closedTime}} </div>
-              <div class="row my-row"> Komentarz: {{element.result}} </div>
+              <div class="row my-row"> <b>Data zakończenia:</b> {{element.endDateTime | date: 'y-MM-d'}} </div>
+              <div class="row my-row"> <b>Komentarz:</b> {{element.result}} </div>
             </ng-template>
         </div>
         </td>
@@ -61,7 +71,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row"
         [class.expanded-row]="expandedElement === element"
-        (click)="expandedElement = expandedElement === element ? null : element">
+        (click)="expandedElement = expandedElement === element ? null : element; clearResult()">
       </tr>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     </table>
@@ -73,4 +83,3 @@
     </mat-paginator>
   </div>  
 </mat-card>
-

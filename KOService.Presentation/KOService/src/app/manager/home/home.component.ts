@@ -11,6 +11,7 @@ import { Activity } from 'src/app/shared/models/Activity';
 import { RepairService } from 'src/app/shared/services/repair.service';
 import { Repair } from 'src/app/shared/models/repair.model';
 import { MatPaginator } from '@angular/material';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 
 @Component({
   selector: 'app-home',
@@ -50,7 +51,11 @@ export class HomeComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private authService: AuthService, private repairService: RepairService) { }
+  constructor(
+    private authService: AuthService,
+    private repairService: RepairService,
+    private spinnerService: SpinnerService
+  ) { }
 
 
   ngOnInit() {
@@ -87,10 +92,12 @@ export class HomeComponent implements OnInit {
           this.repairsDataSource.sort = this.sort;
           this.repairsDataSource.paginator = this.paginator;
           this.repairsDataSource.filter = this.filterValue.trim().toLowerCase();
+          this.spinnerService.hide();
         });
       });
     } else {
       this.repairsDataSource = null;
+      this.spinnerService.hide();
     }
   }
 

@@ -1,24 +1,16 @@
 <mat-card>
   <mat-card-title>Dodaj nowe zadanie </mat-card-title>
-  <form class="creator-form">
+  <form class="creator-form" (ngSubmit)="onSubmit()">
         <mat-form-field class="full-width-input">
-          <textarea matInput placeholder="Opis zadania"></textarea>
+          <textarea matInput placeholder="Opis zadania" [(ngModel)]="activity.description" name="description" required></textarea>
         </mat-form-field>
         <mat-form-field >
-            <input type="number" matInput placeholder="Numer w sekwencji"/>
+            <input type="number" matInput placeholder="Numer w sekwencji" [(ngModel)]="activity.sequenceNumber" name="sequenceNumber"/>
         </mat-form-field>
-        <mat-form-field class="input">
-            <mat-label>Typ zadania</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let type of activityTypes" [value]="type">
-                {{type}}
-              </mat-option>
-              
-            </mat-select>
-        </mat-form-field>
+        
         <div class="dialog-actions">
-          <button mat-raised-button class="dialog-button" >Anuluj</button>
-          <button mat-raised-button class="dialog-button" >Zatwierdź</button>
+          <button mat-raised-button class="dialog-button" type="button" (click)="onCancel()" >Anuluj</button>
+          <button mat-raised-button class="dialog-button" type="submit" cdkFocusInitial>Zatwierdź</button>
         </div>
   </form>
 </mat-card>

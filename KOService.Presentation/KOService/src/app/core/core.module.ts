@@ -8,6 +8,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NavbarButtonsComponent } from './navbar/navbar-buttons/navbar-buttons.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerService } from './services/spinner.service';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        AuthService
+        AuthService,
+        SpinnerService
       ]
     };
   }

@@ -2,37 +2,62 @@ import { Injectable } from '@angular/core';
 import {Activity} from '../models/Activity'
 import { ActivityStatus } from '../enums/ActivityStatus';
 import { Observable, of } from 'rxjs';
+import { WorkerActivities } from 'src/app/manager/activity-manager/workers-table/workers-table.component';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { ActivityCreation } from '../models/activity-creation.model';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActivityService {
 
-  activities: Activity[] = [
-    {id:"1",sequenceNumber:0,description:"wymiania filtra paliwa",result:"result",
-    status:ActivityStatus.Open,requestTime:null,closedTime:null,
-    activityTypeId:"0",requestId:"1",workerId:"1"},
-    {id:"2",sequenceNumber:1,description:"diagnoza silnika",result:"result2",
-    status:ActivityStatus.Finished,requestTime:null,closedTime:null,
-    activityTypeId:"0",requestId:"0",workerId:"1"},
-    {id:"2",sequenceNumber:1,description:"wymiana oleju",result:"result2",
-    status:ActivityStatus.Open,requestTime:null,closedTime:null,
-    activityTypeId:"0",requestId:"0",workerId:"1"},
-    {id:"2",sequenceNumber:1,description:"wymiania filtra powietrza",result:"result2",
-    status:ActivityStatus.Canceled,requestTime:null,closedTime:null,
-    activityTypeId:"0",requestId:"0",workerId:"1"},
-    {id:"2",sequenceNumber:1,description:"czyszczenie klimatyzacji",result:"result2",
-    status:ActivityStatus.Progress,requestTime:null,closedTime:null,
-    activityTypeId:"0",requestId:"0",workerId:"1"}
+  private baseUrl = 'https://localhost:44340/api/activities/'
 
-]
 
-  getWorkerActivities(workerId: string): Observable<Activity[]>{
-    return of(this.activities.filter(activity=>activity.workerId===workerId));
+
+
+  constructor(private httpClient: HttpClient){}
+
+  getWorkersWithActivities(): Observable<any>{
+    return this.httpClient.get(this.baseUrl);
   }
-  getActivities(repairId :string): Observable<Activity[]>{
-    return of(this.activities.filter(activity=>activity.requestId===repairId));
+
+  getWorkerActivities(workerId: string){
+   
+  }
+  getRepairActivities(repairId:string): Observable<Activity[]>{
+    return this.httpClient.get<Activity[]>(this.baseUrl + 'repair/' + repairId);
+  }
+
+  addActivity(activity: ActivityCreation): Observable<Activity>{
+    console.log("jestem")
+    return this.httpClient.post<Activity>(this.baseUrl,activity,httpOptions);
+  }
+
+  getMechanicActivity(mechanicId: string, statusQuery = ''): Observable<Activity[]>{
+    return this.httpClient.get<Activity[]>(this.baseUrl + 'mechanic/'+mechanicId,
+     {params: new HttpParams().set('status', statusQuery)});
+  }
+
+  assignWorker(workerId: string, activityId: string){
+    return this.httpClient.put(this.baseUrl + activityId + '/' + workerId,httpOptions);
   }
   
-  constructor() { }
+  changeToInProgress(activityId: string):Observable<Activity>{
+    return this.httpClient.put<Activity>(this.baseUrl + "changeToInProgress/" + activityId, httpOptions);
+  }
+
+  cancelActivity(activityId: string, comment: string):Observable<Activity>{
+    return this.httpClient.put<Activity>(this.baseUrl + "cancel/" + activityId,{}, 
+    {params: new HttpParams().set('comment', comment)});
+  }
+
+  finishActivity(activityId: string, comment: string):Observable<Activity>{
+    return this.httpClient.put<Activity>(this.baseUrl + "finish/" + activityId,{},
+    {params: new HttpParams().set('comment', comment)});
+  } 
 }

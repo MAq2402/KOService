@@ -11,7 +11,12 @@ namespace KOService.Domain.Entities
     {
         private readonly List<Activity> _activities = new List<Activity>();
         private readonly List<Repair> _repairs = new List<Repair>();
+
+        public Employee() { }
+        public Employee(Guid id) : base(id) { }
+
         public Employee(Guid id, string firstName, string lastName, string identityId) : base(id)
+
         {
             SetFirstName(firstName);
             SetLastName(lastName);
@@ -26,6 +31,18 @@ namespace KOService.Domain.Entities
         public bool IsTerminated => TerminationDateTime.HasValue;
         public IEnumerable<Repair> Repairs => _repairs.AsReadOnly();
         public IEnumerable<Activity> Activities => _activities.AsReadOnly();
+
+
+        //Do wywalenia jak ktoś wymyśli lepszy sposob seedowania danych...
+        
+        public Employee(Guid id,string firstname, string lastName, EmployeeRole role) : base(id)
+        {
+            FirstName = firstname;
+            LastName = lastName;
+            Identity = new Identity();
+            Identity.EmployeeRole = role;
+        }
+        
 
         public void Terminate()
         {
@@ -65,5 +82,6 @@ namespace KOService.Domain.Entities
 
             FirstName = firstName;
         }
+
     }
 }

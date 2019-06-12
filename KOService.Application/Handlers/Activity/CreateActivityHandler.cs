@@ -26,8 +26,8 @@ namespace KOService.Application.Handlers.Activity
             else
             {
 
-                Domain.Entities.Activity activity = new Domain.Entities.Activity(request.Activity.Id, request.RepairId,
-                    request.Activity.Description, request.Activity.SequenceNumber);
+                Domain.Entities.Activity activity = new Domain.Entities.Activity(Guid.NewGuid(), request.RepairId,
+                    request.Description, request.SequenceNumber);
 
                 _dbContext.Activities.Add(activity);
 

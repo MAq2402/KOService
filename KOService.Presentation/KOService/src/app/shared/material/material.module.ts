@@ -11,6 +11,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { NgModule } from '@angular/core';
 import { MatPaginatorModule, MatIconModule } from '@angular/material';
@@ -30,7 +32,9 @@ import { MatPaginatorModule, MatIconModule } from '@angular/material';
     MatCheckboxModule,
     MatSortModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   exports: [
     MatTableModule,
@@ -46,7 +50,9 @@ import { MatPaginatorModule, MatIconModule } from '@angular/material';
     MatCheckboxModule,
     MatSortModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule,
+    MatTooltipModule
   ],
 })
 export class MaterialModule { }
