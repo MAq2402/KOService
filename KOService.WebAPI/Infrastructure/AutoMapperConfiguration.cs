@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using KOService.Application.Commands.Authentication;
+using KOService.Application.DTOs;
 using KOService.Application.DTOs.Activity;
 using KOService.Application.DTOs.Employee;
 using KOService.Application.DTOs.Repair;
 using KOService.Domain.Authentication;
 using KOService.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace KOService.WebAPI.Infrastructure
 {
@@ -44,6 +42,10 @@ namespace KOService.WebAPI.Infrastructure
                    .ForMember(dest => dest.ClientPhoneNumber, opt => opt.MapFrom(src => src.Vehicle.Client.ContactDetails.PhoneNumber))
                    .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => $"{src.Vehicle.Client.FirstName} {src.Vehicle.Client.LastName}"))
                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
+
+                cfg.CreateMap<Pricing, PricingDto>()
+                    .ForMember(dest => dest.totalPrice, opt => opt.MapFrom(src => src.GetAmountToPay()));
+                
             });
             //Mapper.AssertConfigurationIsValid();
 

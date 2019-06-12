@@ -16,9 +16,10 @@ namespace KOService.Domain.Entities
         public IEnumerable<Part> Parts => _parts.AsReadOnly();
         public double Labour { get; protected set; }
 
-        public Pricing( Guid id, Guid repairId): base(id)
+        public Pricing( Guid id, Guid repairId, double labour): base(id)
         {
             RepairId = repairId;
+            Labour = labour;
         }
         public Pricing()
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KOService.Application.Commands.Pricing;
 using KOService.Application.Commands.Repair;
 using KOService.Application.Queries.Repair;
 using KOService.WebAPI.Infrastructure;
@@ -38,6 +39,13 @@ namespace KOService.WebAPI.Controllers
             query.Id = repairId;
             return Ok(_mediator.Send(query).Result);
         }
+        [HttpGet("pricing/{repairId}")]
+        public IActionResult GetRepairPricing(Guid repairId)
+        {
+            var query = new GetRepairPricingQuery();
+            query.RepairId = repairId;
+            return Ok(_mediator.Send(query).Result);
+        }
 
         [HttpPost]
         [Authorize(Constants.Roles.Manager)]
@@ -52,6 +60,20 @@ namespace KOService.WebAPI.Controllers
 
             return Ok(command);
         }
-        
+
+        [HttpPost("pricing/{repairId}")]
+        [Authorize(Constants.Roles.Manager)]
+        public IActionResult AddRepairPricing([FromBody] CreatePricingCommand command)
+        {
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                throw exception.InnerException;
+            }
+
+            return Ok(command);
+        }
+
     }
 }
