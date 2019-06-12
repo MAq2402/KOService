@@ -28,6 +28,8 @@ cdkDropList
 
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" cdkDrag></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" cdkDrag>
+      <mat-chip selected *cdkDragPreview color="primary">{{row.firstName + row.lastName}}</mat-chip>
+  </tr>
  
 </table>

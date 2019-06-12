@@ -48,7 +48,8 @@
             <i *ngSwitchCase="3" class="material-icons" id="status-finished"> cancel</i>
           </p>
           <p>komentarz: {{repairInfo.result}} </p>
-          <p>data przyjęcia: {{repairInfo.startDateTime}}</p>
+          <p>data przyjęcia: {{repairInfo.startDateTime | dateTime}}</p>
+          <p *ngIf="showEndDateTime()">data zakończenia: {{repairInfo.endDateTime | dateTime}}</p>
 
         </mat-card-content>
       </mat-card>

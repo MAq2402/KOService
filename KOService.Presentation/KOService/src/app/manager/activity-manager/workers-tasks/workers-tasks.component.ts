@@ -2,10 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityService } from 'src/app/shared/services/activity.service';
-import { MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ActivityCreatorComponent } from '../activity-creator/activity-creator.component'
-import { CdkDragDrop} from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 export interface WorkerDto {
   Id: string;
   Name: string;
@@ -31,23 +32,32 @@ export class WorkersTasksComponent implements OnInit {
   repairActivities: Activity[];
   assignments: Assignment[] = [];
 
-  columnsToDisplay = ['description', 'type', 'status', 'worker'];
+  columnsToDisplay = ['description', 'status', 'worker'];
 
-  constructor(private activityService: ActivityService,
-    private dialog: MatDialog,
-    private route: ActivatedRoute) { }
+  constructor(private activityService: ActivityService, private activityCreatorDialog: MatDialog,
+    private route: ActivatedRoute, private spinnerService: SpinnerService) { }
 
 
   ngOnInit() {
+    this.spinnerService.show();
     this.route.params.subscribe(params => (this.repairId = params['id'], console.log(this.repairId)));
     this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
-      this.repairActivities = activities, activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null })));
+      this.repairActivities = activities, console.log(activities),
+      activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null }),
+      this.spinnerService.hide()));
   }
 
   openActivityCreatorDialog(): void {
-    const dialogRef = this.dialog.open(ActivityCreatorComponent, {
+    const dialogRef = this.activityCreatorDialog.open(ActivityCreatorComponent, {
       data: { repairId: this.repairId }
     });
+    dialogRef.afterClosed().subscribe(x => (
+      this.spinnerService.show(),
+      this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
+        this.repairActivities = activities,
+        activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null }),
+        this.spinnerService.hide())
+      )));
   }
 
   drop(event: CdkDragDrop<string[]>) {

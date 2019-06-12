@@ -132,4 +132,9 @@ export class RepairInfoComponent implements OnInit {
   disableChangeToInProgress(): boolean {
     return this.repairInfo.status === RepairStatus.InProgress;
   }
+
+  showEndDateTime(): boolean {
+    return this.repairInfo.endDateTime &&
+            (this.repairInfo.status === RepairStatus.Finished || this.repairInfo.status === RepairStatus.Canceled);
+  }
 }

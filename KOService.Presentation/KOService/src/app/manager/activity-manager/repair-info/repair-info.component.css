@@ -9,3 +9,7 @@
 .mat-card {
     min-height: 250px;
 }
+
+p {
+    font-size: 18px;
+}

@@ -11,7 +11,8 @@ export class Activity {
     endDateTime: string;
     activityTypeId: string;
     repairId: string;
-    workerId: string;
+    mechanicId: string;
+    mechanicName: string;
     vehicleRegistrationNumbers: string;
     vehicleBrand: string;
 }

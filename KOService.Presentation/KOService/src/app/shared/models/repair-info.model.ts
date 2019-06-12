@@ -6,6 +6,7 @@ export class RepairInfo {
     result: string;
     status: RepairStatus;
     startDateTime: Date;
+    endDateTime: Date;
    
     vehicleRegistrationNumbers: string;
     vehicleBrand: string;
