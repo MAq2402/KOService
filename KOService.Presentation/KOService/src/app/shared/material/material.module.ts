@@ -13,6 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatChipsModule} from '@angular/material/chips';
 
 import { NgModule } from '@angular/core';
 import { MatPaginatorModule, MatIconModule } from '@angular/material';
@@ -52,7 +53,8 @@ import { MatPaginatorModule, MatIconModule } from '@angular/material';
     MatPaginatorModule,
     MatIconModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatChipsModule
   ],
 })
 export class MaterialModule { }

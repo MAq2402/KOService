@@ -10,6 +10,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag } from '@angul
 import { Employee } from 'src/app/shared/models/employee.model';
 import { WorkerActivities } from '../workers-table/workers-table.component';
 import { ActivatedRoute } from '@angular/router';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 export interface WorkerDto{
   Id: string;
  Name: string;
@@ -35,21 +36,32 @@ export class WorkersTasksComponent implements OnInit {
   repairActivities: Activity[];
   assignments:Assignment[] = [];
 
-  columnsToDisplay = ['description', 'type', 'status','worker'];
+  columnsToDisplay = ['description', 'status','worker'];
   
-  constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,private route: ActivatedRoute) { }
+  constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,
+    private route: ActivatedRoute, private spinnerService: SpinnerService) { }
 
 
   ngOnInit() {
+    this.spinnerService.show();
     this.route.params.subscribe(params=>(this.repairId = params['id'],console.log(this.repairId)));
      this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
-       this.repairActivities = activities, activities.map(activity=>this.assignments[activity.id]={Id: null,Name: null}) ));
+       this.repairActivities = activities,console.log(activities),
+        activities.map(activity=>this.assignments[activity.id]={Id: null,Name: null}),
+        this.spinnerService.hide() ));
   }
 
   openActivityCreatorDialog(): void{
     const dialogRef = this.activityCreatorDialog.open(ActivityCreatorComponent, {
      data: {repairId: this.repairId}
   });
+  dialogRef.afterClosed().subscribe(x=>(
+    this.spinnerService.show(),
+    this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
+    this.repairActivities = activities, 
+    activities.map(activity=>this.assignments[activity.id]={Id: null,Name: null}),
+    this.spinnerService.hide())
+    )));
 }
   
 

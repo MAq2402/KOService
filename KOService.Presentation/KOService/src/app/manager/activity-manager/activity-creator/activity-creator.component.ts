@@ -33,7 +33,8 @@ export class ActivityCreatorComponent implements OnInit {
   }
 
   onSubmit(){
-    this.activity.repairId = this.data.repairId
+    this.activity.repairId = this.data.repairId;
+    this.dialogRef.close();
     this.activityService.addActivity(this.activity).subscribe(activity=>console.log(activity));
 }
 
