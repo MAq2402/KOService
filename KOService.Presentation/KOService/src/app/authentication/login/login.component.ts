@@ -33,4 +33,8 @@ export class LoginComponent implements OnInit {
   focusPasswordInput() {
     this.passwordInput.nativeElement.focus();
   }
+
+  disableSubmit(): boolean {
+    return !this.loginCredentials.password || !this.loginCredentials.userName;
+  }
 }

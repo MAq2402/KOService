@@ -6,17 +6,17 @@
           <h3 class="my-title-font">KOService</h3>
         </div>
         <div class="card-body">
-          <div class="form-group">
-            <label for="loginInput">Nazwa użytkownika:</label>
-            <input #login type="text" [(ngModel)] = "loginCredentials.userName" (keydown.enter)="focusPasswordInput()" name="login" class="form-control" id="loginInput" placeholder="Login">
-          </div>
-          <div class="form-group">
-            <label for="passwordInput">Hasło:</label>
-            <input #password type="password" [(ngModel)] = "loginCredentials.password" (keydown.enter)="onSubmit()" name="password" class="form-control" id="passwordInput" placeholder="Hasło">
-          </div>
+          <mat-form-field class="full-width">
+            <input required matInput #login type="text" [(ngModel)]="loginCredentials.userName" (keydown.enter)="focusPasswordInput()"
+              name="login" id="loginInput" placeholder="Nazwa użytkownika">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+          <input required matInput #password type="password" [(ngModel)]="loginCredentials.password" (keydown.enter)="onSubmit()"
+            name="password" id="passwordInput" placeholder="Hasło">
+            </mat-form-field>
         </div>
         <div class="card-footer">
-          <button (click)="onSubmit()" type="button" class="btn btn-primary float-right">Zaloguj</button>
+          <button [disabled]="disableSubmit()" mat-raised-button color="primary" (click)="onSubmit()" class="float-right">Zaloguj</button>
         </div>
       </div>
     </form>
