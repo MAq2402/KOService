@@ -20,6 +20,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using KOService.Application.Services;
+using KOService.Application.Handlers.Repair;
+using MediatR.Pipeline;
 
 namespace KOService.WebAPI
 {
@@ -56,8 +59,11 @@ namespace KOService.WebAPI
             {
                 c.SwaggerDoc("v1", new Info { Title = "KOService", Version = "v1" });
             });
-
+          
             services.AddMediatR(Assembly.Load(new AssemblyName("KOService.Application")));
+
+            services.AddSingleton(typeof(IMailSender), typeof(MailSender));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
