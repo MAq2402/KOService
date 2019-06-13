@@ -57,9 +57,10 @@ export class AuthService {
           this.router.navigate([decodedToken[EMPLOYEE_ROLE]]);
         }),
         catchError(error => {
+          this.spinnerService.hide();
           return throwError(error);
         })
-      ).subscribe();
+      );
   }
 
   isAuthenticated(): boolean {
