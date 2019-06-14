@@ -1,7 +1,7 @@
 export class RepairForCreation {
     id: string;
     description: string;
-    managerId: string;
+    menagerId: string;
     vehicleId: string;
     registrationNumber: string;
     typeId: string;

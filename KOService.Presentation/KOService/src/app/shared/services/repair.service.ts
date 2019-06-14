@@ -13,18 +13,15 @@ import { RepairForCreation } from '../models/RepairForCreation';
 export class RepairService {
 
   private url = 'https://localhost:44340/api/repairs/';
-  // private managerId: string;
 
   constructor(private httpClient: HttpClient) {
   }
 
-  getRepairs(managerId: string, statusQuery = ''): Observable<Repair[]> {
-    // this.managerId = managerId;
-    return this.httpClient.get<Repair[]>(this.url + managerId, {params: new HttpParams().set('status', statusQuery)});
+  getRepairs(statusQuery = ''): Observable<Repair[]> {
+    return this.httpClient.get<Repair[]>(this.url, { params: new HttpParams().set('status', statusQuery) });
   }
 
-  addRepair(repair: RepairForCreation): Observable<any> {
-    // repair.managerId = this.managerId;
+  addRepair(repair: RepairForCreation) {
     return this.httpClient.post(this.url, repair);
   }
 }

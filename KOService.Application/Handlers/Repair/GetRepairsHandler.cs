@@ -27,17 +27,16 @@ namespace KOService.Application.Handlers.Repair
 
         protected override IEnumerable<RepairDto> Handle(GetRepairsQuery request)
         {
-            var repairs = _dbContext.Repairs.Where(r => r.ManagerId.ToString() == request.ManagerId);
+            var repairs = _dbContext.Repairs.Include(r => r.Activities)
+                                            .ThenInclude(a => a.Mechanic)
+                                            .Include(r => r.Vehicle)
+                                            .ThenInclude(v => v.Type).AsQueryable();
 
-            if(!string.IsNullOrEmpty(request.Status))
+
+            if (!string.IsNullOrEmpty(request.Status))
             {
                 repairs = ApplyFilter(repairs, request);
             }
-
-            repairs.Include(r => r.Activities)
-                   .ThenInclude(a => a.Mechanic)
-                   .Include(r => r.Vehicle)
-                   .ThenInclude(v => v.Type);
 
             return Mapper.Map<IEnumerable<RepairDto>>(repairs);
         }

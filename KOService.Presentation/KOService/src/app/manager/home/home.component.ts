@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit {
     if (this.showWithStatusCanceled || this.showWithStatusFinished || this.showWithStatusInProgress || this.showWithStatusOpen) {
       const statusQuery = this.buildStatusQuery();
       this.authService.getCurrentEmployee().subscribe(user => {
-        this.repairService.getRepairs(user.id, statusQuery).subscribe(repairs => {
+        this.repairService.getRepairs(statusQuery).subscribe(repairs => {
           this.repairsDataSource = new MatTableDataSource(repairs);
           this.repairsDataSource.sort = this.sort;
           this.repairsDataSource.paginator = this.paginator;

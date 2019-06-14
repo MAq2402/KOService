@@ -8,7 +8,6 @@ namespace KOService.Application.Commands.Repair
 {
     public class GetRepairsQuery : IRequest<IEnumerable<RepairDto>>
     {
-        public string ManagerId { get; set; }
         public string Status { get; set; }
     }
 }
