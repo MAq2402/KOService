@@ -56,11 +56,11 @@ namespace KOService.Application.Handlers.Repair
             {
                 if (_dbContext.VehicleTypes.Any(vt => vt.Id == request.Vehicle.TypeId))
                 {
-                    vehicle = new Vehicle(request.Vehicle.Id, request.Vehicle.RegistrationNumbers, client.Id, request.Vehicle.TypeId);
+                    vehicle = new Domain.Entities.Vehicle(request.Vehicle.Id, request.Vehicle.RegistrationNumbers, client.Id, request.Vehicle.TypeId);
                 }
                 else
                 {
-                    vehicle = new Vehicle(request.Vehicle.Id, client.Id, request.Vehicle.RegistrationNumbers, request.Vehicle.Brand, request.Vehicle.Brand);
+                    vehicle = new Domain.Entities.Vehicle(request.Vehicle.Id, client.Id, request.Vehicle.RegistrationNumbers, request.Vehicle.Brand, request.Vehicle.Brand);
                 }
             }
 
