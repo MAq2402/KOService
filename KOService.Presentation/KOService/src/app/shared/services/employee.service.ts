@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Employee } from '../models/employee.model';
+import { EmployeeWithAccountInfo } from '../models/employeeWithAccountInfo.model';
 import { RegisterEmployee } from '../models/register.model';
 
 @Injectable({
@@ -18,8 +19,8 @@ export class EmployeeService {
     return this.http.get<Employee[]>(this.baseUrl, { params: new HttpParams().set('role', role ? role.toString() : null) });
   }
 
-  getEmployee(id): Observable<Employee> {
-    return this.http.get<Employee>(this.userUrl + '/' + id.toString(), {params: new HttpParams().set('identityId', id ? id.toString() : null)});
+  getEmployee(id: string): Observable<EmployeeWithAccountInfo> {
+    return this.http.get<EmployeeWithAccountInfo>(this.baseUrl + '/' + id.toString(), {params: new HttpParams().set('id', id ? id.toString() : null)});
   }
 
   terminate(id: string): Observable<any> {

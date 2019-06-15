@@ -23,15 +23,7 @@ export class AddEmployeeFormComponent implements OnInit {
         "Administrator"
     ];
     keys: any[];
-
-    register: RegisterEmployee = {
-        firstName: '',
-        lastName: '',
-        userName: '',
-        password: '',
-        confirmPassword: '',
-        employeeRole: Role.mechanic
-    };
+    register: RegisterEmployee;
 
     @ViewChild('firstName') firstName: ElementRef;
     @ViewChild('lastName') lastName: ElementRef;
@@ -53,17 +45,35 @@ export class AddEmployeeFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.firstName.nativeElement.focus();
         if (this.editEmployeeService) {
             // this.spinnerService.show();
             console.log(this.editEmployeeService.employee.firstName + " " + this.editEmployeeService.employee.lastName);
-            let response = this.service.getEmployee(this.editEmployeeService.employee.id);
-            console.log(response);
-            console.log(JSON.stringify(response));
-
+            console.log('id: ' + this.editEmployeeService.employee.id);
+            let response = this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
+                console.log(JSON.stringify(res));
+                this.register = {
+                    firstName: res.firstName,
+                    lastName: res.lastName,
+                    userName: res.userName,
+                    password: '',
+                    confirmPassword: '',
+                    employeeRole: res.role,
+                }
+            });
 
             // this.spinnerService.hide();
         }
+        else {
+            this.register = {
+                firstName: '',
+                lastName: '',
+                userName: '',
+                password: '',
+                confirmPassword: '',
+                employeeRole: Role.mechanic
+            };
+        }
+        this.firstName.nativeElement.focus();
     }
 
     onSubmit() {
