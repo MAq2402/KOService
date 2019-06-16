@@ -46,7 +46,7 @@ export class AddEmployeeFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.editEmployeeService) {            
+        if (this.editEmployeeService.employee) {            
             this.editMode = true;
             this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
                 this.register = {
