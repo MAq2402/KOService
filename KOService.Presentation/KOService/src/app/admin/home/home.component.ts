@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.editEmployeeService.employee = null;
     this.getData();
   }
 

@@ -24,10 +24,17 @@ export class AddEmployeeFormComponent implements OnInit {
     ];
     chosenPolishRole : string;
     keys: any[];
-    register: RegisterEmployee;
+    register: RegisterEmployee = {
+        firstName: '',
+        lastName: '',
+        userName: '',
+        employeeRole: Role.mechanic,
+        password: '',
+        confirmPassword: ''
+    }
 
-    //@ViewChild('firstName') firstName: ElementRef;
-    //@ViewChild('lastName') lastName: ElementRef;
+    @ViewChild('firstName') firstName: ElementRef;
+    @ViewChild('lastName') lastName: ElementRef;
 
     mapPolishRoleToEnglish = function (role: string) {
         switch (role) {
@@ -45,10 +52,10 @@ export class AddEmployeeFormComponent implements OnInit {
         this.keys = Object.keys(Role).filter(k => !isNaN(Number(k)));
     }
 
-    async ngOnInit() {
-        await this.resolveInputData();
+    ngOnInit() {
+        this.resolveInputData();
         this.spinnerService.hide();
-        //this.firstName.nativeElement.focus();
+        this.firstName.nativeElement.focus();
     }
 
     onSubmit() {
@@ -87,7 +94,7 @@ export class AddEmployeeFormComponent implements OnInit {
         }
     }
 
-    async resolveInputData() {
+    resolveInputData() {
         if (this.editEmployeeService.employee) {        
             this.editMode = true;
             this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
