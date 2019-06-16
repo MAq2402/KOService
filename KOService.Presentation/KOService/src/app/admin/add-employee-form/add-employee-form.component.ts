@@ -6,7 +6,6 @@ import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { RegisterEmployee } from 'src/app/shared/models/register.model';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
 import { EditEmployeeService } from 'src/app/shared/services/editEmployee.service';
-import { EmployeePassword } from 'src/app/shared/models/employeePassword.model';
 
 @Component({
     selector: 'app-add-employee-form',
@@ -49,10 +48,7 @@ export class AddEmployeeFormComponent implements OnInit {
     ngOnInit() {
         if (this.editEmployeeService) {            
             this.editMode = true;
-            console.log(this.editEmployeeService.employee.firstName + " " + this.editEmployeeService.employee.lastName);
-            console.log('id: ' + this.editEmployeeService.employee.id);
-            let response = this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
-                console.log(JSON.stringify(res));
+            this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
                 this.register = {
                     firstName: res.firstName,
                     lastName: res.lastName,
