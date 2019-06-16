@@ -11,6 +11,9 @@ export class RolePipe implements PipeTransform {
       case Role.admin: return 'Administrator';
       case Role.manager: return 'Manager';
       case Role.mechanic: return 'Mechanik';
+      case 'admin': return 'Administrator';
+      case 'manager': return 'Manager';
+      case 'mechanic': return 'Mechanik';
       default: return '';
     }
   }

@@ -26,8 +26,8 @@ export class AddEmployeeFormComponent implements OnInit {
     keys: any[];
     register: RegisterEmployee;
 
-    @ViewChild('firstName') firstName: ElementRef;
-    @ViewChild('lastName') lastName: ElementRef;
+    //@ViewChild('firstName') firstName: ElementRef;
+    //@ViewChild('lastName') lastName: ElementRef;
 
     mapPolishRoleToEnglish = function (role: string) {
         switch (role) {
@@ -45,34 +45,10 @@ export class AddEmployeeFormComponent implements OnInit {
         this.keys = Object.keys(Role).filter(k => !isNaN(Number(k)));
     }
 
-    ngOnInit() {
-        if (this.editEmployeeService.employee) {            
-            this.editMode = true;
-            this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
-                this.register = {
-                    firstName: res.firstName,
-                    lastName: res.lastName,
-                    userName: res.userName,
-                    password: '',
-                    confirmPassword: '',
-                    employeeRole: res.role,
-                }
-                this.chosenPolishRole = this.rolesPolish[this.register.employeeRole];
-            });            
-        }
-        else {
-            this.editMode = false;
-            this.register = {
-                firstName: '',
-                lastName: '',
-                userName: '',
-                password: '',
-                confirmPassword: '',
-                employeeRole: Role.mechanic
-            };
-        }
+    async ngOnInit() {
+        await this.resolveInputData();
         this.spinnerService.hide();
-        this.firstName.nativeElement.focus();
+        //this.firstName.nativeElement.focus();
     }
 
     onSubmit() {
@@ -84,6 +60,8 @@ export class AddEmployeeFormComponent implements OnInit {
             userName: this.register.userName,
             employeeRole: this.register.employeeRole
         };
+
+        console.log(this.roles[this.keys[0]]);
 
 
         this.spinnerService.show();
@@ -106,6 +84,34 @@ export class AddEmployeeFormComponent implements OnInit {
                 });
             });
             
+        }
+    }
+
+    async resolveInputData() {
+        if (this.editEmployeeService.employee) {        
+            this.editMode = true;
+            this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
+                this.register = {
+                    firstName: res.firstName,
+                    lastName: res.lastName,
+                    userName: res.userName,
+                    password: '',
+                    confirmPassword: '',
+                    employeeRole: res.role,
+                }
+                // this.chosenPolishRole = this.rolesPolish[this.register.employeeRole];
+            });            
+        }
+        else {
+            this.editMode = false;
+            this.register = {
+                firstName: '',
+                lastName: '',
+                userName: '',
+                password: '',
+                confirmPassword: '',
+                employeeRole: Role.mechanic
+            };
         }
     }
 }
