@@ -82,7 +82,7 @@ export class AddEmployeeFormComponent implements OnInit {
             firstName: this.register.firstName,
             lastName: this.register.lastName,
             userName: this.register.userName,
-            employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
+            employeeRole: this.register.employeeRole
         };
 
 

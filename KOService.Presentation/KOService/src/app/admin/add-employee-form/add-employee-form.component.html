@@ -29,9 +29,9 @@
             </mat-form-field>
             <mat-form-field>
                 <mat-label for="role">Rola:</mat-label>
-                <select matNativeControl [(ngModel)]="this.chosenPolishRole" id="role" name="role" class="form-control"
+                <select matNativeControl [(ngModel)]="this.register.employeeRole" id="role" name="role" class="form-control"
                     required>
-                    <option *ngFor="let key of keys">{{rolesPolish[key]}}</option>
+                    <option *ngFor="let key of keys">{{roles[key] | role}}</option>
                 </select>
             </mat-form-field>
 
