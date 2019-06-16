@@ -21,7 +21,7 @@ export class RepairService {
   }
 
   getRepairInfo(repairId): Observable<RepairInfo> {
-    return this.httpClient.get<RepairInfo>(this.url + "info/" + repairId);
+    return this.httpClient.get<RepairInfo>(this.url + 'info/' + repairId);
   }
 
   cancel(repairId: string, cancelModel: CancelModel): Observable<any> {
