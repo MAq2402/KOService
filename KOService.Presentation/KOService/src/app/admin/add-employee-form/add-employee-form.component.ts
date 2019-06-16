@@ -24,7 +24,14 @@ export class AddEmployeeFormComponent implements OnInit {
     ];
     chosenPolishRole : string;
     keys: any[];
-    register: RegisterEmployee;
+    register: RegisterEmployee = {
+        firstName: '',
+        lastName: '',
+        userName: '',
+        employeeRole: Role.mechanic,
+        password: '',
+        confirmPassword: ''
+    }
 
     @ViewChild('firstName') firstName: ElementRef;
     @ViewChild('lastName') lastName: ElementRef;
@@ -46,31 +53,7 @@ export class AddEmployeeFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.editEmployeeService.employee) {            
-            this.editMode = true;
-            this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
-                this.register = {
-                    firstName: res.firstName,
-                    lastName: res.lastName,
-                    userName: res.userName,
-                    password: '',
-                    confirmPassword: '',
-                    employeeRole: res.role,
-                }
-                this.chosenPolishRole = this.rolesPolish[this.register.employeeRole];
-            });            
-        }
-        else {
-            this.editMode = false;
-            this.register = {
-                firstName: '',
-                lastName: '',
-                userName: '',
-                password: '',
-                confirmPassword: '',
-                employeeRole: Role.mechanic
-            };
-        }
+        this.resolveInputData();
         this.spinnerService.hide();
         this.firstName.nativeElement.focus();
     }
@@ -106,6 +89,35 @@ export class AddEmployeeFormComponent implements OnInit {
                 });
             });
             
+        }
+    }
+
+    resolveInputData() {
+        if (this.editEmployeeService.employee) {            
+            this.editMode = true;
+            this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
+                this.register = {
+                    firstName: res.firstName,
+                    lastName: res.lastName,
+                    userName: res.userName,
+                    password: '',
+                    confirmPassword: '',
+                    employeeRole: res.role,
+                }
+                this.chosenPolishRole = this.rolesPolish[this.register.employeeRole];
+            });            
+        }
+        else {
+            this.editMode = false;
+            this.register = {
+                firstName: '',
+                lastName: '',
+                userName: '',
+                password: '',
+                confirmPassword: '',
+                employeeRole: Role.mechanic
+            };
+            console.log(this.register);
         }
     }
 }
