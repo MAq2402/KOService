@@ -8,6 +8,7 @@ import { Client } from 'src/app/shared/models/Client';
 import { Vehicle } from 'src/app/shared/models/Vehicle';
 import { of } from 'rxjs';
 import { RepairForCreation } from 'src/app/shared/models/RepairForCreation';
+import { CreateRepairModel } from 'src/app/shared/models/CreateRepairModel';
 
 @Component({
   selector: 'app-add-repair',
@@ -25,7 +26,7 @@ export class AddRepairComponent implements OnInit {
   vehicleList: Vehicle[];
   filterValue = '';
   hasOwner = false;
-  currentRepair: RepairForCreation;
+  currentRepair: CreateRepairModel;
 
   constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private repairService: RepairService,
     private clientService: ClientService, private vehicleService: VehicleService) {}
@@ -49,7 +50,7 @@ export class AddRepairComponent implements OnInit {
       description: ['', Validators.required]
     });
 
-    this.currentRepair = new RepairForCreation();
+    this.currentRepair = new CreateRepairModel();
 
     this.getVehicles();
     this.getClients();
@@ -57,7 +58,7 @@ export class AddRepairComponent implements OnInit {
 
   public submit() {
     if (this.repairFormGroup.dirty) {
-    this.repairService.addRepair(this.getRepairFromForm());
+    this.repairService.addRepair(this.getRepairFromForm()).subscribe();
     this.repairFormGroup.reset();
     this.vehicleFormGroup.reset();
     this.clientFormGroup.reset();
@@ -65,7 +66,7 @@ export class AddRepairComponent implements OnInit {
       duration: 2000,
     });
 
-    this.currentRepair = new RepairForCreation();
+    this.currentRepair = new CreateRepairModel();
 
     this.getVehicles();
     this.getClients();
@@ -81,13 +82,13 @@ export class AddRepairComponent implements OnInit {
     this.clientFormGroup.controls['code'].setValue(client.code);
     this.clientFormGroup.controls['city'].setValue(client.city);
 
-    this.currentRepair.clientId = client.id;
+    this.currentRepair.client.id = client.id;
   }
 
   public setVehicleForm(vehicle: Vehicle) {
     this.vehicleFormGroup.controls['brand'].setValue(vehicle.brand);
     this.vehicleFormGroup.controls['model'].setValue(vehicle.model);
-    this.vehicleFormGroup.controls['registrationNumber'].setValue(vehicle.registrationNumber);
+    this.vehicleFormGroup.controls['registrationNumber'].setValue(vehicle.registrationNumbers);
 
     this.currentClientList = this.clientList.filter(client =>
       client.id === vehicle.clientId);
@@ -97,13 +98,13 @@ export class AddRepairComponent implements OnInit {
       this.hasOwner = true;
     }
 
-    this.currentRepair.vehicleId = vehicle.id;
+    this.currentRepair.vehicle.id = vehicle.id;
   }
 
   public applyFilter(filterValue: string) {
     this.filterValue = filterValue;
     this.currentVehicleList = this.vehicleList.filter(vehicle =>
-      vehicle.registrationNumber.trim().toLowerCase().match(this.filterValue.trim().toLowerCase()));
+      vehicle.registrationNumbers.trim().toLowerCase().match(this.filterValue.trim().toLowerCase()));
 
       if ( this.currentVehicleList.length === 1 ) {
         this.currentClientList = this.clientList.filter(client =>
@@ -131,18 +132,18 @@ export class AddRepairComponent implements OnInit {
     this.currentVehicleList = this.vehicleList;
   }
 
-  getRepairFromForm(): RepairForCreation {
-    this.currentRepair.description = this.repairFormGroup.controls['description'].value;
-    this.currentRepair.registrationNumber = this.vehicleFormGroup.controls['registrationNumber'].value;
-    this.currentRepair.brand = this.vehicleFormGroup.controls['brand'].value;
-    this.currentRepair.model = this.vehicleFormGroup.controls['model'].value;
-    this.currentRepair.firstName = this.clientFormGroup.controls['firstName'].value;
-    this.currentRepair.lastName = this.clientFormGroup.controls['lastName'].value;
-    this.currentRepair.email = this.clientFormGroup.controls['email'].value;
-    this.currentRepair.phoneNumber = this.clientFormGroup.controls['phoneNumber'].value;
-    this.currentRepair.street = this.clientFormGroup.controls['street'].value;
-    this.currentRepair.city = this.clientFormGroup.controls['city'].value;
-    this.currentRepair.code = this.clientFormGroup.controls['code'].value;
+  getRepairFromForm(): CreateRepairModel {
+    this.currentRepair.repair.description = this.repairFormGroup.controls['description'].value;
+    this.currentRepair.vehicle.registrationNumbers = this.vehicleFormGroup.controls['registrationNumber'].value;
+    this.currentRepair.vehicle.brand = this.vehicleFormGroup.controls['brand'].value;
+    this.currentRepair.vehicle.model = this.vehicleFormGroup.controls['model'].value;
+    this.currentRepair.client.firstName = this.clientFormGroup.controls['firstName'].value;
+    this.currentRepair.client.lastName = this.clientFormGroup.controls['lastName'].value;
+    this.currentRepair.client.email = this.clientFormGroup.controls['email'].value;
+    this.currentRepair.client.phoneNumber = this.clientFormGroup.controls['phoneNumber'].value;
+    this.currentRepair.client.street = this.clientFormGroup.controls['street'].value;
+    this.currentRepair.client.city = this.clientFormGroup.controls['city'].value;
+    this.currentRepair.client.code = this.clientFormGroup.controls['code'].value;
     return this.currentRepair;
   }
 }

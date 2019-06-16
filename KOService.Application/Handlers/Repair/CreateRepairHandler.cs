@@ -21,6 +21,7 @@ namespace KOService.Application.Handlers.Repair
         }
         protected override void Handle(CreateRepairCommand request)
         {
+            var xd = request.Vehicle.RegistrationNumbers;
             var client = _dbContext.Clients.Include(c => c.Address)
                                            .Include(c => c.Vehicles)
                                            .ThenInclude(v => v.Repairs)

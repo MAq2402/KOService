@@ -3,9 +3,7 @@ import { Observable, of } from 'rxjs';
 import { RepairStatus } from '../enums/repair-status';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Repair } from '../models/repair.model';
-import { Client } from '../models/Client';
-import { Vehicle } from '../models/Vehicle';
-import { RepairForCreation } from '../models/RepairForCreation';
+import { CreateRepairModel } from '../models/CreateRepairModel';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +19,7 @@ export class RepairService {
     return this.httpClient.get<Repair[]>(this.url, { params: new HttpParams().set('status', statusQuery) });
   }
 
-  addRepair(repair: RepairForCreation) {
-    return this.httpClient.post(this.url, repair);
+  addRepair(repair: CreateRepairModel): Observable<any> {
+    return this.httpClient.post<any>(this.url, repair);
   }
 }
