@@ -102,7 +102,9 @@ namespace KOService.WebAPI.Controllers
                 return NotFound();
             }
 
-            var result = await _userManager.ChangePasswordAsync(identity, dto.CurrentPassword, dto.NewPassword);
+            var token = _userManager.GeneratePasswordResetTokenAsync(identity);
+
+            var result = await _userManager.ResetPasswordAsync(identity, token.Result, dto.NewPassword);
 
             if (!result.Succeeded)
             {

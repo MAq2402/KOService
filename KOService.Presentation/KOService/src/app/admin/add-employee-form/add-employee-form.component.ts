@@ -6,6 +6,7 @@ import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { RegisterEmployee } from 'src/app/shared/models/register.model';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
 import { EditEmployeeService } from 'src/app/shared/services/editEmployee.service';
+import { EmployeePassword } from 'src/app/shared/models/employeePassword.model';
 
 @Component({
     selector: 'app-add-employee-form',
@@ -17,12 +18,12 @@ export class AddEmployeeFormComponent implements OnInit {
     registerSubscription: Subscription;
     editMode : boolean;
     roles = Role;
-    chosenPolishRole = "Mechanik";
     rolesPolish = [
         "Mechanik",
         "Manager",
         "Administrator"
     ];
+    chosenPolishRole : string;
     keys: any[];
     register: RegisterEmployee;
 
@@ -60,6 +61,7 @@ export class AddEmployeeFormComponent implements OnInit {
                     confirmPassword: '',
                     employeeRole: res.role,
                 }
+                this.chosenPolishRole = this.rolesPolish[this.register.employeeRole];
             });            
         }
         else {
@@ -96,10 +98,18 @@ export class AddEmployeeFormComponent implements OnInit {
             });
         }
         else {
-            this.service.updateEmployee(this.editEmployeeService.employee.id, model).subscribe(() => { 
-                this.spinnerService.hide();
-                this.router.navigate(['/admin']);
+            var passwordModel = { 
+                currentPassword: '',
+                newPassword: this.register.password
+            };
+
+            this.service.updateEmployee(this.editEmployeeService.employee.id, model).subscribe(() => {
+                this.service.changeEmployeePassword(model.userName, passwordModel).subscribe(() => {
+                    this.spinnerService.hide();
+                    this.router.navigate(['/admin']);
+                });
             });
+            
         }
     }
 }

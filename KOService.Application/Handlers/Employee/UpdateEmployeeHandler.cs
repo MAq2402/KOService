@@ -22,7 +22,7 @@ namespace KOService.Application.Handlers.Employee
                                      .Include(e => e.Identity)
                                      .FirstOrDefault(e => e.Id.ToString() == request.Id);
 
-            employee.Update(request.FirstName, request.LastName, request.EmployeeRole, request.UserName, request.Password, request.ConfirmPassword);
+            employee.Update(request.FirstName, request.LastName, request.EmployeeRole, request.UserName);
 
             _dbContext.SaveChanges();
         }

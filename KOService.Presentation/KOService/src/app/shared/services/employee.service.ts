@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Employee } from '../models/employee.model';
 import { EmployeeWithAccountInfo } from '../models/employeeWithAccountInfo.model';
 import { RegisterEmployee } from '../models/register.model';
+import { EmployeePassword } from '../models/employeePassword.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,9 @@ export class EmployeeService {
   
   updateEmployee(id: string, model: RegisterEmployee): Observable<void> {
     return this.http.put<void>(this.baseUrl + '/' + id, model);
+  }
+
+  changeEmployeePassword(userName: string, model: EmployeePassword): Observable<void> {
+    return this.http.put<void>(this.userUrl + '/' + userName + '/changePassword', model);
   }
 }

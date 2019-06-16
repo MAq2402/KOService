@@ -54,16 +54,11 @@ namespace KOService.Domain.Entities
             TerminationDateTime = DateTime.UtcNow;
         }
 
-        public void Update(string firstName, string lastName, EmployeeRole role, string userName, string password, string confirmPassword)
+        public void Update(string firstName, string lastName, EmployeeRole role, string userName)
         {
             SetFirstName(firstName);
             SetLastName(lastName);
             SetUserName(userName);
-
-            if (password.Count() > 0 && password.Equals(confirmPassword))
-            {
-                Identity.PasswordHash = password;
-            }
 
             Identity.EmployeeRole = role;
         }
