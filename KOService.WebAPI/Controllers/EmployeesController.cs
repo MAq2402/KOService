@@ -36,7 +36,6 @@ namespace KOService.WebAPI.Controllers
         public IActionResult GetEmployeeById(string id)
         {
             var result = _mediator.Send(new GetEmployeeByIdQuery { Id = id}).Result;
-            int a = 5;
             return Ok(result);
         }
 
