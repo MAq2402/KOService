@@ -102,7 +102,7 @@ export class AddEmployeeFormComponent implements OnInit {
                     userName: res.userName,
                     password: '',
                     confirmPassword: '',
-                    employeeRole: res.role,
+                    employeeRole: this.editEmployeeService.employee.role,
                 }
                 this.chosenPolishRole = this.rolesPolish[this.register.employeeRole];
             });            
@@ -117,7 +117,6 @@ export class AddEmployeeFormComponent implements OnInit {
                 confirmPassword: '',
                 employeeRole: Role.mechanic
             };
-            console.log(this.register);
         }
     }
 }
