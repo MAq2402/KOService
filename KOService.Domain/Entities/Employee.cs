@@ -54,12 +54,12 @@ namespace KOService.Domain.Entities
             TerminationDateTime = DateTime.UtcNow;
         }
 
-        public void Update(string firstName, string lastName, EmployeeRole role)
+        public void Update(string firstName, string lastName, EmployeeRole role, string userName)
         {
             SetFirstName(firstName);
             SetLastName(lastName);
+            SetUserName(userName);
 
-            
             Identity.EmployeeRole = role;
         }
 
@@ -81,6 +81,17 @@ namespace KOService.Domain.Entities
             }
 
             FirstName = firstName;
+        }
+
+        private void SetUserName(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new DomainException("User name has not been provided");
+            }
+
+            Identity.UserName = userName;
+            Identity.NormalizedUserName = userName.ToUpper();
         }
 
     }
