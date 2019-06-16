@@ -15,6 +15,7 @@ import { EditEmployeeService } from 'src/app/shared/services/editEmployee.servic
 
 export class AddEmployeeFormComponent implements OnInit {
     registerSubscription: Subscription;
+    editMode : boolean;
     roles = Role;
     chosenPolishRole = "Mechanik";
     rolesPolish = [
@@ -45,8 +46,8 @@ export class AddEmployeeFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.editEmployeeService) {
-            // this.spinnerService.show();
+        if (this.editEmployeeService) {            
+            this.editMode = true;
             console.log(this.editEmployeeService.employee.firstName + " " + this.editEmployeeService.employee.lastName);
             console.log('id: ' + this.editEmployeeService.employee.id);
             let response = this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
@@ -59,11 +60,10 @@ export class AddEmployeeFormComponent implements OnInit {
                     confirmPassword: '',
                     employeeRole: res.role,
                 }
-            });
-
-            // this.spinnerService.hide();
+            });            
         }
         else {
+            this.editMode = false;
             this.register = {
                 firstName: '',
                 lastName: '',
@@ -73,6 +73,7 @@ export class AddEmployeeFormComponent implements OnInit {
                 employeeRole: Role.mechanic
             };
         }
+        this.spinnerService.hide();
         this.firstName.nativeElement.focus();
     }
 
@@ -86,10 +87,19 @@ export class AddEmployeeFormComponent implements OnInit {
             employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
         };
 
+
         this.spinnerService.show();
-        this.service.addEmployee(model).subscribe(() => {
+        if (!this.editMode) { 
+            this.service.addEmployee(model).subscribe(() => {
             this.spinnerService.hide();
             this.router.navigate(['/admin']);
-        });
+            });
+        }
+        else {
+            this.service.updateEmployee(this.editEmployeeService.employee.id, model).subscribe(() => { 
+                this.spinnerService.hide();
+                this.router.navigate(['/admin']);
+            });
+        }
     }
 }

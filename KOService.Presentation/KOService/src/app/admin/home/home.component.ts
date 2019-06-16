@@ -37,7 +37,10 @@ export class HomeComponent implements OnInit {
 
   ngOnDestroy() {
     console.log(this.employeeToEdit);
-    if (this.editIconClicked) this.editEmployeeService.employee = this.employeeToEdit;
+    if (this.editIconClicked) {
+      this.editEmployeeService.employee = this.employeeToEdit;
+      this.spinnerService.show(); // hide in add-employee - ngOnInit
+    }
   }
 
   private getData() {

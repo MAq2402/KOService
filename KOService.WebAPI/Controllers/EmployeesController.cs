@@ -32,8 +32,15 @@ namespace KOService.WebAPI.Controllers
             return Ok(_mediator.Send(new GetEmployeesQuery()).Result);
         }
 
-        [HttpPut("{id}")]
+        [HttpGet("{id}")]
+        public IActionResult GetEmployeeById(string id)
+        {
+            var result = _mediator.Send(new GetEmployeeByIdQuery { Id = id}).Result;
+            int a = 5;
+            return Ok(result);
+        }
 
+        [HttpPut("{id}")]
         public IActionResult UpdateEmployee(string id,[FromBody] UpdateEmployeeCommand command)
         {
             command.Id = id;

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace KOService.Application.Queries.Employee
 {
-    public class GetEmployeeQuery : IRequest<EmployeeDto>
+    public class GetEmployeeByIdQuery : IRequest<EmployeeWithAccountInfoDto>
     {
         public string Id { get; set; }
     }

@@ -30,4 +30,8 @@ export class EmployeeService {
   addEmployee(model: RegisterEmployee): Observable<void> {
     return this.http.post<void>('https://localhost:44340/api/register', model);
   }
+  
+  updateEmployee(id: string, model: RegisterEmployee): Observable<void> {
+    return this.http.put<void>(this.baseUrl + '/' + id, model);
+  }
 }
