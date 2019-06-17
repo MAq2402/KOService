@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Repair } from '../models/repair.model';
 import { RepairInfo } from '../models/repair-info.model';
 import { PricingCreation } from '../models/pricing-creation.model';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +26,7 @@ export class RepairService {
   getRepairInfo(repairId): Observable<RepairInfo>{
     return this.httpClient.get<RepairInfo>(this.url + "info/"+ repairId);
   }
-  //addRepairPricing(pricing: PricingCreation): Observable<Pricing>{
-
-  //}
+  addRepairPricing(pricing: PricingCreation, repairId: string): Observable<PricingCreation>{
+    return this.httpClient.post<PricingCreation>(this.url + "pricing/" + repairId,pricing,httpOptions)
+  }
 }

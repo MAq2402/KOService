@@ -31,7 +31,7 @@ namespace KOService.Application.Handlers.Activity
                 List<Part> parts = new List<Part>();
                 foreach(var item in request.Parts)
                 {
-                    Part part = new Part(item.Id, item.Name, item.Manufacturer, item.ManufacturerId, item.Price);
+                    Part part = new Part(new Guid(), item.Name, item.Manufacturer, item.ManufacturerId, item.Price);
                     parts.Add(part);
                 }
                 pricing.AddParts(parts);
