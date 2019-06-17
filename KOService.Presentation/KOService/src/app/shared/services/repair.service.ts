@@ -5,15 +5,34 @@ import { Repair } from '../models/repair.model';
 import { RepairInfo } from '../models/repair-info.model';
 import { CancelModel } from 'src/app/manager/models/cancel.model';
 import { FinishModel } from 'src/app/manager/models/finish.model';
+import { RepairStatus } from '../enums/repair-status.enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RepairService {
 
+  repair: RepairInfo = {
+    description: 'x',
+    result: 'xd',
+    status: RepairStatus.Open,
+    startDateTime: new Date(),
+    endDateTime: new Date(),
+    vehicleRegistrationNumbers: 'SPS34563',
+    vehicleBrand: 'Ford',
+    vehicleModel: 'Focus',
+    clientName: 'x',
+    clientEmail: 'x',
+    clientPhoneNumber: 'x'
+  };
+
   private url = 'https://localhost:44340/api/repairs/';
 
   constructor(private httpClient: HttpClient) {
+  }
+
+  _getRepairInfo(): RepairInfo {
+    return this.repair;
   }
 
   getRepairs(statusQuery = ''): Observable<Repair[]> {

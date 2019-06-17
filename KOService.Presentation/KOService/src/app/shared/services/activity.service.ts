@@ -17,8 +17,72 @@ export class ActivityService {
 
   private baseUrl = 'https://localhost:44340/api/activities/'
 
+  activities: Activity[] = [
+    {
+      id: '1',
+    sequenceNumber: 1,
+    description: 'ważne panie',
+    result: 'super tera jest',
+    status: ActivityStatus.Open,
+    startDataTime: 'x',
+    endDateTime: 'x',
+    activityTypeId: '1',
+    repairId: '1',
+    mechanicId: '1',
+    mechanicName: 'x',
+    vehicleRegistrationNumbers: 'x',
+    vehicleBrand: 'x'
+    },
+    {
+      id: '1',
+    sequenceNumber: 1,
+    description: 'ważne xDDDDDDDDDDDDDdDD panie',
+    result: 'super tera jest',
+    status: ActivityStatus.Finished,
+    startDataTime: 'x',
+    endDateTime: 'x',
+    activityTypeId: '1',
+    repairId: '1',
+    mechanicId: '1',
+    mechanicName: 'x',
+    vehicleRegistrationNumbers: 'x',
+    vehicleBrand: 'x'
+    },
+    {
+      id: '1',
+    sequenceNumber: 1,
+    description: 'xd',
+    result: 'super tera jest',
+    status: ActivityStatus.Canceled,
+    startDataTime: 'x',
+    endDateTime: 'x',
+    activityTypeId: '1',
+    repairId: '1',
+    mechanicId: '1',
+    mechanicName: 'x',
+    vehicleRegistrationNumbers: 'x',
+    vehicleBrand: 'x'
+    },
+    {
+      id: '1',
+    sequenceNumber: 1,
+    description: 'ważne super panie',
+    result: 'super tera jest',
+    status: ActivityStatus.Progress,
+    startDataTime: 'x',
+    endDateTime: 'x',
+    activityTypeId: '1',
+    repairId: '1',
+    mechanicId: '1',
+    mechanicName: 'x',
+    vehicleRegistrationNumbers: 'x',
+    vehicleBrand: 'x'
+    }
+  ];
 
-
+  _getRepairActivities(): Activity[] {
+    return this.activities;
+  }
 
   constructor(private httpClient: HttpClient){}
 
@@ -27,14 +91,14 @@ export class ActivityService {
   }
 
   getWorkerActivities(workerId: string){
-   
+
   }
   getRepairActivities(repairId:string): Observable<Activity[]>{
     return this.httpClient.get<Activity[]>(this.baseUrl + 'repair/' + repairId);
   }
 
   addActivity(activity: ActivityCreation): Observable<Activity>{
-    console.log("jestem")
+    console.log("jestem");
     return this.httpClient.post<Activity>(this.baseUrl,activity,httpOptions);
   }
 
