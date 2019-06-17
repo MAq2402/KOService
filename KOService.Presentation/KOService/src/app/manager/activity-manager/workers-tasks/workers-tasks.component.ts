@@ -11,6 +11,7 @@ import { Employee } from 'src/app/shared/models/employee.model';
 import { WorkerActivities } from '../workers-table/workers-table.component';
 import { ActivatedRoute } from '@angular/router';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
+import { PricingCreatorComponent } from '../pricing-creator/pricing-creator.component';
 export interface WorkerDto{
   Id: string;
  Name: string;
@@ -39,7 +40,8 @@ export class WorkersTasksComponent implements OnInit {
   columnsToDisplay = ['description', 'status','worker'];
   
   constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,
-    private route: ActivatedRoute, private spinnerService: SpinnerService) { }
+    private pricingCreatorDialog: MatDialog, private route: ActivatedRoute,
+     private spinnerService: SpinnerService) { }
 
 
   ngOnInit() {
@@ -64,7 +66,10 @@ export class WorkersTasksComponent implements OnInit {
     )));
 }
   
-
+openPricingCreatorDialog(): void{
+  const pricingDialogRef = this.pricingCreatorDialog.open(PricingCreatorComponent, {
+   data: {repairId: this.repairId}
+});}
 drop(event: CdkDragDrop<string[]>) {
   if (event.previousContainer !== event.container) {
     let workerId = event.previousContainer.data[event.previousIndex]['id'];

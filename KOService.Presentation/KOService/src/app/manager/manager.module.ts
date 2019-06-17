@@ -36,7 +36,10 @@ import { PricingCreatorComponent } from './activity-manager/pricing-creator/pric
     AddRepairComponent,
     PricingCreatorComponent
   ],
-  entryComponents: [ActivityCreatorComponent]
+  entryComponents: [
+    ActivityCreatorComponent,
+  PricingCreatorComponent
+]
 })
 
 export class ManagerModule { }

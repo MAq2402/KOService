@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { RepairService } from 'src/app/shared/services/repair.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { DialogData } from '../activity-creator/activity-creator.component';
 
 @Component({
   selector: 'app-pricing-creator',
@@ -8,13 +10,14 @@ import { RepairService } from 'src/app/shared/services/repair.service';
   styleUrls: ['./pricing-creator.component.css']
 })
 export class PricingCreatorComponent implements OnInit {
-  repairId = "c4caf516-85c6-4611-ade1-c4413b959d7b";
   pricingForm: FormGroup;
-  constructor(private formBuilder: FormBuilder, private repairService:RepairService) { }
+  constructor(public dialogRef: MatDialogRef<PricingCreatorComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private formBuilder: FormBuilder, private repairService:RepairService) { }
 
   ngOnInit() {
     this.pricingForm = this.formBuilder.group({
-      repairId: [this.repairId],
+      repairId: [this.data.repairId],
       labour: [0, Validators.required],
       parts: this.formBuilder.array([
           this.initPart(),
@@ -45,7 +48,10 @@ removePart(i: number) {
 
   onSubmit(){
     console.log(this.pricingForm.value)
-    this.repairService.addRepairPricing(this.pricingForm.value,this.repairId).subscribe(pricing => console.log(pricing));
+    this.repairService.addRepairPricing(this.pricingForm.value,this.data.repairId).subscribe(pricing => console.log(pricing));
+  }
+  onCancel(): void {
+    this.dialogRef.close();
   }
 
 }
