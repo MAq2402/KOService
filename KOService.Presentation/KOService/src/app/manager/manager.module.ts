@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule } from '@angular/material';
 import { AddRepairComponent } from './add-repair/add-repair.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PricingCreatorComponent } from './activity-manager/pricing-creator/pricing-creator.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -32,7 +33,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ActivityCreatorComponent,
     WorkersTableComponent,
     RepairInfoComponent,
-    AddRepairComponent
+    AddRepairComponent,
+    PricingCreatorComponent
   ],
   entryComponents: [ActivityCreatorComponent]
 })

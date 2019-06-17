@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Repair } from '../models/repair.model';
 import { RepairInfo } from '../models/repair-info.model';
+import { PricingCreation } from '../models/pricing-creation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,4 +22,7 @@ export class RepairService {
   getRepairInfo(repairId): Observable<RepairInfo>{
     return this.httpClient.get<RepairInfo>(this.url + "info/"+ repairId);
   }
+  //addRepairPricing(pricing: PricingCreation): Observable<Pricing>{
+
+  //}
 }
