@@ -5,35 +5,34 @@ using System.Threading.Tasks;
 using MediatR.Pipeline;
 using MediatR;
 using KOService.Application.Services;
-using KOService.Application.Commands.Client;
 using KOService.Domain.DbContexts;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using KOService.Application.Commands.Repair;
 
 namespace KOService.Application.Handlers
 { 
-    public class SendMailHandler<TRequest, TResponse> : IRequestPostProcessor<TRequest, Unit>
-        where TRequest : IRepairMailNotificationRequest
+    public class SendCancelRepairMailHandler : IRequestPostProcessor<CancelRepairCommand, Unit>
     {
         private readonly IMailSender _mailSender;
         private KOServiceDbContext _dbContext;
 
-        public SendMailHandler( KOServiceDbContext dbContext, IMailSender mailSender)
+        public SendCancelRepairMailHandler( KOServiceDbContext dbContext, IMailSender mailSender)
          {
             _mailSender = mailSender;
             _dbContext = dbContext;
         }
 
-        public Task Process(TRequest request, Unit response)
+        public Task Process(CancelRepairCommand request, Unit response)
         {
-            var repair = _dbContext.Repairs.Where(r => r.Id.ToString() == request.MailRepairId)
-                .Include(r => r.Vehicle)
-                .ThenInclude(v => v.Client)
-                .FirstOrDefault();
+            var repair = _dbContext.Repairs.Where(r => r.Id.ToString() == request.Id)
+              .Include(r => r.Vehicle)
+              .ThenInclude(v => v.Client)
+              .FirstOrDefault();
 
             string receiverAddress = repair.Vehicle.Client.ContactDetails.Email;
             string receiverName = $"{repair.Vehicle.Client.FirstName} {repair.Vehicle.Client.LastName}";
-            _mailSender.SendMail(receiverAddress, receiverName, request.MailMessage); 
+            _mailSender.SendMail(receiverAddress, receiverName, "Twoja naprawa została anulowana.< br >");
             return Task.FromResult(0);
         }
     }

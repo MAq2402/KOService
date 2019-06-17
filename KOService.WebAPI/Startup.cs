@@ -62,7 +62,7 @@ namespace KOService.WebAPI
           
             services.AddMediatR(Assembly.Load(new AssemblyName("KOService.Application")));
 
-            services.AddSingleton(typeof(IMailSender), typeof(MailSender));
+            services.AddTransient<IMailSender, MailSender>();
 
         }
 
