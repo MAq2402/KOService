@@ -6,12 +6,9 @@
     border-bottom: 2px solid black;
     border-top: 2px solid black;
   }
-  .my-tile1 {
-    height: 100%;
-  }
-  .my-tile2 {
+  .my-tile {
     border-left: 2px solid black;
-    height: 100%;
+    bottom: 0px;
   }
   .my-registration-numbers {
     text-align: right;
@@ -24,7 +21,11 @@
     left: 80%;
   }
   .buttons {
-    position: absolute;
-    right: 0%;
-    padding-right: 5%;
+    padding-left: 80%;
+  }
+  .total-sign {
+    padding-left: 70%;
+  }
+  .my-property {
+    padding-left: 20%; 
   }
