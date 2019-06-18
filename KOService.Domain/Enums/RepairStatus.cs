@@ -8,7 +8,6 @@ namespace KOService.Domain.Enums
     {
         Open,
         Priced,
-        PricingAccepted,
         InProgress,
         Canceled,
         Finished

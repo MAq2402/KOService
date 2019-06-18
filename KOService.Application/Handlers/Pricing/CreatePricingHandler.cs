@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using KOService.Application.Commands.Pricing;
+using Microsoft.EntityFrameworkCore;
 
 namespace KOService.Application.Handlers.Activity
 {
@@ -27,9 +28,9 @@ namespace KOService.Application.Handlers.Activity
             else
             {
 
-                Pricing pricing = new Pricing(new Guid(), request.RepairId, request.Labour);
+                Domain.Entities.Pricing pricing = new Domain.Entities.Pricing(new Guid(), request.RepairId, request.Labour);
                 List<Part> parts = new List<Part>();
-                foreach(var item in request.Parts)
+                foreach (var item in request.Parts)
                 {
                     Part part = new Part(new Guid(), item.Name, item.Manufacturer, item.ManufacturerId, item.Price);
                     parts.Add(part);
@@ -37,12 +38,24 @@ namespace KOService.Application.Handlers.Activity
                 pricing.AddParts(parts);
 
                 _dbContext.Pricings.Add(pricing);
+                string clientRepairNumber;
+                Domain.Entities.Repair repairWithSameNumber;
+                do
+                {
+                    clientRepairNumber = repair.GenerateClientRepairNumber();
+                    repairWithSameNumber = _dbContext.Repairs.Include(rep => rep.Pricing)
+                       .FirstOrDefault(rep => rep.Pricing.ClientRepairNumber == clientRepairNumber);
+                }
+                while (repairWithSameNumber != null);
 
+                repair.Priced(clientRepairNumber);
                 if (_dbContext.SaveChanges() == 0)
                 {
                     throw new Exception("Could not create pricing");
                 }
             }
+
         }
     }
 }
+

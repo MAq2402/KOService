@@ -29,9 +29,10 @@
               <p>opis: {{repairInfo.description}} </p>
               <p [ngSwitch]="repairInfo.status">
                 <i *ngSwitchCase="0" class="material-icons" id="status-open">new_releases</i>
-                <i *ngSwitchCase="1" class="material-icons" id="status-progress">schedule</i>
-                <i *ngSwitchCase="2" class="material-icons" id="status-canceled">check_circle_outline </i>
-                <i *ngSwitchCase="3" class="material-icons" id="status-finished"> cancel</i>
+                <i *ngSwitchCase="1" class="material-icons" id="status-priced">monetization_on</i>
+                <i *ngSwitchCase="2" class="material-icons" id="status-progress">schedule</i>
+                <i *ngSwitchCase="3" class="material-icons" id="status-canceled">check_circle_outline </i>
+                <i *ngSwitchCase="4" class="material-icons" id="status-finished"> cancel</i>
               </p>
               <p>komentarz: {{repairInfo.result}} </p>
               <p>data przyjęcia: {{repairInfo.startDateTime}}</p>

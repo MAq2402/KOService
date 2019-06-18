@@ -8,6 +8,6 @@ namespace KOService.Application.Queries.Repair
 {
     public class GetRepairPricingQuery: IRequest<PricingDto>
     {
-        public Guid RepairId { get; set; }
+        public string RepairNumber { get; set; }
     }
 }

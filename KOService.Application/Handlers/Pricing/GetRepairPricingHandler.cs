@@ -22,8 +22,9 @@ namespace KOService.Application.Handlers.Repair
 
         protected override PricingDto Handle(GetRepairPricingQuery request)
         {
+            
             var pricing = _dbContext.Pricings.Include(p => p.Parts)
-                 .FirstOrDefault(p => p.RepairId == request.RepairId);
+                 .FirstOrDefault(p => p.ClientRepairNumber == request.RepairNumber);
 
             return Mapper.Map<PricingDto>(pricing);
         }

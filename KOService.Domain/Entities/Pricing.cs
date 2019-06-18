@@ -12,9 +12,10 @@ namespace KOService.Domain.Entities
 
         public Guid RepairId { get; set; }
         public Repair Repair { get; set; }
-        private readonly List<Part> _parts = new List<Part>();
-        public IEnumerable<Part> Parts => _parts.AsReadOnly();
+        private List<Part> _parts = new List<Part>();
+        public IEnumerable<Part> Parts => _parts;
         public double Labour { get; protected set; }
+        public string ClientRepairNumber { get;protected set; }
 
         public Pricing( Guid id, Guid repairId, double labour): base(id)
         {
@@ -45,6 +46,9 @@ namespace KOService.Domain.Entities
             return partsValue + Labour;
         }
 
-
+        internal void SetClientNumber(string clientRepairNumber)
+        {
+            ClientRepairNumber = clientRepairNumber;
+        }
     }
 }
