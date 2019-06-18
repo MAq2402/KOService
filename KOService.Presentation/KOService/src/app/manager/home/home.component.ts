@@ -30,20 +30,22 @@ export class HomeComponent implements OnInit {
   showWithStatusFinished = false;
   showWithStatusCanceled = false;
   filterValue = '';
-  repairsColumnsToDisplay: ColumnDef[] = [
-    { name: 'vehicleRegistrationNumbers', display: 'Numery rejestracyjne' },
-    { name: 'vehicleBrand', display: 'Marka' },
-    { name: 'vehicleModel', display: 'Model' },
-    { name: 'description', display: 'Opis' },
-    { name: 'status', display: 'Status'},
-    { name: 'startDateTime', display: 'Data rozpoczęcia'}
+
+  repairsColumnsToDisplay: string[] = [
+    'vehicleRegistrationNumbers',
+    'vehicleBrand',
+    'vehicleModel',
+    'description',
+    'status',
+    'startDateTime',
+    'details'
   ];
 
-  activitiesColumnsToDisplay: ColumnDef[] = [
-    { name: 'description', display: 'Opis' },
-    { name: 'mechanicName', display: 'Mechanik' },
-    { name: 'statusDisplay', display: 'Status'},
-    { name: 'startDateTime', display: 'Data rozpoczęcia'}
+  activitiesColumnsToDisplay: string[] = [
+    'description',
+    'mechanicName',
+    'status',
+    'startDateTime'
   ];
 
   expandedElement: any | null;
@@ -60,14 +62,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
-  }
-
-  getRepairsColumnsToDisplayNames(): string[] {
-    return this.repairsColumnsToDisplay.map(x => x.name);
-  }
-
-  getActivitiesColumnsToDisplayNames(): string[] {
-    return this.activitiesColumnsToDisplay.map(x => x.name);
   }
 
   applyFilter(filterValue: string) {
@@ -87,17 +81,20 @@ export class HomeComponent implements OnInit {
     if (this.showWithStatusCanceled || this.showWithStatusFinished || this.showWithStatusInProgress || this.showWithStatusOpen) {
       const statusQuery = this.buildStatusQuery();
       this.authService.getCurrentEmployee().subscribe(user => {
-        this.repairService.getRepairs( statusQuery).subscribe(repairs => {
+        this.repairService.getRepairs(statusQuery).subscribe(repairs => {
+          for (const repair of repairs) {
+            repair.activitiesDataSource = new MatTableDataSource(repair.activities);
+          }
           this.repairsDataSource = new MatTableDataSource(repairs);
           this.repairsDataSource.sort = this.sort;
           this.repairsDataSource.paginator = this.paginator;
           this.repairsDataSource.filter = this.filterValue.trim().toLowerCase();
-          this.spinnerService.hide(); // show in auth.service -> login
+          this.spinnerService.hide();
         });
       });
     } else {
       this.repairsDataSource = null;
-      this.spinnerService.hide(); // show in auth.service -> login
+      this.spinnerService.hide();
     }
   }
 

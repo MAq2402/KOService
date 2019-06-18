@@ -43,16 +43,6 @@ namespace KOService.Tests.Entities
         }
 
         [Fact]
-        public void CancelShouldNotWorkWhenRepairStatusIsOpen()
-        {
-            var repair = new Repair(Guid.NewGuid(), "desc", Guid.NewGuid(), Guid.NewGuid());
-
-            Action action = () => repair.Cancel("some reason");
-
-            Assert.Throws<DomainException>(action);
-        }
-
-        [Fact]
         public void FinishShouldWork()
         {
             var repair = new Repair(Guid.NewGuid(), "desc", Guid.NewGuid(), Guid.NewGuid());

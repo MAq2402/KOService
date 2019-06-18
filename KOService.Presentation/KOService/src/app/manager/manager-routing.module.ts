@@ -6,7 +6,7 @@ import { AddRepairComponent } from './add-repair/add-repair.component';
 
 const managerRoutes: Routes = [
   { path: 'addRepair', component: AddRepairComponent },
-  { path: 'activities/:id', component: WorkersTasksComponent },
+  { path: 'repair-details/:id', component: WorkersTasksComponent },
   { path: '', component: HomeComponent}
 
 ];

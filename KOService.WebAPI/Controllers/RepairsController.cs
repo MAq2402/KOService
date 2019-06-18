@@ -47,15 +47,22 @@ namespace KOService.WebAPI.Controllers
             return Ok(_mediator.Send(query).Result);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetRepair([FromQuery] GetRepairsQuery query)
+        {
+            query = query ?? new GetRepairsQuery();
+            return Ok(_mediator.Send(query).Result);
+        }
+
         [HttpPost]
         [Authorize(Constants.Roles.Manager)]
         public IActionResult CreateRepair([FromBody] CreateRepairCommand command)
         {
-            var exception = _mediator.Send(command).Exception;
+            var result = _mediator.Send(command);
 
-            if(exception != null)
+            if(result.IsFaulted)
             {
-                throw exception.InnerException;
+                return BadRequest(result.Exception.InnerException.Message);
             }
 
             return Ok(command);
@@ -79,6 +86,37 @@ namespace KOService.WebAPI.Controllers
         {
             var command = new AcceptPricingCommand();
             command.RepairId = repairId;
+             var result = _mediator.Send(command);
+
+            if (result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return NoContent();
+        }
+
+       
+
+        [HttpPut("{id}/cancel")]
+        public IActionResult CancelRepair(string id,[FromBody] CancelRepairCommand command)
+        {
+            command.Id = id;
+
+            var result = _mediator.Send(command);
+
+            if (result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return NoContent();
+
+        [HttpPut("pricing/{repairId}/reject")]
+        public IActionResult RejectPricing(Guid repairId)
+        {
+            var command = new RejectPricingCommand();
+            command.RepairId = repairId;
             var result = _mediator.Send(command);
 
             if (result.IsFaulted)
@@ -88,11 +126,13 @@ namespace KOService.WebAPI.Controllers
 
             return NoContent();
         }
-        [HttpPut("pricing/{repairId}/reject")]
-        public IActionResult RejectPricing(Guid repairId)
+
+
+        [HttpPut("{id}/finish")]
+        public IActionResult FinishRepair(string id, [FromBody] FinishRepairCommand command)
         {
-            var command = new RejectPricingCommand();
-            command.RepairId = repairId;
+            command.Id = id;
+
             var result = _mediator.Send(command);
 
             if (result.IsFaulted)

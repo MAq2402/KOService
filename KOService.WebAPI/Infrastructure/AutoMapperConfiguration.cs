@@ -46,6 +46,10 @@ namespace KOService.WebAPI.Infrastructure
                 cfg.CreateMap<Pricing, PricingDto>()
                     .ForMember(dest => dest.totalPrice, opt => opt.MapFrom(src => src.GetAmountToPay()));
                 
+
+                cfg.CreateMap<Employee, EmployeeWithAccountInfoDto>()
+                   .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Identity.UserName));
+
             });
             //Mapper.AssertConfigurationIsValid();
 

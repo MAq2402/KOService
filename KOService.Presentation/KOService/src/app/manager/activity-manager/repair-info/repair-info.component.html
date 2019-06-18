@@ -1,43 +1,61 @@
 <div class="container-fluid" *ngIf="repairInfo">
-  <div class="row justify-content-between">
-    <mat-card>
-      <mat-card-title>
-        Klient
-      </mat-card-title>
-      <mat-card-content>
-        <p>{{repairInfo.clientName}} </p>
-        <p> telefon: {{repairInfo.clientPhoneNumber}}</p>
-        <p> email: {{repairInfo.clientEmail}}</p>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
+  <mat-toolbar>
+    <span>Szczegóły</span>
+    <span class="fill-remaining-space"></span>
+    <span class="buttons">
+      <button [disabled]="disableChangeToInProgress()" (click)="changeToInProgressRepair()" mat-raised-button color="basic">Rozpocznij</button>
+      <button [disabled]="disableCancel()" (click)="cancelRepair()" mat-raised-button color="warn">Anuluj</button>
+      <button [disabled]="disableFinish()" (click)="finishRepair()" mat-raised-button color="primary">Zakończ</button>
+    </span>
+  </mat-toolbar>
+  <div class="row justify-content-between repair-info">
+    <div class="col-sm-4">
+      <mat-card>
+        <mat-card-title>
+          Klient
+        </mat-card-title>
+        <mat-card-content>
+          <p>{{repairInfo.clientName}} </p>
+          <p> telefon: {{repairInfo.clientPhoneNumber}}</p>
+          <p> email: {{repairInfo.clientEmail}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-sm-4">
+      <mat-card>
         <mat-card-title>
           Samochód
         </mat-card-title>
         <mat-card-content>
-            <p>marka: {{repairInfo.vehicleBrand}} </p>
-            <p>model: {{repairInfo.vehicleModel}}</p>
-            <p>rejestracja: {{repairInfo.vehicleRegistrationNumbers}}</p>
-            
-          </mat-card-content>
+          <p>marka: {{repairInfo.vehicleBrand}} </p>
+          <p>model: {{repairInfo.vehicleModel}}</p>
+          <p>rejestracja: {{repairInfo.vehicleRegistrationNumbers}}</p>
+
+        </mat-card-content>
       </mat-card>
+    </div>
+    <div class="col-sm-4">
       <mat-card>
-          <mat-card-title>
-            Naprawa
-          </mat-card-title>
-          <mat-card-content>
-              <p>opis: {{repairInfo.description}} </p>
-              <p [ngSwitch]="repairInfo.status">
-                <i *ngSwitchCase="0" class="material-icons" id="status-open">new_releases</i>
-                <i *ngSwitchCase="1" class="material-icons" id="status-priced">monetization_on</i>
-                <i *ngSwitchCase="2" class="material-icons" id="status-progress">schedule</i>
-                <i *ngSwitchCase="3" class="material-icons" id="status-canceled">check_circle_outline </i>
-                <i *ngSwitchCase="4" class="material-icons" id="status-finished"> cancel</i>
-              </p>
-              <p>komentarz: {{repairInfo.result}} </p>
-              <p>data przyjęcia: {{repairInfo.startDateTime}}</p>
-              
-            </mat-card-content>
-        </mat-card>
+
+        <mat-card-title>
+          Naprawa
+        </mat-card-title>
+        <mat-card-content>
+          <p>opis: {{repairInfo.description}} </p>
+          <p [ngSwitch]="repairInfo.status">
+            <i *ngSwitchCase="0" class="material-icons" id="status-open">new_releases</i>
+            <i *ngSwitchCase="1" class="material-icons" id="status-priced">monetization_on</i>
+            <i *ngSwitchCase="2" class="material-icons" id="status-progress">schedule</i>
+            <i *ngSwitchCase="3" class="material-icons" id="status-canceled">check_circle_outline </i>
+            <i *ngSwitchCase="4" class="material-icons" id="status-finished"> cancel</i>
+          </p>
+          <p>komentarz: {{repairInfo.result}} </p>
+          <p>data przyjęcia: {{repairInfo.startDateTime | dateTime}}</p>
+          <p *ngIf="showEndDateTime()">data zakończenia: {{repairInfo.endDateTime | dateTime}}</p>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+
   </div>
 </div>

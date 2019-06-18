@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LoginCredentials } from '../models/LoginCredentials';
 import { AuthService } from '../services/auth.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
@@ -27,10 +28,22 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authService.login(this.loginCredentials);
+    this.authService.login(this.loginCredentials).subscribe(x => x, err => {
+      if (err.status === 400) {
+        this.snackBar.open('Podano złe hasło.');
+      } else if (err.status === 404) {
+        this.snackBar.open('Nie ma takiego użytkownika.');
+      } else {
+        this.snackBar.open('Logowanie nie powiodło się.');
+      }
+    });
   }
 
   focusPasswordInput() {
     this.passwordInput.nativeElement.focus();
+  }
+
+  disableSubmit(): boolean {
+    return !this.loginCredentials.password || !this.loginCredentials.userName;
   }
 }
