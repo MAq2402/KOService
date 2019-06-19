@@ -1,0 +1,63 @@
+<nav class="navbar navbar-light bg-light row my-navbar">
+  <div class="col-1 text-center">
+    <i class="material-icons my-icon">build</i>
+  </div>
+  <div class="col-2">
+    <a>
+      <h2 class="my-title-font">KOService</h2>
+      <h6> Panel klienta </h6>
+    </a>
+  </div>
+  <div class="col-9 my-registration-numbers">
+      <h6> {{repair.vehicleBrand}} {{repair.vehicleModel}} {{repair.vehicleRegistrationNumbers}}</h6>
+  </div>
+</nav>
+
+<div class="row">
+<div class="col-4">
+    <mat-toolbar color="secondary">
+        <mat-toolbar-row>
+          <span>Wycena</span>
+        </mat-toolbar-row>
+    </mat-toolbar>
+      <mat-card class="my-card">
+          <h6>Części:</h6>
+            <mat-list class="my-part">
+                <mat-list-item *ngFor="let part of valuation.parts">
+                      {{part.name}} {{part.cost}}
+                  </mat-list-item>
+            </mat-list>
+          <mat-card-actions>
+            <h6 class="my-property">Robocizna: {{valuation.laborCosts}}</h6>
+            <h6 class="my-property">Razem: {{total}}</h6>
+              <div *ngIf="!accepted && !declined" class="buttons">
+                  <button (click)="acceptValuation()" mat-icon-button>
+                      <mat-icon>done</mat-icon>
+                    </button>
+                    <button (click)="declineValuation()" mat-icon-button color="warn">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                  </div>
+                  <div *ngIf="accepted" class="buttons">
+                      zaakceptowano
+                  </div>
+                  <div *ngIf="declined" class="buttons">
+                      odrzucono
+                  </div>
+          </mat-card-actions>
+        </mat-card>
+        
+</div>
+<div class="col-8 my-tile">
+    <mat-toolbar color="secondary">
+        <mat-toolbar-row>
+          <span>Przebieg naprawy</span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+  <mat-list>
+    <mat-card *ngFor="let activity of activities" class="my-card"><mat-list-item>{{activity.description}}<a class="my-status">Status: {{transformStatus(activity.status)}}</a></mat-list-item></mat-card>
+     </mat-list>
+</div>
+</div>
+  
+
