@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KOService.Application.Commands.Pricing;
 using KOService.Application.Commands.Repair;
 using KOService.Application.Queries.Repair;
 using KOService.WebAPI.Infrastructure;
@@ -38,6 +39,13 @@ namespace KOService.WebAPI.Controllers
             query.Id = repairId;
             return Ok(_mediator.Send(query).Result);
         }
+        [HttpGet("pricing/{repairNumber}")]
+        public IActionResult GetRepairPricing(string repairNumber)
+        {
+            var query = new GetRepairPricingQuery();
+            query.RepairNumber = repairNumber;
+            return Ok(_mediator.Send(query).Result);
+        }
 
         [HttpGet("{id}")]
         public IActionResult GetRepair([FromQuery] GetRepairsQuery query)
@@ -60,10 +68,25 @@ namespace KOService.WebAPI.Controllers
             return Ok(command);
         }
 
-        [HttpPut("{id}/changeToInProgress")]
-        public IActionResult ChangeRepiarStatusToInProgress(string id)
+        [HttpPost("pricing/{repairId}")]
+        [Authorize(Constants.Roles.Manager)]
+        public IActionResult AddRepairPricing([FromBody] CreatePricingCommand command)
         {
-            var result = _mediator.Send(new ChangeToInProgressCommand() {Id = id});
+            var exception = _mediator.Send(command).Exception;
+
+            if (exception != null)
+            {
+                throw exception.InnerException;
+            }
+
+            return Ok(command);
+        }
+        [HttpPut("pricing/{repairId}/accept")]
+        public IActionResult AcceptPricing(Guid repairId)
+        {
+            var command = new AcceptPricingCommand();
+            command.RepairId = repairId;
+             var result = _mediator.Send(command);
 
             if (result.IsFaulted)
             {
@@ -72,11 +95,28 @@ namespace KOService.WebAPI.Controllers
 
             return NoContent();
         }
+
+       
 
         [HttpPut("{id}/cancel")]
         public IActionResult CancelRepair(string id,[FromBody] CancelRepairCommand command)
         {
             command.Id = id;
+
+            var result = _mediator.Send(command);
+
+            if (result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return NoContent();
+
+        [HttpPut("pricing/{repairId}/reject")]
+        public IActionResult RejectPricing(Guid repairId)
+        {
+            var command = new RejectPricingCommand();
+            command.RepairId = repairId;
             var result = _mediator.Send(command);
 
             if (result.IsFaulted)
@@ -86,11 +126,13 @@ namespace KOService.WebAPI.Controllers
 
             return NoContent();
         }
+
 
         [HttpPut("{id}/finish")]
         public IActionResult FinishRepair(string id, [FromBody] FinishRepairCommand command)
         {
             command.Id = id;
+
             var result = _mediator.Send(command);
 
             if (result.IsFaulted)
@@ -100,5 +142,6 @@ namespace KOService.WebAPI.Controllers
 
             return NoContent();
         }
+
     }
 }

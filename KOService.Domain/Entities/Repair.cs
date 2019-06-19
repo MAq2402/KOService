@@ -21,6 +21,7 @@ namespace KOService.Domain.Entities
         private readonly Dictionary<RepairStatus, string> statusDictionary = new Dictionary<RepairStatus, string>()
         {
             {RepairStatus.Open, "OPN" },
+            {RepairStatus.Priced, "PRI" },
             {RepairStatus.InProgress, "PRO" },
             {RepairStatus.Canceled, "CAN" },
             {RepairStatus.Finished, "FIN" }
@@ -36,6 +37,10 @@ namespace KOService.Domain.Entities
         public Employee Manager { get; private set; }
         public Vehicle Vehicle { get; private set; }
         public Guid VehicleId { get; private set; }
+        public Pricing Pricing { get; private set; }
+        public Guid PricingId { get; private set; }
+        
+
 
         public void Cancel(string result)
         {
@@ -67,19 +72,52 @@ namespace KOService.Domain.Entities
 
             SetStatus(RepairStatus.Finished);
         }
-        public void ChangeToInProgress()
+        public void Priced(string clientRepairNumber)
         {
-            if (GetStatus() == RepairStatus.InProgress)
+            if (GetStatus() != RepairStatus.Open)
             {
-                throw new DomainException($"Can't perform finish when current status is {Status}");
+                throw new DomainException($"Can't set priced when current status is {Status}");
+            }
+            Pricing.SetClientNumber(clientRepairNumber);
+            SetStatus(RepairStatus.Priced);
+        }
+        public void PricingAccepted()
+        {
+
+            if (GetStatus() != RepairStatus.Priced)
+            {
+                throw new DomainException($"Client can't make decision when status is {Status}");
             }
 
             SetStatus(RepairStatus.InProgress);
         }
+        public void PricingRejected()
+        {
+            if (GetStatus() != RepairStatus.Priced)
+            {
+                throw new DomainException($"Client can't make decision when status is {Status}");
+            }
+            Result = "Pricing was rejected";
+            SetStatus(RepairStatus.Canceled);
+        }
+
         private void Open()
         {
             StartDateTime = DateTime.UtcNow;
             SetStatus(RepairStatus.Open);
+        }
+        public string GenerateClientRepairNumber()
+        {
+            int size = 8;
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random();
+            char tmp;
+            for (int i = 0; i < size; i++)
+            {
+                tmp = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
+                builder.Append(tmp);
+            }
+            return builder.ToString();
         }
     }
 }

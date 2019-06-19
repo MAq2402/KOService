@@ -7,7 +7,10 @@ import { ActivityCreatorComponent } from '../activity-creator/activity-creator.c
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
-export interface WorkerDto {
+
+import { PricingCreatorComponent } from '../pricing-creator/pricing-creator.component';
+export interface WorkerDto{
+
   Id: string;
   Name: string;
 }
@@ -32,10 +35,13 @@ export class WorkersTasksComponent implements OnInit {
   repairActivities: Activity[];
   assignments: Assignment[] = [];
 
-  columnsToDisplay = ['description', 'status', 'worker'];
 
-  constructor(private activityService: ActivityService, private activityCreatorDialog: MatDialog,
-    private route: ActivatedRoute, private spinnerService: SpinnerService) { }
+  columnsToDisplay = ['description', 'status','worker'];
+  
+  constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,
+    private pricingCreatorDialog: MatDialog, private route: ActivatedRoute,
+     private spinnerService: SpinnerService) { }
+
 
 
   ngOnInit() {
@@ -49,23 +55,29 @@ export class WorkersTasksComponent implements OnInit {
 
   openActivityCreatorDialog(): void {
     const dialogRef = this.activityCreatorDialog.open(ActivityCreatorComponent, {
-      data: { repairId: this.repairId }
-    });
-    dialogRef.afterClosed().subscribe(x => (
-      this.spinnerService.show(),
-      this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
-        this.repairActivities = activities,
-        activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null }),
-        this.spinnerService.hide())
-      )));
-  }
 
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer !== event.container) {
-      let workerId = event.previousContainer.data[event.previousIndex]['id'];
-      let activityId = event.container.id;
-      this.assignments[activityId].Id = workerId;
-      let workerName = event.previousContainer.data[event.previousIndex]['firstName'] +
+     data: {repairId: this.repairId}
+  });
+  dialogRef.afterClosed().subscribe(x=>(
+    this.spinnerService.show(),
+    this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
+    this.repairActivities = activities, 
+    activities.map(activity=>this.assignments[activity.id]={Id: null,Name: null}),
+    this.spinnerService.hide())
+    )));
+}
+  
+openPricingCreatorDialog(): void{
+  const pricingDialogRef = this.pricingCreatorDialog.open(PricingCreatorComponent, {
+   data: {repairId: this.repairId}
+});}
+drop(event: CdkDragDrop<string[]>) {
+  if (event.previousContainer !== event.container) {
+    let workerId = event.previousContainer.data[event.previousIndex]['id'];
+    let activityId = event.container.id;
+    this.assignments[activityId].Id = workerId;
+    let workerName = event.previousContainer.data[event.previousIndex]['firstName'] + 
+
         event.previousContainer.data[event.previousIndex]['lastName'];
       this.assignments[activityId].Name = workerName;
       this.activityService.assignWorker(workerId, activityId).subscribe();

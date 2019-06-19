@@ -10,6 +10,7 @@ import {RepairInfoComponent} from './activity-manager/repair-info/repair-info.co
 import { CommonModule } from '@angular/common';
 import { AddRepairComponent } from './add-repair/add-repair.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PricingCreatorComponent } from './activity-manager/pricing-creator/pricing-creator.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -26,9 +27,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ActivityCreatorComponent,
     WorkersTableComponent,
     RepairInfoComponent,
-    AddRepairComponent
+    AddRepairComponent,
+    PricingCreatorComponent
   ],
-  entryComponents: [ActivityCreatorComponent]
+  entryComponents: [
+    ActivityCreatorComponent,
+  PricingCreatorComponent
+]
 })
 
 export class ManagerModule { }
