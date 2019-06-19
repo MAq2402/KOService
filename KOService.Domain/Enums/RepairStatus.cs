@@ -7,6 +7,7 @@ namespace KOService.Domain.Enums
     public enum RepairStatus
     {
         Open,
+        Priced,
         InProgress,
         Canceled,
         Finished

@@ -4,14 +4,16 @@ using KOService.Domain.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KOService.Domain.Migrations
 {
     [DbContext(typeof(KOServiceDbContext))]
-    partial class KOServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190612184238_Pricing2")]
+    partial class Pricing2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,8 +111,6 @@ namespace KOService.Domain.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ClientRepairNumber");
 
                     b.Property<double>("Labour");
 
