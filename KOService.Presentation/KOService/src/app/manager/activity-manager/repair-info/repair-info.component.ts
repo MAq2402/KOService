@@ -9,6 +9,7 @@ import { ConfirmationModel } from 'src/app/shared/models/confirmation.model';
 import { CancelModel } from '../../models/cancel.model';
 import { FinishModel } from '../../models/finish.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
+import { PricingCreatorComponent } from '../pricing-creator/pricing-creator.component';
 @Component({
   selector: 'app-repair-info',
   templateUrl: './repair-info.component.html',
@@ -17,12 +18,14 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 export class RepairInfoComponent implements OnInit {
   repairId: string;
   repairInfo: RepairInfo;
+  
 
   constructor(private repairService: RepairService,
     private route: ActivatedRoute,
     private spinnerService: SpinnerService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private pricingCreatorDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -37,7 +40,7 @@ export class RepairInfoComponent implements OnInit {
     });
   }
 
-  changeToInProgressRepair() {
+  priceRepair() {
     const confirmationModel: ConfirmationModel = {
       header: 'Jesteś pewny, że chcesz rozpocząć naprawę?',
       confirmed: null,
@@ -46,20 +49,15 @@ export class RepairInfoComponent implements OnInit {
       isInputRequired: null,
       confirmationMessage: ''
     };
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
-      data: confirmationModel
+    
+      const dialogRef = this.pricingCreatorDialog.open(PricingCreatorComponent, {
+       data: {repairId: this.repairId}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.repairService.changeToInProgress(this.repairId).subscribe(res => {
-          this.getData();
-        },
-          err => this.openSnackBar('Rozpoczęcie nie powiodło się'),
-          () => this.openSnackBar('Rozpoczęcie powiodło się'));
-      }
-    });
+    dialogRef.afterClosed().subscribe(x=>this.getData())
   }
+  
+  
 
   cancelRepair() {
     const confirmationModel: ConfirmationModel = {
@@ -129,8 +127,10 @@ export class RepairInfoComponent implements OnInit {
     return this.repairInfo.status !== RepairStatus.InProgress;
   }
 
-  disableChangeToInProgress(): boolean {
-    return this.repairInfo.status === RepairStatus.InProgress;
+  disablePrice(): boolean {
+    if(this.repairInfo.status === RepairStatus.Open) return false;
+    else return true;
+
   }
 
   showEndDateTime(): boolean {

@@ -5,6 +5,8 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Repair } from '../models/repair.model';
 import { RepairInfo } from '../models/repair-info.model';
 import { PricingCreation } from '../models/pricing-creation.model';
+import { FinishModel } from 'src/app/manager/models/finish.model';
+import { CancelModel } from 'src/app/manager/models/cancel.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

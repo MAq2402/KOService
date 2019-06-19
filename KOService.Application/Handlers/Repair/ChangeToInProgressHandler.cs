@@ -19,7 +19,7 @@ namespace KOService.Application.Handlers.Repair
         {
             var repair = _dbContext.Repairs.FirstOrDefault(r => r.Id.ToString() == request.Id);
 
-            repair.ChangeToInProgress();
+            repair.PricingAccepted();
 
             if (_dbContext.SaveChanges() == 0)
             {
