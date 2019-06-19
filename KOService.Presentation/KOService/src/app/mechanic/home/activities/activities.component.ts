@@ -39,7 +39,7 @@ export class ActivitiesComponent implements OnInit {
     {name: 'description', display: 'Opis'}, 
     {name: 'vehicleRegistrationNumbers', display: 'Numer rejestracyjny'},
     {name: 'vehicleBrand', display: 'Marka pojazdu'},
-    {name: 'sequenceNumber', display: 'Numer w sekwencji'   
+    {name: 'sequenceNumber', display: 'Priorytet'   
   }];
 
   constructor(

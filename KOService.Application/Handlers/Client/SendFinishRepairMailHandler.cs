@@ -9,21 +9,20 @@ using KOService.Domain.DbContexts;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using KOService.Application.Commands.Repair;
-
 namespace KOService.Application.Handlers
-{ 
-    public class SendCancelRepairMailHandler : IRequestPostProcessor<CancelRepairCommand, Unit>
+{
+    class SendFinishRepairMailHandler: IRequestPostProcessor<FinishRepairCommand, Unit>
     {
         private readonly IMailSender _mailSender;
         private KOServiceDbContext _dbContext;
 
-        public SendCancelRepairMailHandler( KOServiceDbContext dbContext, IMailSender mailSender)
-         {
+        public SendFinishRepairMailHandler(KOServiceDbContext dbContext, IMailSender mailSender)
+        {
             _mailSender = mailSender;
             _dbContext = dbContext;
         }
 
-        public Task Process(CancelRepairCommand request, Unit response)
+        public Task Process(FinishRepairCommand request, Unit response)
         {
             var repair = _dbContext.Repairs.Where(r => r.Id.ToString() == request.Id)
               .Include(r => r.Vehicle)
@@ -32,7 +31,7 @@ namespace KOService.Application.Handlers
 
             string receiverAddress = repair.Vehicle.Client.ContactDetails.Email;
             string receiverName = $"{repair.Vehicle.Client.FirstName} {repair.Vehicle.Client.LastName}";
-            _mailSender.SendMail(receiverAddress, receiverName, "Twoja naprawa została anulowana.<br>");
+            _mailSender.SendMail(receiverAddress, receiverName, "Twoja naprawa została zakończona.<br>");
             return Task.FromResult(0);
         }
     }
