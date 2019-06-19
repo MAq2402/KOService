@@ -31,11 +31,9 @@ export class ValuationService {
   }
 
   acceptValuation() {
-    console.log('si');
   }
 
   declineValuation() {
-    console.log('no');
   }
 
 }

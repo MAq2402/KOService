@@ -9,7 +9,7 @@
     </a>
   </div>
   <div class="col-9 my-registration-numbers">
-      <h6>Ford Focus SPS2346783 </h6>
+      <h6> {{repair.vehicleBrand}} {{repair.vehicleModel}} {{repair.vehicleRegistrationNumbers}}</h6>
   </div>
 </nav>
 
@@ -23,20 +23,26 @@
       <mat-card class="my-card">
           <h6>Części:</h6>
             <mat-list class="my-part">
-                <mat-list-item>
-                      xd
+                <mat-list-item *ngFor="let part of valuation.parts">
+                      {{part.name}} {{part.cost}}
                   </mat-list-item>
             </mat-list>
           <mat-card-actions>
-            <h6 class="my-property">Robocizna:</h6>
-            <h6 class="my-property">Razem:</h6>
-              <div class="buttons">
-                  <button mat-icon-button>
+            <h6 class="my-property">Robocizna: {{valuation.laborCosts}}</h6>
+            <h6 class="my-property">Razem: {{total}}</h6>
+              <div *ngIf="!accepted && !declined" class="buttons">
+                  <button (click)="acceptValuation()" mat-icon-button>
                       <mat-icon>done</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn">
+                    <button (click)="declineValuation()" mat-icon-button color="warn">
                         <mat-icon>close</mat-icon>
                       </button>
+                  </div>
+                  <div *ngIf="accepted" class="buttons">
+                      zaakceptowano
+                  </div>
+                  <div *ngIf="declined" class="buttons">
+                      odrzucono
                   </div>
           </mat-card-actions>
         </mat-card>
@@ -49,9 +55,7 @@
         </mat-toolbar-row>
       </mat-toolbar>
   <mat-list>
-    <mat-card class="my-card"><mat-list-item>Wymiana oleju <a class="my-status">Status: w trakcie</a></mat-list-item></mat-card>
-    <mat-card class="my-card"><mat-list-item>Wymiana opon <a class="my-status">Status: w trakcie</a></mat-list-item></mat-card>
-    <mat-card class="my-card"><mat-list-item>Wymiana świec <a class="my-status">Status: anulowane</a></mat-list-item></mat-card>
+    <mat-card *ngFor="let activity of activities" class="my-card"><mat-list-item>{{activity.description}}<a class="my-status">Status: {{transformStatus(activity.status)}}</a></mat-list-item></mat-card>
      </mat-list>
 </div>
 </div>

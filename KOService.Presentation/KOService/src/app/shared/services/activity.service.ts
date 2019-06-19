@@ -21,8 +21,8 @@ export class ActivityService {
     {
       id: '1',
     sequenceNumber: 1,
-    description: 'ważne panie',
-    result: 'super tera jest',
+    description: 'ważne',
+    result: 'x',
     status: ActivityStatus.Open,
     startDataTime: 'x',
     endDateTime: 'x',
@@ -36,8 +36,8 @@ export class ActivityService {
     {
       id: '1',
     sequenceNumber: 1,
-    description: 'ważne xDDDDDDDDDDDDDdDD panie',
-    result: 'super tera jest',
+    description: 'wymiana opon',
+    result: 'x',
     status: ActivityStatus.Finished,
     startDataTime: 'x',
     endDateTime: 'x',
@@ -51,8 +51,8 @@ export class ActivityService {
     {
       id: '1',
     sequenceNumber: 1,
-    description: 'xd',
-    result: 'super tera jest',
+    description: 'wymiana oleju',
+    result: 'x',
     status: ActivityStatus.Canceled,
     startDataTime: 'x',
     endDateTime: 'x',
@@ -66,8 +66,8 @@ export class ActivityService {
     {
       id: '1',
     sequenceNumber: 1,
-    description: 'ważne super panie',
-    result: 'super tera jest',
+    description: 'silnik renowacja',
+    result: 'x',
     status: ActivityStatus.Progress,
     startDataTime: 'x',
     endDateTime: 'x',
