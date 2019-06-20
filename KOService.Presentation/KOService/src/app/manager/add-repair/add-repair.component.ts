@@ -9,6 +9,8 @@ import { Vehicle } from 'src/app/shared/models/Vehicle';
 import { of } from 'rxjs';
 import { RepairForCreation } from 'src/app/shared/models/RepairForCreation';
 import { CreateRepairModel } from 'src/app/shared/models/CreateRepairModel';
+import { AuthService } from 'src/app/authentication/services/auth.service';
+import { Employee } from 'src/app/shared/models/employee.model';
 
 @Component({
   selector: 'app-add-repair',
@@ -29,7 +31,7 @@ export class AddRepairComponent implements OnInit {
   currentRepair: CreateRepairModel;
 
   constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private repairService: RepairService,
-    private clientService: ClientService, private vehicleService: VehicleService) {}
+    private clientService: ClientService, private vehicleService: VehicleService, private authService: AuthService) {}
 
   ngOnInit() {
     this.clientFormGroup = this._formBuilder.group({
@@ -57,6 +59,14 @@ export class AddRepairComponent implements OnInit {
   }
 
   public submit() {
+    let manager = new Employee();
+    this.authService.getCurrentEmployee()
+    .subscribe(employee => {
+        manager = employee as Employee;
+    console.log(manager);
+    });
+    this.currentRepair.menagerId = manager.id;
+
     if (this.repairFormGroup.dirty) {
     this.repairService.addRepair(this.getRepairFromForm()).subscribe();
     this.repairFormGroup.reset();

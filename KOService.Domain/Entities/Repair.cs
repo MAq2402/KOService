@@ -27,6 +27,11 @@ namespace KOService.Domain.Entities
             {RepairStatus.Finished, "FIN" }
         };
 
+        public void ChangeToInProgress()
+        {
+            throw new NotImplementedException();
+        }
+
         private Repair()
         {
 
