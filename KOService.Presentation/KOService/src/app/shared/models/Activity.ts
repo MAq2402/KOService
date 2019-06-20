@@ -1,5 +1,4 @@
-import { ActivityStatus } from '../enums/ActivityStatus'
-
+import { ActivityStatus } from '../enums/ActivityStatus';
 
 export class Activity {
     id: string;
@@ -16,4 +15,3 @@ export class Activity {
     vehicleRegistrationNumbers: string;
     vehicleBrand: string;
 }
-  

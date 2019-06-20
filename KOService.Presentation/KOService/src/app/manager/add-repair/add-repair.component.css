@@ -1,0 +1,31 @@
+.mat-card {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+  }
+
+.field {
+    width: 45%;
+    padding-right: 20px;
+ }
+
+ .field-big {
+    width: 90%;
+    padding-right: 20px;
+ }
+
+ .textarea {
+    width: 60%;
+    padding-right: 20px;
+ }
+
+ .field-div {
+     width: 50%;
+ }
+
+ .list-div {
+    float: right;
+    width: 50%;
+    max-height: 60%;
+ }

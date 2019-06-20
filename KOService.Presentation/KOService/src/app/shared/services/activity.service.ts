@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Activity} from '../models/Activity'
+import {Activity} from '../models/Activity';
 import { ActivityStatus } from '../enums/ActivityStatus';
 import { Observable, of } from 'rxjs';
 import { WorkerActivities } from 'src/app/manager/activity-manager/workers-table/workers-table.component';
@@ -17,8 +17,72 @@ export class ActivityService {
 
   private baseUrl = 'https://localhost:44340/api/activities/'
 
+  activities: Activity[] = [
+    {
+      id: '1',
+    sequenceNumber: 1,
+    description: 'ważne',
+    result: 'x',
+    status: ActivityStatus.Open,
+    startDataTime: 'x',
+    endDateTime: 'x',
+    activityTypeId: '1',
+    repairId: '1',
+    mechanicId: '1',
+    mechanicName: 'x',
+    vehicleRegistrationNumbers: 'x',
+    vehicleBrand: 'x'
+    },
+    {
+      id: '1',
+    sequenceNumber: 1,
+    description: 'wymiana opon',
+    result: 'x',
+    status: ActivityStatus.Finished,
+    startDataTime: 'x',
+    endDateTime: 'x',
+    activityTypeId: '1',
+    repairId: '1',
+    mechanicId: '1',
+    mechanicName: 'x',
+    vehicleRegistrationNumbers: 'x',
+    vehicleBrand: 'x'
+    },
+    {
+      id: '1',
+    sequenceNumber: 1,
+    description: 'wymiana oleju',
+    result: 'x',
+    status: ActivityStatus.Canceled,
+    startDataTime: 'x',
+    endDateTime: 'x',
+    activityTypeId: '1',
+    repairId: '1',
+    mechanicId: '1',
+    mechanicName: 'x',
+    vehicleRegistrationNumbers: 'x',
+    vehicleBrand: 'x'
+    },
+    {
+      id: '1',
+    sequenceNumber: 1,
+    description: 'silnik renowacja',
+    result: 'x',
+    status: ActivityStatus.Progress,
+    startDataTime: 'x',
+    endDateTime: 'x',
+    activityTypeId: '1',
+    repairId: '1',
+    mechanicId: '1',
+    mechanicName: 'x',
+    vehicleRegistrationNumbers: 'x',
+    vehicleBrand: 'x'
+    }
+  ];
 
-
+  _getRepairActivities(): Activity[] {
+    return this.activities;
+  }
 
   constructor(private httpClient: HttpClient){}
 
@@ -27,7 +91,7 @@ export class ActivityService {
   }
 
   getWorkerActivities(workerId: string){
-   
+
   }
   getRepairActivities(repairId:string): Observable<Activity[]>{
     return this.httpClient.get<Activity[]>(this.baseUrl + 'repair/' + repairId);

@@ -20,7 +20,7 @@ namespace KOService.Application.Services
 
             BodyBuilder bodyBuilder = new BodyBuilder();
             bodyBuilder.HtmlBody = "<h1>KOService</h1>" + mailMessage +
-                "Aby uzyskać więcej informacji przejdź do strony xxx i podaj swój numer naprawy";
+                "Aby uzyskać więcej informacji przejdź do strony http://localhost:4200/client i podaj swój numer naprawy";
 
             message.Body = bodyBuilder.ToMessageBody();
 

@@ -55,7 +55,6 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Constants.Roles.Manager)]
         public IActionResult CreateRepair([FromBody] CreateRepairCommand command)
         {
             var result = _mediator.Send(command);
