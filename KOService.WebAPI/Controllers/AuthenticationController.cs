@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using KOService.Application.Commands.Authentication;
+using KOService.Application.DTOs.Auth;
 using KOService.Application.Queries.Employee;
 using KOService.Domain.Authentication;
 using KOService.WebAPI.Authentication;
@@ -53,9 +54,14 @@ namespace KOService.WebAPI.Controllers
 
             command.IdentityId = identity.Id;
 
-            await _mediator.Send(command);
+            var commandResult =  _mediator.Send(command);
 
-            return Ok("Account created");
+            if (commandResult.IsFaulted)
+            {
+                return BadRequest(commandResult.Exception.InnerException.Message);
+            }
+
+            return Ok(new { message = "Account created" });
         }
 
         [HttpPost("login")]
@@ -84,6 +90,28 @@ namespace KOService.WebAPI.Controllers
         {
             var result = _mediator.Send(new GetEmployeeByIdentityIdQuery { Id = identityId }).Result;
             return Ok(result);
+        }
+
+        [HttpPut("user/{userName}/changePassword")]
+        public async Task<IActionResult> ChangePassword(string userName, [FromBody] PasswordsDto dto)
+        {
+            var identity = await _userManager.FindByNameAsync(userName);
+
+            if(identity == null)
+            {
+                return NotFound();
+            }
+
+            var token = _userManager.GeneratePasswordResetTokenAsync(identity);
+
+            var result = await _userManager.ResetPasswordAsync(identity, token.Result, dto.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors.Select(x => x.Description));
+            }
+
+            return Ok();
         }
     }
 }

@@ -1,0 +1,65 @@
+<mat-dialog-content>
+<mat-card>
+<div class="container">
+  <mat-card-header class="card-header">
+  <h4>Wycena naprawy</h4>
+  </mat-card-header>
+  <form [formGroup]="pricingForm" novalidate (ngSubmit)="onSubmit">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="Cena robocizny" formControlName="labour">
+      </mat-form-field>
+      <small *ngIf="!pricingForm.controls.labour.valid" class="text-danger">
+          Err
+      </small>
+    </div>
+
+  <!-- list of addresses -->
+  <div formArrayName="parts">
+      <div *ngFor="let part of pricingForm.controls.parts.controls; let i=index">
+        <mat-card class="part-card">
+          <div>
+            <mat-card-header class="card-header">
+              <h5>Część {{i + 1}}</h5>
+            </mat-card-header>
+              <span *ngIf="pricingForm.controls.parts.controls.length > 1" 
+                  (click)="removePart(i)">
+              </span>
+          </div>
+          <div [formGroupName]="i" class="part-input-container">
+              <div>
+                <mat-form-field class="part-input-field">
+                  <input matInput placeholder="Nazwa części" formControlName="name">
+                </mat-form-field>
+              </div>
+              
+              <div>
+                <mat-form-field class="part-input-field">
+                  <input matInput placeholder="Nazwa producenta" formControlName="manufacturer">
+                </mat-form-field>
+              </div>
+              <div>
+                  <mat-form-field class="part-input-field"> 
+                    <input matInput placeholder="Numer części" formControlName="manufacturerId">
+                  </mat-form-field>
+                </div>
+                
+                <div>
+                  <mat-form-field class="part-input-field">
+                    <input matInput placeholder="Cena" formControlName="price">
+                  </mat-form-field>
+                </div>
+            </div>
+            <button class="right-button" mat-raised-button color = "warn" (click)="removePart(i)">Usuń Część</button>
+            </mat-card>
+      </div>
+      <div class="buttons">
+      <button class="button" mat-raised-button color="primary" (click)="onSubmit()">Zatwierdź</button>
+      <button class="button" mat-raised-button (click)="addPart()">Dodaj Część</button>
+      </div>
+</div>  
+
+</form>
+</div>
+</mat-card>
+</mat-dialog-content>

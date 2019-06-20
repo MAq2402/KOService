@@ -1,64 +1,82 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Repair } from 'src/app/shared/models/repair.model';
-import { RepairStatus } from 'src/app/shared/enums/repair-status.enum';
-import { ColumnDef } from 'src/app/shared/models/column-def.model';
-import { RepairSubTask } from 'src/app/shared/models/repair-sub-task.model';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { DetailExpandAnimation } from 'src/app/manager/animations/detail-expand-animation';
-import { AuthService } from 'src/app/authentication/services/auth.service';
+import { Router } from '@angular/router';
 import { EmployeeService } from 'src/app/shared/services/employee.service';
-import { Role } from 'src/app/shared/enums/Role';
 import { Employee } from 'src/app/shared/models/employee.model';
-
-
-
+import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/material';
+import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
+import { EditEmployeeService } from 'src/app/shared/services/editEmployee.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-  animations: [
-    DetailExpandAnimation
-  ],
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
-  employeesDataSource = new MatTableDataSource();
-  employees: Employee[];
- 
-  repairsColumnsToDisplay: ColumnDef[] = [
-    { name: 'id', display: 'Id' },
-    { name: 'firstName', display: 'Imie' },
-    { name: 'lastName', display: 'Nazwisko' },
-    { name: 'identityEmployeeRole', display: 'Stanowisko' },
+  dataSource: MatTableDataSource<Employee>;
+  displayedColumns = [
+    'firstName', 'lastName', 'role', 'edit', 'terminate'
   ];
-
-  subTasksColumnsToDisplay: ColumnDef[] = [
-    { name: 'phone', display: 'Numer Telefonu' },
-    { name: 'email', display: 'Adres Email' },
-    { name: 'gender', display: 'Płeć'},
-  ];
-
-  expandedElement: any | null;
+  editIconClicked = false;
+  employeeToEdit : Employee;
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private authService: AuthService, private employeeService: EmployeeService) { }
+  constructor(private spinnerService: SpinnerService,
+    public dialog: MatDialog,
+    private employeeService: EmployeeService,
+    private router: Router,
+    private editEmployeeService: EditEmployeeService) {
+   }
 
   ngOnInit() {
-   this.employeeService.getEmployeesByRole(Role.mechanic).subscribe(employees => (
-     this.employees = employees, this.employeesDataSource = new MatTableDataSource(this.employees), console.log(employees)));
+    this.editEmployeeService.employee = null;
+    this.getData();
   }
 
-  getRepairsColumnsToDisplayNames(): string[] {
-    return this.repairsColumnsToDisplay.map(x => x.name);
+  ngOnDestroy() {
+    if (this.editIconClicked) {
+      this.editEmployeeService.employee = this.employeeToEdit;
+      this.spinnerService.show(); // hide in add-employee - ngOnInit
+    }
   }
 
-  getSubTasksColumnsToDisplayNames(): string[] {
-    return this.subTasksColumnsToDisplay.map(x => x.name);
+  private getData() {
+    this.employeeService.getEmployees().subscribe(employees => {
+      this.dataSource = new MatTableDataSource(employees);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.spinnerService.hide(); // show in auth.service -> login
+    });
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  edit(employee: Employee) {
+    this.employeeToEdit = employee;
+    this.editIconClicked = true;
+    this.router.navigate(['/admin/add-employee']);
+  }
+
+  terminate(employee: Employee) {
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: {header: `Jesteś pewny, że chcesz zwolnić pracownika ${employee.firstName} ${employee.lastName}?`}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.confirmed) {
+        this.employeeService.terminate(employee.id).subscribe(res => {
+          this.getData();
+        });
+      }
+    });
   }
 }
-
-

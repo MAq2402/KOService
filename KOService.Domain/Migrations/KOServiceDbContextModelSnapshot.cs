@@ -15,7 +15,7 @@ namespace KOService.Domain.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -74,11 +74,54 @@ namespace KOService.Domain.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<DateTime?>("TerminationDateTime");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IdentityId");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("KOService.Domain.Entities.Part", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Manufacturer");
+
+                    b.Property<string>("ManufacturerId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<double>("Price");
+
+                    b.Property<Guid>("PricingId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PricingId");
+
+                    b.ToTable("Part");
+                });
+
+            modelBuilder.Entity("KOService.Domain.Entities.Pricing", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClientRepairNumber");
+
+                    b.Property<double>("Labour");
+
+                    b.Property<Guid>("RepairId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RepairId")
+                        .IsUnique();
+
+                    b.ToTable("Pricings");
                 });
 
             modelBuilder.Entity("KOService.Domain.Entities.Repair", b =>
@@ -91,6 +134,8 @@ namespace KOService.Domain.Migrations
                     b.Property<DateTime?>("EndDateTime");
 
                     b.Property<Guid>("ManagerId");
+
+                    b.Property<Guid>("PricingId");
 
                     b.Property<string>("Result");
 
@@ -376,6 +421,22 @@ namespace KOService.Domain.Migrations
                     b.HasOne("KOService.Domain.Authentication.Identity", "Identity")
                         .WithMany()
                         .HasForeignKey("IdentityId");
+                });
+
+            modelBuilder.Entity("KOService.Domain.Entities.Part", b =>
+                {
+                    b.HasOne("KOService.Domain.Entities.Pricing", "Pricing")
+                        .WithMany("Parts")
+                        .HasForeignKey("PricingId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("KOService.Domain.Entities.Pricing", b =>
+                {
+                    b.HasOne("KOService.Domain.Entities.Repair", "Repair")
+                        .WithOne("Pricing")
+                        .HasForeignKey("KOService.Domain.Entities.Pricing", "RepairId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("KOService.Domain.Entities.Repair", b =>

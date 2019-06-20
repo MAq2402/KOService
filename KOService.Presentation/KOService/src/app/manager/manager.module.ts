@@ -8,21 +8,18 @@ import { ActivityCreatorComponent } from './activity-manager/activity-creator/ac
 import { WorkersTableComponent } from './activity-manager/workers-table/workers-table.component';
 import {RepairInfoComponent} from './activity-manager/repair-info/repair-info.component';
 import { CommonModule } from '@angular/common';
-import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule } from '@angular/material';
 import { AddRepairComponent } from './add-repair/add-repair.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSnackBarModule} from '@angular/material';
 import {MatListModule} from '@angular/material';
+import { PricingCreatorComponent } from './activity-manager/pricing-creator/pricing-creator.component';
+
 @NgModule({
   imports: [
     SharedModule,
     ManagerRoutingModule,
     SharedModule,
     MaterialModule,
-    MatStepperModule,
-    MatInputModule,
-    MatButtonModule,
-    MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
@@ -35,9 +32,13 @@ import {MatListModule} from '@angular/material';
     ActivityCreatorComponent,
     WorkersTableComponent,
     RepairInfoComponent,
-    AddRepairComponent
+    AddRepairComponent,
+    PricingCreatorComponent
   ],
-  entryComponents: [ActivityCreatorComponent]
+  entryComponents: [
+    ActivityCreatorComponent,
+  PricingCreatorComponent
+]
 })
 
 export class ManagerModule { }

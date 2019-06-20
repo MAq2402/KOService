@@ -1,35 +1,45 @@
 <body>
-    <p class="header">Add new employee</p>
-    <form #employeeForm="ngForm">
-        <div class=container>
-            <div class="textFieldsBlock">
-                <p>First name:</p>                  
-                <input type="text" name="firstName" required>
-                <p>Last name:</p>
-                <input type="text" name="lastName" required>
-                <p>E-mail address:</p>
-                <input type="email" name="e-mail" required>
-                <p>Phone number:</p>
-                <input type="tel" id="phone" name="phone" pattern="[0-9]{9}" required>
-            </div>
-            <div class="otherInputsBlock">
-                <p>Gender:</p>
-                <input type="radio" name="gender" value="male" checked> Male<br>
-                <input type="radio" name="gender" value="female"> Female<br>
-                <input type="radio" name="gender" value="other"> Other<br>
-                <div  class="selectRoleBlock">
-                    <p>Role:</p>
-                <select id="role" name="role">
-                    <option *ngFor="let key of keys" [ngValue]="key">{{roles[key]}}</option>
+    <div class="col-md-4 mx-auto mt-5">
+        <h3 class="my-title-font">Zarejestruj nowego pracownika</h3>
+        <form>
+            <mat-form-field>
+                <mat-label for="firstName">Imię:</mat-label>
+                <input #firstName matInput type="text" [(ngModel)]="register.firstName" id="firstName" name="firstName"
+                    class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="lastName">Nazwisko:</mat-label>
+                <input #lastName matInput type="text" [(ngModel)]="register.lastName" id="lastName" name="lastName"
+                    class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="userName">Nazwa użytkownika:</mat-label>
+                <input #lastName matInput type="text" [(ngModel)]="register.userName" id="userName" name="userName"
+                    class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="password">Hasło:</mat-label>
+                <input #lastName matInput type="password" [(ngModel)]="register.password" id="password" name="password"
+                    class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="confirmPassword">Potwierdź hasło:</mat-label>
+                <input #lastName matInput type="password" [(ngModel)]="register.confirmPassword" id="confirmPassword"
+                    name="confirmPassword" class="form-control" required>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label for="role">Rola:</mat-label>
+                <select matNativeControl [(ngModel)]="this.chosenPolishRole" id="role" name="role" class="form-control"
+                    required>
+                    <option *ngFor="let key of keys">{{rolesPolish[key]}}</option>
                 </select>
-                </div>
-                
-            </div>
-            <div class="buttonBlock"><br>
-                <button type="submit">
-                    Add employee
+            </mat-form-field>
+
+            <div class="submitButtonBlock">
+                <button mat-button type="submit" (click)="onSubmit()" class="form-control submitButton">
+                    Dodaj pracownika
                 </button>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </body>

@@ -11,13 +11,10 @@ import { container } from '@angular/core/src/render3';
 
 
 export class WorkerActivities {
-  worker: Employee;
+  id: string;
+  firstName: string;
+  lastName: string;
   activities: Activity[];
-  constructor(worker: Employee, activities: Activity[]){
-    this.worker = worker;
-    this.activities = activities;
-  }
- 
 }
 
 @Component({
@@ -47,23 +44,8 @@ export class WorkersTableComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.employeeService.getEmployeesByRole(Role.mechanic).subscribe(
-      mechanics =>(this.workers = mechanics,mechanics.map(
-
-        //mechanic => this.activityService.getWorkerActivities(mechanic.id)
-        mechanic => (this.activityService.getWorkerActivities(this.moqWorkerId).subscribe(
-          mechanicActivities => (
-           
-            this.workerAcitvitiesTable.push(new WorkerActivities(mechanic,mechanicActivities)),
-            console.log(this.workerAcitvitiesTable),
-            this.dataSourceArray = new MatTableDataSource(this.workerAcitvitiesTable)
-
-          )
-            )
-        )))
-  );
-  
-  
+    this.activityService.getWorkersWithActivities().subscribe(workersActivities => (this.dataSourceArray = new MatTableDataSource(workersActivities)
+    ,console.log(workersActivities),this.workerAcitvitiesTable = workersActivities))
   }
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {

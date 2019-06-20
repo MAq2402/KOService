@@ -9,7 +9,7 @@ namespace KOService.Domain.Entities
     {
         public EmployeeTask(Guid id) : base(id)
         {
-            Open();
+
         }
         protected EmployeeTask()
         {
@@ -30,29 +30,5 @@ namespace KOService.Domain.Entities
         {
             Status = StatusDictionary[status];
         }
-
-        public virtual void Cancel(string result)
-        {
-            if (string.IsNullOrEmpty(result))
-            {
-                throw new DomainException("Result has not been provided, while canceling");
-            }
-            EndDateTime = DateTime.UtcNow;
-            Result = result;
-        }
-        public virtual void Finish(string result)
-        {
-            EndDateTime = DateTime.UtcNow;
-            Result = result;
-        }
-        public virtual void ChangeToInProgress()
-        {
-
-        }
-        protected virtual void Open()
-        {
-            StartDateTime = DateTime.UtcNow;
-        }
-        
     }
 }

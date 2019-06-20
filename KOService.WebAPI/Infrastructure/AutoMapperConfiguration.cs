@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using KOService.Application.Commands.Authentication;
+using KOService.Application.DTOs;
 using KOService.Application.DTOs.Activity;
 using KOService.Application.DTOs.Employee;
 using KOService.Application.DTOs.Repair;
 using KOService.Domain.Authentication;
 using KOService.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace KOService.WebAPI.Infrastructure
 {
@@ -18,7 +16,8 @@ namespace KOService.WebAPI.Infrastructure
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Employee, EmployeeDto>();
+                cfg.CreateMap<Employee, EmployeeDto>()
+                   .ForMember(dest => dest.Role , opt => opt.MapFrom(src => src.Identity.EmployeeRole));
                 cfg.CreateMap<RegisterCommand, Employee>();
                 cfg.CreateMap<RegisterCommand, Identity>();
 
@@ -30,10 +29,30 @@ namespace KOService.WebAPI.Infrastructure
 
                 cfg.CreateMap<Activity, ActivityDto>()
                    .ForMember(dest => dest.MechanicName, opt => opt.MapFrom(src => $"{src.Mechanic.FirstName} {src.Mechanic.LastName}"))
+                   .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Repair.Vehicle.Type.Brand))
+                   .ForMember(dest => dest.VehicleRegistrationNumbers, opt => opt.MapFrom(src => src.Repair.Vehicle.RegistrationNumbers))
                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
 
+                cfg.CreateMap<Employee, WorkersWithActivitiesDto>();
+
+                cfg.CreateMap<Repair, RepairInfoDto>()
+                   .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Vehicle.Type.Brand))
+                   .ForMember(dest => dest.VehicleModel, opt => opt.MapFrom(src => src.Vehicle.Type.Model))
+                   .ForMember(dest => dest.ClientEmail, opt => opt.MapFrom(src => src.Vehicle.Client.ContactDetails.Email))
+                   .ForMember(dest => dest.ClientPhoneNumber, opt => opt.MapFrom(src => src.Vehicle.Client.ContactDetails.PhoneNumber))
+                   .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => $"{src.Vehicle.Client.FirstName} {src.Vehicle.Client.LastName}"))
+                   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
+
+                cfg.CreateMap<Pricing, PricingDto>()
+                    .ForMember(dest => dest.totalPrice, opt => opt.MapFrom(src => src.GetAmountToPay()));
+                
+
+                cfg.CreateMap<Employee, EmployeeWithAccountInfoDto>()
+                   .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Identity.UserName));
 
             });
+            //Mapper.AssertConfigurationIsValid();
+
         }
     }
 }

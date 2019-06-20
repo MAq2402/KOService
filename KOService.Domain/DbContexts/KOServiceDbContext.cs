@@ -1,8 +1,9 @@
 ﻿using KOService.Domain.Authentication;
 using KOService.Domain.Configuration;
 using KOService.Domain.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace KOService.Domain.DbContexts
 {
@@ -18,6 +19,7 @@ namespace KOService.Domain.DbContexts
         public DbSet<VehicleType> VehicleTypes { get; set; }
         public DbSet<Repair> Repairs { get; set; }
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<Pricing> Pricings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,6 +29,7 @@ namespace KOService.Domain.DbContexts
             builder.ApplyConfiguration(new VehicleTypeConfiguration());
             builder.ApplyConfiguration(new RepairConfiguration());
             builder.ApplyConfiguration(new ActivityConfiguration());
+            builder.ApplyConfiguration(new PricingConfiguration());
 
             base.OnModelCreating(builder);
         }

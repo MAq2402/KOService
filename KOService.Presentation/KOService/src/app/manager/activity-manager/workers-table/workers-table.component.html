@@ -12,13 +12,13 @@ cdkDropList
     >
   <ng-container matColumnDef="firstName">
     <th mat-header-cell *matHeaderCellDef> Imie </th>
-    <td mat-cell *matCellDef="let element"> {{element.worker.firstName}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
   </ng-container>
 
   
   <ng-container matColumnDef="lastName">
     <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
-    <td mat-cell *matCellDef="let element"> {{element.worker.lastName}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
   </ng-container>
 
   <ng-container matColumnDef="numberOfActivities">
@@ -28,6 +28,8 @@ cdkDropList
 
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" cdkDrag></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" cdkDrag>
+      <mat-chip selected *cdkDragPreview color="primary">{{row.firstName + row.lastName}}</mat-chip>
+  </tr>
  
 </table>
