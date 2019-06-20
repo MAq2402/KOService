@@ -2,8 +2,10 @@
 using KOService.Application.Commands.Authentication;
 using KOService.Application.DTOs;
 using KOService.Application.DTOs.Activity;
+using KOService.Application.DTOs.Client;
 using KOService.Application.DTOs.Employee;
 using KOService.Application.DTOs.Repair;
+using KOService.Application.DTOs.Vehicle;
 using KOService.Domain.Authentication;
 using KOService.Domain.Entities;
 
@@ -49,6 +51,23 @@ namespace KOService.WebAPI.Infrastructure
 
                 cfg.CreateMap<Employee, EmployeeWithAccountInfoDto>()
                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Identity.UserName));
+
+                cfg.CreateMap<Client, ClientForCreationDto>()
+                   .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Address.City))
+                   .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Address.Street))
+                   .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Address.Code))
+                   .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ContactDetails.Email))
+                   .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+                   .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                   .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.ContactDetails.PhoneNumber))
+                   .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName));
+                 
+                cfg.CreateMap<Vehicle, VehicleForCreationDto>()
+                   .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                   .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.Type.Model))
+                   .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Type.Brand))
+                   .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.TypeId))
+                   .ForMember(dest => dest.RegistrationNumbers, opt => opt.MapFrom(src => src.RegistrationNumbers));
 
             });
             //Mapper.AssertConfigurationIsValid();

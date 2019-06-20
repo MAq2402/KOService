@@ -55,7 +55,6 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Constants.Roles.Manager)]
         public IActionResult CreateRepair([FromBody] CreateRepairCommand command)
         {
             var result = _mediator.Send(command);
@@ -96,10 +95,10 @@ namespace KOService.WebAPI.Controllers
             return NoContent();
         }
 
-       
+
 
         [HttpPut("{id}/cancel")]
-        public IActionResult CancelRepair(string id,[FromBody] CancelRepairCommand command)
+        public IActionResult CancelRepair(string id, [FromBody] CancelRepairCommand command)
         {
             command.Id = id;
 
@@ -111,6 +110,7 @@ namespace KOService.WebAPI.Controllers
             }
 
             return NoContent();
+        }
 
         [HttpPut("pricing/{repairId}/reject")]
         public IActionResult RejectPricing(Guid repairId)

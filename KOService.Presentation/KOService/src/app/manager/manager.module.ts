@@ -10,7 +10,10 @@ import {RepairInfoComponent} from './activity-manager/repair-info/repair-info.co
 import { CommonModule } from '@angular/common';
 import { AddRepairComponent } from './add-repair/add-repair.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatSnackBarModule} from '@angular/material';
+import {MatListModule} from '@angular/material';
 import { PricingCreatorComponent } from './activity-manager/pricing-creator/pricing-creator.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -19,7 +22,9 @@ import { PricingCreatorComponent } from './activity-manager/pricing-creator/pric
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    MatSnackBarModule,
+    MatListModule
   ],
   declarations: [
     HomeComponent,
