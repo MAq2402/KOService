@@ -32,6 +32,8 @@ namespace KOService.WebAPI.Infrastructure
                    .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Repair.Vehicle.Type.Brand))
                    .ForMember(dest => dest.VehicleRegistrationNumbers, opt => opt.MapFrom(src => src.Repair.Vehicle.RegistrationNumbers))
                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
+                cfg.CreateMap<Activity, ActivityForClientDto>()
+                   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
 
                 cfg.CreateMap<Employee, WorkersWithActivitiesDto>();
 
@@ -49,9 +51,14 @@ namespace KOService.WebAPI.Infrastructure
 
                 cfg.CreateMap<Employee, EmployeeWithAccountInfoDto>()
                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Identity.UserName));
+                cfg.CreateMap<Repair, RepairForClientDto>()
+                    .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Vehicle.Type.Brand))
+                   .ForMember(dest => dest.VehicleModel, opt => opt.MapFrom(src => src.Vehicle.Type.Model));
+                
 
             });
             //Mapper.AssertConfigurationIsValid();
+
 
         }
     }

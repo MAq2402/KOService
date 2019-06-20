@@ -39,13 +39,6 @@ namespace KOService.WebAPI.Controllers
             query.Id = repairId;
             return Ok(_mediator.Send(query).Result);
         }
-        [HttpGet("pricing/{repairNumber}")]
-        public IActionResult GetRepairPricing(string repairNumber)
-        {
-            var query = new GetRepairPricingQuery();
-            query.RepairNumber = repairNumber;
-            return Ok(_mediator.Send(query).Result);
-        }
 
         [HttpGet("{id}")]
         public IActionResult GetRepair([FromQuery] GetRepairsQuery query)
@@ -81,22 +74,6 @@ namespace KOService.WebAPI.Controllers
 
             return Ok(command);
         }
-        [HttpPut("pricing/{repairId}/accept")]
-        public IActionResult AcceptPricing(Guid repairId)
-        {
-            var command = new AcceptPricingCommand();
-            command.RepairId = repairId;
-             var result = _mediator.Send(command);
-
-            if (result.IsFaulted)
-            {
-                return BadRequest(result.Exception.InnerException.Message);
-            }
-
-            return NoContent();
-        }
-
-
 
         [HttpPut("{id}/cancel")]
         public IActionResult CancelRepair(string id, [FromBody] CancelRepairCommand command)
@@ -112,20 +89,7 @@ namespace KOService.WebAPI.Controllers
 
             return NoContent();
         }
-        [HttpPut("pricing/{repairId}/reject")]
-        public IActionResult RejectPricing(Guid repairId)
-        {
-            var command = new RejectPricingCommand();
-            command.RepairId = repairId;
-            var result = _mediator.Send(command);
-
-            if (result.IsFaulted)
-            {
-                return BadRequest(result.Exception.InnerException.Message);
-            }
-
-            return NoContent();
-        }
+        
 
 
         [HttpPut("{id}/finish")]
