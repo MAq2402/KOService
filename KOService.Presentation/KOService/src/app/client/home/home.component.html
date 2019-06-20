@@ -8,7 +8,7 @@
       <h6> Panel klienta </h6>
     </a>
   </div>
-  <div class="col-9 my-registration-numbers">
+  <div class="col-9 my-registration-numbers" *ngIf="repair">
       <h6> {{repair.vehicleBrand}} {{repair.vehicleModel}} {{repair.vehicleRegistrationNumbers}}</h6>
   </div>
 </nav>
@@ -20,16 +20,16 @@
           <span>Wycena</span>
         </mat-toolbar-row>
     </mat-toolbar>
-      <mat-card class="my-card">
+      <mat-card *ngIf="pricingExists()" class="my-card">
           <h6>Części:</h6>
             <mat-list class="my-part">
-                <mat-list-item *ngFor="let part of valuation.parts">
-                      {{part.name}} {{part.cost}}
+                <mat-list-item *ngFor="let part of pricing.parts">
+                      {{part.name}} {{part.price}}
                   </mat-list-item>
             </mat-list>
           <mat-card-actions>
-            <h6 class="my-property">Robocizna: {{valuation.laborCosts}}</h6>
-            <h6 class="my-property">Razem: {{total}}</h6>
+            <h6 class="my-property">Robocizna: {{pricing.labour}}</h6>
+            <h6 class="my-property">Razem: {{pricing.totalPrice}}</h6>
               <div *ngIf="!accepted && !declined" class="buttons">
                   <button (click)="acceptValuation()" mat-icon-button>
                       <mat-icon>done</mat-icon>
@@ -48,7 +48,7 @@
         </mat-card>
         
 </div>
-<div class="col-8 my-tile">
+<div class="col-8 my-tile" *ngIf="activities">
     <mat-toolbar color="secondary">
         <mat-toolbar-row>
           <span>Przebieg naprawy</span>

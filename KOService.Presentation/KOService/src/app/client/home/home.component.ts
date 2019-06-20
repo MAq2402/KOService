@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Valuation } from 'src/app/shared/models/valuation.model';
+import { Pricing } from 'src/app/shared/models/pricing.model';
 import { RepairService } from 'src/app/shared/services/repair.service';
-import { ValuationService } from 'src/app/shared/services/valuation.service';
 import { ActivityService } from 'src/app/shared/services/activity.service';
 import { RepairInfo } from 'src/app/shared/models/repair-info.model';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
+import { RepairStatus } from 'src/app/shared/enums/repair-status.enum';
 
 @Component({
   selector: 'app-home',
@@ -15,31 +16,28 @@ import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
 export class HomeComponent implements OnInit {
 
   repair: RepairInfo;
-  valuation: Valuation;
+  pricing: Pricing;
   activities: Activity[];
   accepted: boolean;
   declined: boolean;
-  total: Number;
+  repairId = 'df309ed1-5720-4422-9e78-f5da56bc96a6';
+  repairNumber = 'EDWVJNQK';
 
-  constructor(private repairService: RepairService, private valuationService: ValuationService,
-    private activityService: ActivityService) { }
+  constructor(private repairService: RepairService,
+              private activityService: ActivityService,
+              private spinnerService: SpinnerService) { }
 
   ngOnInit() {
-    this.valuation = this.valuationService.getValuation('1');
-    this.repair = this.repairService._getRepairInfo();
-    this.activities = this.activityService._getRepairActivities();
-    this.total = this.sum();
+    this.getData();
     this.accepted = false;
     this.declined = false;
   }
-
-  sum(): number {
-    let total = 0;
-    for (let i = 0; i < this.valuation.parts.length; i++) {
-           total = total + Number(this.valuation.parts[i].cost);
-         }
-    total = total + Number(this.valuation.laborCosts);
-    return total;
+  getData(){
+    this.spinnerService.show();
+    this.repairService.getRepairPricing(this.repairNumber).subscribe(pricing=>{this.pricing = pricing,console.log(pricing)});
+    this.repairService.getRepairInfo(this.repairId).subscribe(info=>{this.repair=info,console.log(info)});
+    this.activityService.getRepairActivities(this.repairId).subscribe(activities=>this.activities=activities);
+    this.spinnerService.hide();
   }
 
   transformStatus(status: ActivityStatus): string {
@@ -52,14 +50,18 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  acceptValuation() {
+  acceptPricing() {
     this.accepted = true;
-    this.valuationService.acceptValuation();
+   
   }
 
-  declineValuation() {
+  rejectPricing() {
     this.declined = true;
-    this.valuationService.declineValuation();
+    
+  }
+  pricingExists(): boolean{
+    if(this.repair.status==RepairStatus.Open) return false;
+    else return true; 
   }
 
 }

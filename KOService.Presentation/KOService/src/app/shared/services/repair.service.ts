@@ -8,6 +8,7 @@ import { CancelModel } from 'src/app/manager/models/cancel.model';
 import { FinishModel } from 'src/app/manager/models/finish.model';
 import { RepairStatus } from '../enums/repair-status.enum';
 import { PricingCreation } from '../models/pricing-creation.model';
+import { Pricing } from '../models/pricing.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -64,5 +65,8 @@ export class RepairService {
   }
   addRepairPricing(pricing: PricingCreation, repairId: string): Observable<PricingCreation>{
     return this.httpClient.post<PricingCreation>(this.url + "pricing/" + repairId,pricing,httpOptions)
+  }
+  getRepairPricing(repairNumber:string): Observable<Pricing>{
+    return this.httpClient.get<Pricing>(this.url + 'pricing/' + repairNumber);
   }
 }
