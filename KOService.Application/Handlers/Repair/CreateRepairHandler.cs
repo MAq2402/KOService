@@ -22,7 +22,6 @@ namespace KOService.Application.Handlers.Repair
         }
         protected override void Handle(CreateRepairCommand request)
         {
-            var xd = request.Vehicle.RegistrationNumbers;
             var client = _dbContext.Clients.Include(c => c.Address)
                                            .Include(c => c.Vehicles)
                                            .ThenInclude(v => v.Repairs)
@@ -62,7 +61,7 @@ namespace KOService.Application.Handlers.Repair
                 }
                 else
                 {
-                    vehicle = new Domain.Entities.Vehicle(request.Vehicle.Id, client.Id, request.Vehicle.RegistrationNumbers, request.Vehicle.Brand, request.Vehicle.Brand);
+                    vehicle = new Domain.Entities.Vehicle(request.Vehicle.Id, client.Id, request.Vehicle.RegistrationNumbers, request.Vehicle.Brand, request.Vehicle.Model);
                 }
             }
 

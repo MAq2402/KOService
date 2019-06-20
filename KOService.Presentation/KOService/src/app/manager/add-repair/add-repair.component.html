@@ -9,7 +9,7 @@
               <mat-card>
                 <mat-card-title>Lista pojazdów</mat-card-title>
                 <mat-action-list>
-                    <button mat-list-item (click)="setVehicleForm(vehicle)" *ngFor="let vehicle of currentVehicleList"> {{ vehicle.registrationNumber }} {{ vehicle.brand }} {{ vehicle.model }} </button>
+                    <button mat-list-item (click)="setVehicleForm(vehicle)" *ngFor="let vehicle of currentVehicleList"> {{ vehicle.registrationNumbers }} {{ vehicle.brand }} {{ vehicle.model }} </button>
                   </mat-action-list>
                 </mat-card>
                 </div>
@@ -39,30 +39,30 @@
       <ng-template matStepLabel>Dane klienta</ng-template>
       <div>
           <div class="list-div">
-            <mat-card *ngIf="hasOwner">
-              <mat-card-title>Właściciel</mat-card-title>
+            <mat-card>
+              <mat-card-title>Lista klientów</mat-card-title>
               <mat-action-list>
-                  <button mat-list-item (click)="setClientForm(client)" *ngFor="let client of currentClientList"> {{ client.lastName }} {{ client.firstName }} </button>
+                  <button mat-list-item (click)="setClientForm(client)" *ngFor="let client of currentClientList"> {{ client.lastName }} {{ client.firstName }} {{client.email}} </button>
                 </mat-action-list>
               </mat-card>
               </div>
-      <div *ngIf="!hasOwner || ownerClicked" class="field-div">
+      <div class="field-div">
           <mat-form-field class="field">
-            <input matInput placeholder="Nazwisko" formControlName="lastName" required>
+            <input matInput (keyup)="applyClientFilter($event.target.value)" placeholder="Nazwisko" formControlName="lastName" required>
           </mat-form-field>
           <mat-form-field class="field">
               <input matInput placeholder="Imię" formControlName="firstName" required>
             </mat-form-field>
       </div>
-      <div *ngIf="!hasOwner || ownerClicked" class="field-div">
+      <div class="field-div">
         <mat-form-field class="field">
-          <input matInput placeholder="Email" formControlName="email" required>
+          <input matInput pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"  placeholder="Email" formControlName="email" required>
         </mat-form-field>
         <mat-form-field class="field">
-            <input matInput placeholder="Numer telefonu" formControlName="phoneNumber" required>
+            <input matInput pattern="^\d{9}$" placeholder="Numer telefonu" formControlName="phoneNumber" required>
           </mat-form-field>
       </div>
-      <div *ngIf="!hasOwner || ownerClicked" class="field-div">
+      <div class="field-div">
           <mat-form-field class="field">
               <input matInput placeholder="Ulica" formControlName="street" required>
           </mat-form-field>
@@ -70,13 +70,13 @@
               <input matInput placeholder="Numer domu" formControlName="code" required>
           </mat-form-field>
       </div>
-      <div *ngIf="!hasOwner || ownerClicked" class="field-div">
+      <div class="field-div">
           <mat-form-field class="field-big">
               <input matInput placeholder="Miasto" formControlName="city" required>
           </mat-form-field>
       </div>
     </div>
-      <div *ngIf="!hasOwner || ownerClicked">
+      <div>
         <button mat-button matStepperPrevious>Powrót</button>
         <button mat-button matStepperNext>Dalej</button>
       </div>

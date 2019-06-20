@@ -27,7 +27,6 @@ export class AddRepairComponent implements OnInit {
   clientList: Client[];
   vehicleList: Vehicle[];
   filterValue = '';
-  hasOwner = false;
   currentRepair: CreateRepairModel;
 
   constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private repairService: RepairService,
@@ -63,9 +62,8 @@ export class AddRepairComponent implements OnInit {
     this.authService.getCurrentEmployee()
     .subscribe(employee => {
         manager = employee as Employee;
-    console.log(manager);
     });
-    this.currentRepair.menagerId = manager.id;
+    this.currentRepair.managerId = manager.id;
 
     if (this.repairFormGroup.dirty) {
     this.repairService.addRepair(this.getRepairFromForm()).subscribe();
@@ -100,14 +98,6 @@ export class AddRepairComponent implements OnInit {
     this.vehicleFormGroup.controls['model'].setValue(vehicle.model);
     this.vehicleFormGroup.controls['registrationNumber'].setValue(vehicle.registrationNumbers);
 
-    this.currentClientList = this.clientList.filter(client =>
-      client.id === vehicle.clientId);
-    if ( this.currentClientList.length === 0) {
-      this.hasOwner = false;
-    } else {
-      this.hasOwner = true;
-    }
-
     this.currentRepair.vehicle.id = vehicle.id;
   }
 
@@ -115,22 +105,19 @@ export class AddRepairComponent implements OnInit {
     this.filterValue = filterValue;
     this.currentVehicleList = this.vehicleList.filter(vehicle =>
       vehicle.registrationNumbers.trim().toLowerCase().match(this.filterValue.trim().toLowerCase()));
+  }
 
-      if ( this.currentVehicleList.length === 1 ) {
-        this.currentClientList = this.clientList.filter(client =>
-          client.id === this.currentVehicleList[0].clientId);
-        if ( this.currentClientList.length === 0) {
-          this.hasOwner = false;
-        } else {
-          this.hasOwner = true;
-        }
-      }
+  public applyClientFilter(filterValue: string) {
+    this.filterValue = filterValue;
+    this.currentClientList = this.clientList.filter(client =>
+      client.lastName.trim().toLowerCase().match(this.filterValue.trim().toLowerCase()));
   }
 
   getClients() {
     this.clientService.getClients()
     .subscribe(clients => {
         this.clientList = clients as Client[];
+        this.currentClientList = this.clientList;
     });
   }
 
@@ -138,8 +125,8 @@ export class AddRepairComponent implements OnInit {
     this.vehicleService.getVehicles()
     .subscribe(vehicles => {
         this.vehicleList = vehicles as Vehicle[];
+        this.currentVehicleList = this.vehicleList;
     });
-    this.currentVehicleList = this.vehicleList;
   }
 
   getRepairFromForm(): CreateRepairModel {

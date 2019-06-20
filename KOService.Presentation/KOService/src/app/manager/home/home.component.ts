@@ -86,7 +86,6 @@ export class HomeComponent implements OnInit {
           for (const repair of repairs) {
             repair.activitiesDataSource = new MatTableDataSource(repair.activities);
           }
-          console.log(user);
           this.repairsDataSource = new MatTableDataSource(repairs);
           this.repairsDataSource.sort = this.sort;
           this.repairsDataSource.paginator = this.paginator;

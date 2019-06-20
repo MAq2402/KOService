@@ -4,7 +4,7 @@ import { Client } from './Client';
 
 export class CreateRepairModel {
     repair: RepairForCreation;
-    menagerId: string;
+    managerId: string;
     vehicle: Vehicle;
     client: Client;
 

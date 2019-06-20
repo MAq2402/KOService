@@ -28,7 +28,9 @@ namespace KOService.Application.Handlers.Vehicle
         
         protected override IEnumerable<VehicleForCreationDto> Handle(GetVehiclesQuery request)
         {
-            return Mapper.Map<IEnumerable<VehicleForCreationDto>>(_dbContext.Vehicles);
+            var vehicles = _dbContext.Vehicles.Include(v => v.Type);
+
+            return Mapper.Map<IEnumerable<VehicleForCreationDto>>(vehicles);
         }
         
     }
