@@ -1,4 +1,3 @@
-
 import { RepairStatus } from '../enums/repair-status';
 import { Activity } from './Activity';
 import { MatTableDataSource } from '@angular/material';

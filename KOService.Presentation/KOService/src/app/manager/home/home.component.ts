@@ -83,6 +83,7 @@ export class HomeComponent implements OnInit {
       const statusQuery = this.buildStatusQuery();
       this.authService.getCurrentEmployee().subscribe(user => {
         this.repairService.getRepairs(statusQuery).subscribe(repairs => {
+
           for (const repair of repairs) {
             repair.activitiesDataSource = new MatTableDataSource(repair.activities);
           }

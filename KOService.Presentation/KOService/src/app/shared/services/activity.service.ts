@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Activity} from '../models/Activity'
+import {Activity} from '../models/Activity';
 import { ActivityStatus } from '../enums/ActivityStatus';
 import { Observable, of } from 'rxjs';
 import { WorkerActivities } from 'src/app/manager/activity-manager/workers-table/workers-table.component';
