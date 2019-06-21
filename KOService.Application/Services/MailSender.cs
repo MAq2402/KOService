@@ -8,10 +8,18 @@ namespace KOService.Application.Services
 {
     public class MailSender : IMailSender
     {
+        private readonly string _address;
+        private readonly string _password;
+
+        public MailSender(string address, string password)
+        {
+            _address = address;
+            _password = password;
+        }
         public void SendMail(string receiverAddress, string receiverName,  string mailMessage)
         {
             MimeMessage message = new MimeMessage();
-            MailboxAddress from = new MailboxAddress("KOService", "koservice.gliwice@gmail.com");
+            MailboxAddress from = new MailboxAddress("KOService", this._address);
             message.From.Add(from);
 
             MailboxAddress to = new MailboxAddress(receiverName, receiverAddress);
@@ -29,7 +37,8 @@ namespace KOService.Application.Services
 
             client.Connect("smtp.gmail.com", 465);
             client.AuthenticationMechanisms.Remove("XOAUTH2");
-            client.Authenticate("koservice.gliwice@gmail.com", "KOService123");
+       
+            client.Authenticate(this._address, this._password);
 
             client.Send(message);
             client.Disconnect(true);
