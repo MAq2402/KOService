@@ -89,9 +89,6 @@ namespace KOService.WebAPI.Controllers
             return NoContent();
         }
 
-
-
-
         [HttpPut("{id}/cancel")]
         public IActionResult CancelRepair(string id, [FromBody] CancelRepairCommand command)
         {
