@@ -48,6 +48,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Constants.Roles.Manager)]
         public IActionResult CreateRepair([FromBody] CreateRepairCommand command)
         {
             var result = _mediator.Send(command);
@@ -57,7 +58,7 @@ namespace KOService.WebAPI.Controllers
                 return BadRequest(result.Exception.InnerException.Message);
             }
 
-            return Ok(command);
+            return Ok(command.Repair);
         }
 
         [HttpPost("pricing/{repairId}")]
@@ -75,6 +76,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("pricing/{repairId}/accept")]
+        [Authorize(Constants.Roles.Manager)]
         public IActionResult AcceptPricing(string repairId)
         {
             var command = new AcceptPricingCommand();
@@ -90,6 +92,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("{id}/cancel")]
+        [Authorize(Constants.Roles.Manager)]
         public IActionResult CancelRepair(string id, [FromBody] CancelRepairCommand command)
         {
             command.Id = id;
@@ -105,6 +108,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("pricing/{repairId}/reject")]
+        [Authorize(Constants.Roles.Manager)]
         public IActionResult RejectPricing(string repairId)
         {
             var command = new RejectPricingCommand();
@@ -119,10 +123,9 @@ namespace KOService.WebAPI.Controllers
             return NoContent();
 
         }
-        
-
 
         [HttpPut("{id}/finish")]
+        [Authorize(Constants.Roles.Manager)]
         public IActionResult FinishRepair(string id, [FromBody] FinishRepairCommand command)
         {
             command.Id = id;

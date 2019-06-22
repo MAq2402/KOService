@@ -55,7 +55,8 @@ namespace KOService.WebAPI.Infrastructure
                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Identity.UserName));
                 cfg.CreateMap<Repair, RepairForClientDto>()
                     .ForMember(dest => dest.VehicleBrand, opt => opt.MapFrom(src => src.Vehicle.Type.Brand))
-                   .ForMember(dest => dest.VehicleModel, opt => opt.MapFrom(src => src.Vehicle.Type.Model));
+                   .ForMember(dest => dest.VehicleModel, opt => opt.MapFrom(src => src.Vehicle.Type.Model))
+                   .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.GetStatus()));
                 
 
                 cfg.CreateMap<Client, ClientForCreationDto>()

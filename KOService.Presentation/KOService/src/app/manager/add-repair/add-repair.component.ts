@@ -11,6 +11,7 @@ import { RepairForCreation } from 'src/app/shared/models/RepairForCreation';
 import { CreateRepairModel } from 'src/app/shared/models/CreateRepairModel';
 import { AuthService } from 'src/app/authentication/services/auth.service';
 import { Employee } from 'src/app/shared/models/employee.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-repair',
@@ -30,7 +31,8 @@ export class AddRepairComponent implements OnInit {
   currentRepair: CreateRepairModel;
 
   constructor(private _formBuilder: FormBuilder, private snackBar: MatSnackBar, private repairService: RepairService,
-    private clientService: ClientService, private vehicleService: VehicleService, private authService: AuthService) {}
+    private clientService: ClientService, private vehicleService: VehicleService, private authService: AuthService, 
+    private router: Router) {}
 
   ngOnInit() {
     this.clientFormGroup = this._formBuilder.group({
@@ -66,7 +68,10 @@ export class AddRepairComponent implements OnInit {
     this.currentRepair.managerId = manager.id;
 
     if (this.repairFormGroup.dirty) {
-    this.repairService.addRepair(this.getRepairFromForm()).subscribe();
+    this.repairService.addRepair(this.getRepairFromForm()).subscribe(res => {
+      this.router.navigate(['manager/repair-details', res.id]);
+      console.log(res);
+    });
     this.repairFormGroup.reset();
     this.vehicleFormGroup.reset();
     this.clientFormGroup.reset();

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LoginCredentials } from '../models/LoginCredentials';
 import { AuthService } from '../services/auth.service';
 import { MatSnackBar } from '@angular/material';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
     password: ''
   };
 
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) { }
+  constructor(private authService: AuthService, private snackBar: MatSnackBar, private spinnerService: SpinnerService) { }
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
@@ -36,7 +37,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.snackBar.open('Logowanie nie powiodło się.');
       }
-    });
+    }, () => this.spinnerService.hide());
   }
 
   focusPasswordInput() {
