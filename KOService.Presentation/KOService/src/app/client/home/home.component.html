@@ -1,3 +1,4 @@
+<div *ngIf="repair">
 <nav class="navbar navbar-light bg-light row my-navbar">
   <div class="col-1 text-center">
     <i class="material-icons my-icon">build</i>
@@ -8,7 +9,7 @@
       <h6> Panel klienta </h6>
     </a>
   </div>
-  <div class="col-9 my-registration-numbers">
+  <div class="col-9 my-registration-numbers" *ngIf="repair">
       <h6> {{repair.vehicleBrand}} {{repair.vehicleModel}} {{repair.vehicleRegistrationNumbers}}</h6>
   </div>
 </nav>
@@ -20,21 +21,21 @@
           <span>Wycena</span>
         </mat-toolbar-row>
     </mat-toolbar>
-      <mat-card class="my-card">
+      <mat-card  class="my-card">
           <h6>Części:</h6>
             <mat-list class="my-part">
-                <mat-list-item *ngFor="let part of valuation.parts">
-                      {{part.name}} {{part.cost}}
+                <mat-list-item *ngFor="let part of repair.pricing.parts">
+                      {{part.name}} {{part.price}}
                   </mat-list-item>
             </mat-list>
           <mat-card-actions>
-            <h6 class="my-property">Robocizna: {{valuation.laborCosts}}</h6>
-            <h6 class="my-property">Razem: {{total}}</h6>
+            <h6 class="my-property">Robocizna: {{repair.pricing.labour}}</h6>
+            <h6 class="my-property">Razem: {{repair.pricing.totalPrice}}</h6>
               <div *ngIf="!accepted && !declined" class="buttons">
-                  <button (click)="acceptValuation()" mat-icon-button>
+                  <button (click)="acceptPricing()" mat-icon-button>
                       <mat-icon>done</mat-icon>
                     </button>
-                    <button (click)="declineValuation()" mat-icon-button color="warn">
+                    <button (click)="rejectPricing()" mat-icon-button color="warn">
                         <mat-icon>close</mat-icon>
                       </button>
                   </div>
@@ -55,9 +56,9 @@
         </mat-toolbar-row>
       </mat-toolbar>
   <mat-list>
-    <mat-card *ngFor="let activity of activities" class="my-card"><mat-list-item>{{activity.description}}<a class="my-status">Status: {{transformStatus(activity.status)}}</a></mat-list-item></mat-card>
+    <mat-card *ngFor="let activity of repair.activities" class="my-card"><mat-list-item>{{activity.description}}<a class="my-status">Status: {{transformStatus(activity.status)}}</a></mat-list-item></mat-card>
      </mat-list>
 </div>
 </div>
-  
+ </div> 
 

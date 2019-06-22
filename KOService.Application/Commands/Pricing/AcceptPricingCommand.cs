@@ -7,6 +7,6 @@ namespace KOService.Application.Commands.Pricing
 {
     public class AcceptPricingCommand: IRequest
     {
-        public Guid RepairId { get; set; }
+        public string RepairNumber { get; set; }
     }
 }

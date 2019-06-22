@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Valuation } from 'src/app/shared/models/valuation.model';
-import { RepairService } from 'src/app/shared/services/repair.service';
-import { ValuationService } from 'src/app/shared/services/valuation.service';
-import { ActivityService } from 'src/app/shared/services/activity.service';
-import { RepairInfo } from 'src/app/shared/models/repair-info.model';
-import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
+import { ClientService } from 'src/app/shared/services/client.service';
+import { RepairForClient } from 'src/app/shared/models/repair-for-client.model';
+import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,32 +13,31 @@ import { ActivityStatus } from 'src/app/shared/enums/ActivityStatus';
 })
 export class HomeComponent implements OnInit {
 
-  repair: RepairInfo;
-  valuation: Valuation;
-  activities: Activity[];
+  repair: RepairForClient;
   accepted: boolean;
   declined: boolean;
-  total: Number;
+  repairNumber = '';
 
-  constructor(private repairService: RepairService, private valuationService: ValuationService,
-    private activityService: ActivityService) { }
+  constructor(private clientService: ClientService,
+              private spinnerService: SpinnerService,
+              private snackBar: MatSnackBar,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
-    this.valuation = this.valuationService.getValuation('1');
-    this.repair = this.repairService._getRepairInfo();
-    this.activities = this.activityService._getRepairActivities();
-    this.total = this.sum();
+    this.getData();
     this.accepted = false;
     this.declined = false;
   }
+  getData(){
+    this.spinnerService.show();
+    this.route.params.subscribe(params => (this.repairNumber = params['number'], console.log(this.repairNumber)));
+    this.clientService.getRepairForClient(this.repairNumber).subscribe(repair=>this.repair=repair, err=>{
+      this.snackBar.open("Numer naprawy jest niepoprawny");
+      this.router.navigate(['']);
 
-  sum(): number {
-    let total = 0;
-    for (let i = 0; i < this.valuation.parts.length; i++) {
-           total = total + Number(this.valuation.parts[i].cost);
-         }
-    total = total + Number(this.valuation.laborCosts);
-    return total;
+    });
+    this.spinnerService.hide();
   }
 
   transformStatus(status: ActivityStatus): string {
@@ -52,14 +50,20 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  acceptValuation() {
+  acceptPricing() {
+    this.clientService.acceptPricing(this.repairNumber).subscribe(x=>x, err=>{
+      this.snackBar.open("wycena nie została zaakceptowana");
+    })
     this.accepted = true;
-    this.valuationService.acceptValuation();
+   
   }
 
-  declineValuation() {
+  rejectPricing() {
+    this.clientService.rejectPricing(this.repairNumber).subscribe(x=>x, err=>{
+      this.snackBar.open("wycena nie została odrzucona");
+    })
     this.declined = true;
-    this.valuationService.declineValuation();
+    
   }
 
 }

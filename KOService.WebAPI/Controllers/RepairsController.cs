@@ -39,13 +39,6 @@ namespace KOService.WebAPI.Controllers
             query.Id = repairId;
             return Ok(_mediator.Send(query).Result);
         }
-        [HttpGet("pricing/{repairNumber}")]
-        public IActionResult GetRepairPricing(string repairNumber)
-        {
-            var query = new GetRepairPricingQuery();
-            query.RepairNumber = repairNumber;
-            return Ok(_mediator.Send(query).Result);
-        }
 
         [HttpGet("{id}")]
         public IActionResult GetRepair([FromQuery] GetRepairsQuery query)
@@ -80,6 +73,7 @@ namespace KOService.WebAPI.Controllers
 
             return Ok(command);
         }
+
         [HttpPut("pricing/{repairId}/accept")]
         public IActionResult AcceptPricing(Guid repairId)
         {
@@ -94,6 +88,7 @@ namespace KOService.WebAPI.Controllers
 
             return NoContent();
         }
+
 
 
 
@@ -125,7 +120,9 @@ namespace KOService.WebAPI.Controllers
             }
 
             return NoContent();
+
         }
+        
 
 
         [HttpPut("{id}/finish")]
