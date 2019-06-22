@@ -24,7 +24,7 @@ import { PricingCreatorComponent } from '../pricing-creator/pricing-creator.comp
 export class RepairInfoComponent implements OnInit {
   repairId: string;
   repairInfo: RepairInfo;
-  
+
 
   constructor(private repairService: RepairService,
     private route: ActivatedRoute,
@@ -40,9 +40,9 @@ export class RepairInfoComponent implements OnInit {
   }
 
   private getData() {
-    this.spinnerService.show();
+    //this.spinnerService.show();
     this.repairService.getRepairInfo(this.repairId).subscribe(rep => {
-      this.repairInfo = rep; this.spinnerService.hide();
+      this.repairInfo = rep; //this.spinnerService.hide();
     });
   }
 
@@ -55,15 +55,15 @@ export class RepairInfoComponent implements OnInit {
       isInputRequired: null,
       confirmationMessage: ''
     };
-    
+
       const dialogRef = this.pricingCreatorDialog.open(PricingCreatorComponent, {
        data: {repairId: this.repairId}
     });
 
     dialogRef.afterClosed().subscribe(x=>this.getData())
   }
-  
-  
+
+
 
   cancelRepair() {
     const confirmationModel: ConfirmationModel = {

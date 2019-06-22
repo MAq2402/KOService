@@ -92,6 +92,9 @@ export class HomeComponent implements OnInit {
           this.repairsDataSource.paginator = this.paginator;
           this.repairsDataSource.filter = this.filterValue.trim().toLowerCase();
           this.spinnerService.hide();
+          this.spinnerService.hide();
+          this.spinnerService.hide();
+          /* nie wiem czemu ale Ci Michał nie robił hide'ów w komponentach repair-info i  workers-tasks */
         });
       });
     } else {

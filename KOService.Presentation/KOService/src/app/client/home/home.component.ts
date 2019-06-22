@@ -30,14 +30,14 @@ export class HomeComponent implements OnInit {
     this.declined = false;
   }
   getData(){
-    this.spinnerService.show();
+    //this.spinnerService.show();
     this.route.params.subscribe(params => (this.repairNumber = params['number'], console.log(this.repairNumber)));
     this.clientService.getRepairForClient(this.repairNumber).subscribe(repair=>this.repair=repair, err=>{
       this.snackBar.open("Numer naprawy jest niepoprawny");
       this.router.navigate(['']);
 
     });
-    this.spinnerService.hide();
+    //this.spinnerService.hide();
   }
 
   transformStatus(status: ActivityStatus): string {
@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
       this.snackBar.open("wycena nie została zaakceptowana");
     })
     this.accepted = true;
-   
+
   }
 
   rejectPricing() {
@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
       this.snackBar.open("wycena nie została odrzucona");
     })
     this.declined = true;
-    
+
   }
 
 }

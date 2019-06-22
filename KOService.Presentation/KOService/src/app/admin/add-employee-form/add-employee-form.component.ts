@@ -58,42 +58,49 @@ export class AddEmployeeFormComponent implements OnInit {
         this.firstName.nativeElement.focus();
     }
 
-    onSubmit() {
-        const model = {
-            password: this.register.password,
-            confirmPassword: this.register.confirmPassword,
-            firstName: this.register.firstName,
-            lastName: this.register.lastName,
-            userName: this.register.userName,
-            employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
-        };
+    private fetchEmployeeModel(): RegisterEmployee {
+      const model = {
+        password: this.register.password,
+        confirmPassword: this.register.confirmPassword,
+        firstName: this.register.firstName,
+        lastName: this.register.lastName,
+        userName: this.register.userName,
+        employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
+      };
+      return model;
+    }
 
+    addEmployee() {
+      this.spinnerService.show();
+      const employeeModel = this.fetchEmployeeModel();
+      this.service.addEmployee(employeeModel).subscribe(() => {
+        this.router.navigate(['/admin']);
+        this.spinnerService.hide();
+      });
+    }
 
-        this.spinnerService.show();
-        if (!this.editMode) { 
-            this.service.addEmployee(model).subscribe(() => {
-            this.spinnerService.hide();
-            this.router.navigate(['/admin']);
-            });
-        }
-        else {
-            var passwordModel = { 
-                currentPassword: '',
-                newPassword: this.register.password
-            };
+    editEmployee() {
+      this.spinnerService.show();
+      const employeeModel = this.fetchEmployeeModel();
+      this.service.updateEmployee(this.editEmployeeService.employee.id, employeeModel).subscribe(() => {
+        this.spinnerService.hide();
+        this.router.navigate(['/admin']);
+      });
+    }
 
-            this.service.updateEmployee(this.editEmployeeService.employee.id, model).subscribe(() => {
-                this.service.changeEmployeePassword(model.userName, passwordModel).subscribe(() => {
-                    this.spinnerService.hide();
-                    this.router.navigate(['/admin']);
-                });
-            });
-            
-        }
+    changeEmployeePassword() {
+      const passwordModel = {
+        currentPassword: '',
+        newPassword: this.register.password
+      };
+      this.service.changeEmployeePassword(this.register.userName, passwordModel).subscribe(() => {
+        this.spinnerService.hide();
+        this.router.navigate(['/admin']);
+      });
     }
 
     resolveInputData() {
-        if (this.editEmployeeService.employee) {            
+        if (this.editEmployeeService.employee) {
             this.editMode = true;
             this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
                 this.register = {
@@ -105,7 +112,7 @@ export class AddEmployeeFormComponent implements OnInit {
                     employeeRole: this.editEmployeeService.employee.role,
                 }
                 this.chosenPolishRole = this.rolesPolish[this.register.employeeRole];
-            });            
+            });
         }
         else {
             this.editMode = false;

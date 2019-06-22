@@ -37,7 +37,7 @@ export class WorkersTasksComponent implements OnInit {
 
 
   columnsToDisplay = ['description', 'status','worker'];
-  
+
   constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,
     private pricingCreatorDialog: MatDialog, private route: ActivatedRoute,
      private spinnerService: SpinnerService) { }
@@ -45,12 +45,13 @@ export class WorkersTasksComponent implements OnInit {
 
 
   ngOnInit() {
-    this.spinnerService.show();
+    //this.spinnerService.show();
     this.route.params.subscribe(params => (this.repairId = params['id'], console.log(this.repairId)));
     this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
       this.repairActivities = activities, console.log(activities),
-      activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null }),
-      this.spinnerService.hide()));
+      activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null })
+      //,//this.spinnerService.hide()
+      ));
   }
 
   openActivityCreatorDialog(): void {
@@ -61,12 +62,12 @@ export class WorkersTasksComponent implements OnInit {
   dialogRef.afterClosed().subscribe(x=>(
     this.spinnerService.show(),
     this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
-    this.repairActivities = activities, 
+    this.repairActivities = activities,
     activities.map(activity=>this.assignments[activity.id]={Id: null,Name: null}),
     this.spinnerService.hide())
     )));
 }
-  
+
 openPricingCreatorDialog(): void{
   const pricingDialogRef = this.pricingCreatorDialog.open(PricingCreatorComponent, {
    data: {repairId: this.repairId}
@@ -76,7 +77,7 @@ drop(event: CdkDragDrop<string[]>) {
     let workerId = event.previousContainer.data[event.previousIndex]['id'];
     let activityId = event.container.id;
     this.assignments[activityId].Id = workerId;
-    let workerName = event.previousContainer.data[event.previousIndex]['firstName'] + 
+    let workerName = event.previousContainer.data[event.previousIndex]['firstName'] +
 
         event.previousContainer.data[event.previousIndex]['lastName'];
       this.assignments[activityId].Name = workerName;

@@ -14,15 +14,18 @@ export class SpinnerService {
     if(this.counter === 0) {
       this.ngxSpinnerService.show();
     }
+    console.log('show ' + this.counter);
     this.counter++;
   }
 
   public hide() {
-    if(this.counter > 1) {
+    console.log('hide ' + this.counter)
+    this.ngxSpinnerService.hide();
+    /*if(this.counter > 1) {
       this.counter--;
     } else {
       this.counter = 0;
       this.ngxSpinnerService.hide();
-    }
+    }*/
   }
 }

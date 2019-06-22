@@ -1,45 +1,73 @@
 <body>
-    <div class="col-md-4 mx-auto mt-5">
-        <h3 class="my-title-font">Zarejestruj nowego pracownika</h3>
-        <form>
-            <mat-form-field>
-                <mat-label for="firstName">Imię:</mat-label>
-                <input #firstName matInput type="text" [(ngModel)]="register.firstName" id="firstName" name="firstName"
-                    class="form-control" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label for="lastName">Nazwisko:</mat-label>
-                <input #lastName matInput type="text" [(ngModel)]="register.lastName" id="lastName" name="lastName"
-                    class="form-control" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label for="userName">Nazwa użytkownika:</mat-label>
-                <input #lastName matInput type="text" [(ngModel)]="register.userName" id="userName" name="userName"
-                    class="form-control" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label for="password">Hasło:</mat-label>
-                <input #lastName matInput type="password" [(ngModel)]="register.password" id="password" name="password"
-                    class="form-control" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label for="confirmPassword">Potwierdź hasło:</mat-label>
-                <input #lastName matInput type="password" [(ngModel)]="register.confirmPassword" id="confirmPassword"
-                    name="confirmPassword" class="form-control" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label for="role">Rola:</mat-label>
-                <select matNativeControl [(ngModel)]="this.chosenPolishRole" id="role" name="role" class="form-control"
-                    required>
-                    <option *ngFor="let key of keys">{{rolesPolish[key]}}</option>
-                </select>
-            </mat-form-field>
-
-            <div class="submitButtonBlock">
-                <button mat-button type="submit" (click)="onSubmit()" class="form-control submitButton">
-                    Dodaj pracownika
-                </button>
-            </div>
-        </form>
+  <form>
+    <div class="row justify-content-center">
+      <!--<div [ngClass]="{'col-md-6 mt-5': !editMode, 'col-md-6 mx-auto': editMode}">-->
+      <div class="col-md-1"></div>
+      <div class="col-md-5">
+        <h3 class="my-title"> {{ editMode ? "Edytuj dane" : "Zarejestruj nowego" }} pracownika</h3>
+        <mat-divider class="bottom-margin"></mat-divider>
+        <mat-form-field>
+          <mat-label for="firstName">Imię:</mat-label>
+          <input #firstName matInput type="text" [(ngModel)]="register.firstName" id="firstName" name="firstName"
+            class="form-control" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="lastName">Nazwisko:</mat-label>
+          <input #lastName matInput type="text" [(ngModel)]="register.lastName" id="lastName" name="lastName"
+            class="form-control" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="userName">Nazwa użytkownika:</mat-label>
+          <input #lastName matInput type="text" [(ngModel)]="register.userName" id="userName" name="userName"
+            class="form-control" required>
+        </mat-form-field>
+        <div *ngIf="!editMode">
+          <mat-form-field>
+            <mat-label for="password">Hasło:</mat-label>
+            <input #lastName matInput type="password" [(ngModel)]="register.password" id="password" name="password"
+              class="form-control" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label for="confirmPassword">Potwierdź hasło:</mat-label>
+            <input #lastName matInput type="password" [(ngModel)]="register.confirmPassword" id="confirmPassword"
+              name="confirmPassword" class="form-control" required>
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+          <mat-label for="role">Rola:</mat-label>
+          <select matNativeControl [(ngModel)]="this.chosenPolishRole" id="role" name="role" class="form-control"
+            required>
+            <option *ngFor="let key of keys">{{rolesPolish[key]}}</option>
+          </select>
+        </mat-form-field>
+        <div class="submitButtonBlock">
+          <button mat-raised-button color="primary" type="submit" (click)="editMode ? editEmployee() : addEmployee"
+            class="form-control submitButton">
+            {{ editMode ? "Zapisz" : "Dodaj"}}
+          </button>
+        </div>
+      </div>
+      <div *ngIf="editMode" class="col-md-5 mx-auto">
+        <h3 class="my-title"> Zmień hasło </h3>
+        <mat-divider class="bottom-margin"></mat-divider>
+        <mat-form-field>
+          <mat-label for="password">Hasło:</mat-label>
+          <input #lastName matInput type="password" [(ngModel)]="register.password" id="password" name="password"
+            class="form-control" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="confirmPassword">Potwierdź hasło:</mat-label>
+          <input #lastName matInput type="password" [(ngModel)]="register.confirmPassword" id="confirmPassword"
+            name="confirmPassword" class="form-control" required>
+        </mat-form-field>
+        <div class="submitButtonBlock">
+          <button mat-raised-button color="primary" type="submit" (click)="changeEmployeePassword()"
+            class="form-control submitButton">
+            Zapisz hasło
+          </button>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
     </div>
+  </form>
 </body>

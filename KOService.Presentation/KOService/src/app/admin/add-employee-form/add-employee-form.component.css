@@ -8,11 +8,13 @@ form {
 
 .submitButtonBlock {
     padding-bottom: 10px;
+    text-align: center;
 }
 
 .submitButton {
-    font-weight: 600; 
+    font-weight: 600;
     margin-top: 20px;
+    max-width: 200px;
 }
 
 .mat-form-field {
@@ -23,4 +25,13 @@ form {
 
 input {
     text-align: center;
+}
+
+.my-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.bottom-margin{
+  margin-bottom: 20px;
 }
