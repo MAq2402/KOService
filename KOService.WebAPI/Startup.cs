@@ -62,7 +62,9 @@ namespace KOService.WebAPI
           
             services.AddMediatR(Assembly.Load(new AssemblyName("KOService.Application")));
 
-            services.AddTransient<IMailSender, MailSender>();
+            var address = Configuration["Mail:address"];
+            var password = Configuration["Mail:password"];
+            services.AddTransient<IMailSender>(s => new MailSender(address, password));
 
         }
 

@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { ClientLandingComponent } from './client-landing/client-landing.component';
 
 const clientRoutes: Routes = [
-  { path: '', component: HomeComponent}
+  {path: ':number', component: HomeComponent},
+  {path: '', component: ClientLandingComponent}
 
 ];
 

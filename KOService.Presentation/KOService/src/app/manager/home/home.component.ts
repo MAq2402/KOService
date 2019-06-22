@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   activitiesDataSource: Activity[] = [];
   showWithStatusOpen = true;
   showWithStatusInProgress = true;
+  showWithStatusPriced = true;
   showWithStatusFinished = false;
   showWithStatusCanceled = false;
   filterValue = '';
@@ -103,6 +104,9 @@ export class HomeComponent implements OnInit {
     let statusQuery = '';
     if (this.showWithStatusOpen) {
       statusQuery += 'OPN,';
+    }
+    if (this.showWithStatusPriced) {
+      statusQuery += 'PRI,';
     }
     if (this.showWithStatusInProgress) {
       statusQuery += 'PRO,';
