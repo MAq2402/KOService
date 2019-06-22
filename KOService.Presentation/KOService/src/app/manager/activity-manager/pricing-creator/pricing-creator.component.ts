@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { RepairService } from 'src/app/shared/services/repair.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { DialogData } from '../activity-creator/activity-creator.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { DialogData } from '../activity-creator/activity-creator.component';
 export class PricingCreatorComponent implements OnInit {
   pricingForm: FormGroup;
   constructor(public dialogRef: MatDialogRef<PricingCreatorComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,private snackBar: MatSnackBar,
     private formBuilder: FormBuilder, private repairService:RepairService) { }
 
   ngOnInit() {
@@ -47,8 +47,12 @@ removePart(i: number) {
 
 
   onSubmit(){
-    console.log(this.pricingForm.value)
-    this.repairService.addRepairPricing(this.pricingForm.value,this.data.repairId).subscribe(pricing => console.log(pricing));
+    this.repairService.addRepairPricing(this.pricingForm.value,this.data.repairId).subscribe(pricing => pricing,err=>{
+      if (err.status === 400) {
+        this.snackBar.open('Wycena nie została dodana');
+      }
+      });
+      this.dialogRef.close();
   }
   onCancel(): void {
     this.dialogRef.close();

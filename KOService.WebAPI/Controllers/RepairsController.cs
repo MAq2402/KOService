@@ -75,10 +75,10 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("pricing/{repairId}/accept")]
-        public IActionResult AcceptPricing(Guid repairId)
+        public IActionResult AcceptPricing(string repairId)
         {
             var command = new AcceptPricingCommand();
-            command.RepairId = repairId;
+            command.RepairNumber = repairId;
              var result = _mediator.Send(command);
 
             if (result.IsFaulted)
@@ -108,10 +108,10 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("pricing/{repairId}/reject")]
-        public IActionResult RejectPricing(Guid repairId)
+        public IActionResult RejectPricing(string repairId)
         {
             var command = new RejectPricingCommand();
-            command.RepairId = repairId;
+            command.RepairNumber = repairId;
             var result = _mediator.Send(command);
 
             if (result.IsFaulted)

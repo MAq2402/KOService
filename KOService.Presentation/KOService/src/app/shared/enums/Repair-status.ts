@@ -1,7 +1,8 @@
 export enum RepairStatus {
-    Open,
-    Priced,
-    InProgress,
-    Canceled,
-    Finished
+  Open,
+  Priced,
+  InProgress,
+  Canceled,
+  Finished,
+  
 }
