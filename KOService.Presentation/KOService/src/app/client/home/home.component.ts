@@ -77,9 +77,4 @@ export class HomeComponent implements OnInit {
   showPricingDecisionOptions(): boolean {
     return this.repair.status === RepairStatus.Priced;
   }
-
-  getRepairStatus(): string{
-
-    return this.repair.status.toString();
-  }
 }
