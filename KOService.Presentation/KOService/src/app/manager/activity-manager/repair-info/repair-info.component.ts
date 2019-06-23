@@ -130,7 +130,7 @@ export class RepairInfoComponent implements OnInit {
   }
 
   disableCancel(): boolean {
-    return this.repairInfo.status === RepairStatus.Canceled;
+    return this.repairInfo.status >= RepairStatus.Canceled;
   }
 
   disableFinish(): boolean {

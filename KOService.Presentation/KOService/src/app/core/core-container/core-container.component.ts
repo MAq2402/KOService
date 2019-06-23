@@ -13,7 +13,7 @@ export class CoreContainerComponent implements OnInit {
 
   ngOnInit() {}
 
-  showNavbar() {
+  showEmployeeNavbar() {
     return !(this.router.url.startsWith('/client') || this.router.url.startsWith('/login'))
     
   }
