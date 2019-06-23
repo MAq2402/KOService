@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   accepted: boolean;
   declined: boolean;
   repairNumber = '';
-
+  repairStatus = '';
   constructor(private clientService: ClientService,
     private spinnerService: SpinnerService,
     private snackBar: MatSnackBar,
@@ -34,10 +34,21 @@ export class HomeComponent implements OnInit {
   getData() {
     this.spinnerService.show();
     this.clientService.getRepairForClient(this.repairNumber).subscribe(repair => {
-      this.repair = repair;      console.log(this.repair);} , err => {
+      this.repair = repair; 
+      this.repairStatus = this.transformRepairStatus(repair.status);
+      console.log(this.repair);} , err => {
       this.snackBar.open('Nie udało sie załadować naprawy');
     });
     this.spinnerService.hide();
+  }
+
+  transformRepairStatus(status: RepairStatus): string{
+    switch(status){
+      case RepairStatus.Canceled: return 'została anulowana'; 
+      case RepairStatus.Finished: return 'została zakończona'; 
+      case RepairStatus.InProgress: return 'jest  w trakcie realizacji'; 
+      case RepairStatus.Priced: return 'została wyceniona'; 
+    }
   }
 
   transformStatus(status: ActivityStatus): string {
@@ -65,5 +76,10 @@ export class HomeComponent implements OnInit {
 
   showPricingDecisionOptions(): boolean {
     return this.repair.status === RepairStatus.Priced;
+  }
+
+  getRepairStatus(): string{
+
+    return this.repair.status.toString();
   }
 }

@@ -52,7 +52,13 @@
   <mat-list>
     <mat-card *ngFor="let activity of repair.activities" class="my-card"><mat-list-item>{{activity.description}}<a class="my-status">Status: {{transformStatus(activity.status)}}</a></mat-list-item></mat-card>
      </mat-list>
-</div>
+    </div>
 </div>
  </div> 
+
+ <mat-toolbar color="secondary">
+  <mat-toolbar-row>
+    <span>Twoja naprawa  {{repairStatus}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
 
