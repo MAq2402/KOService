@@ -61,7 +61,7 @@
 
 
           </table>
-          <mat-toolbar class="toolbar" (click)="openActivityCreatorDialog()">
+          <mat-toolbar class="toolbar" (click)="openActivityCreatorDialog()"  *ngIf ="isActive">
             <mat-toolbar-row>
               <i class="material-icons footeritem">
                 add_circle_outline

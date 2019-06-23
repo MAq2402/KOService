@@ -9,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
 
 import { PricingCreatorComponent } from '../pricing-creator/pricing-creator.component';
+import { RepairService } from 'src/app/shared/services/repair.service';
+import { RepairStatus } from 'src/app/shared/enums/repair-status';
+import { RepairInfo } from 'src/app/shared/models/repair-info.model';
 export interface WorkerDto{
 
   Id: string;
@@ -34,13 +37,14 @@ export class WorkersTasksComponent implements OnInit {
   repairId: string;
   repairActivities: Activity[];
   assignments: Assignment[] = [];
-
+  isActive: boolean;
 
   columnsToDisplay = ['description', 'status','worker'];
   
   constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,
     private pricingCreatorDialog: MatDialog, private route: ActivatedRoute, private snackBar: MatSnackBar,
-     private spinnerService: SpinnerService) { }
+     private spinnerService: SpinnerService,
+     private repairService: RepairService) { }
 
 
 
@@ -52,6 +56,9 @@ export class WorkersTasksComponent implements OnInit {
 
   private getData() {
     this.spinnerService.show();
+    this.repairService.getRepairInfo(this.repairId).subscribe((r: RepairInfo) =>{
+      this.isActive = (r.status >= RepairStatus.Canceled) ? false: true;
+    });
     this.activityService.getRepairActivities(this.repairId)
     .subscribe(activities => (this.repairActivities = activities, console.log(activities),
       activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null }),
