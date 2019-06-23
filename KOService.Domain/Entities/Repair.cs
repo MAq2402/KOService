@@ -44,9 +44,19 @@ namespace KOService.Domain.Entities
         public Guid VehicleId { get; private set; }
         public Pricing Pricing { get; private set; }
         public Guid PricingId { get; private set; }
-        
+        public void AssignActivity(Activity activity)
+        {
+            if (activity == null)
+            {
+                throw new DomainException("Activity has not been provided");
+            }
 
-
+            if (GetStatus() == RepairStatus.Canceled || GetStatus() == RepairStatus.Finished)
+            {
+                throw new DomainException("Could not assign new activity, because repair had been already finished/canceled");
+            }
+            _activities.Add(activity);
+        }
         public void Cancel(string result)
         {
             if (GetStatus() == RepairStatus.Canceled)

@@ -28,8 +28,6 @@ namespace KOService.WebAPI
 {
     public class Startup
     {
-        private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
-        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -53,7 +51,7 @@ namespace KOService.WebAPI
             services.AddDbContext<KOServiceDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.ConfigureAuthentication(Configuration, _signingKey);
+            services.ConfigureAuthentication(Configuration, new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Security:secretKey"])));
 
             services.AddSwaggerGen(c =>
             {

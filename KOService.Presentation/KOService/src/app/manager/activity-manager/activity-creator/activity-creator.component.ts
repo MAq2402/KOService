@@ -35,12 +35,7 @@ export class ActivityCreatorComponent implements OnInit {
 
   onSubmit(){
     this.activity.repairId = this.data.repairId;
-    this.dialogRef.close();
-    this.activityService.addActivity(this.activity).subscribe(activity=>activity,err=>{
-      if (err.status === 400) {
-        this.snackBar.open('Zadanie nie zostało dodane');
-      }
-    });
+    this.dialogRef.close(this.activity);
 }
 
 }

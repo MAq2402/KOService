@@ -18,7 +18,7 @@ export class ClientService {
     private baseUrl = 'https://localhost:44340/api/clients/';
     constructor(private httpClient: HttpClient){}
 
-    getRepairForClient(repairNumber:string): Observable<RepairForClient>{
+    getRepairForClient(repairNumber: string): Observable<RepairForClient>{
         return this.httpClient.get<RepairForClient>(this.baseUrl + 'repair/' + repairNumber);
     }
     acceptPricing(repairNumber: string): Observable<any>{

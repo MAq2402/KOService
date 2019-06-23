@@ -14,6 +14,7 @@ namespace KOService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class VehiclesController : Controller
     {
         private IMediator _mediator;
