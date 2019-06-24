@@ -27,10 +27,12 @@ namespace KOService.Application.Handlers.Repair
                                             .ThenInclude(v => v.Type).AsQueryable();
 
 
+
             if (!string.IsNullOrEmpty(request.Status))
             {
                 repairs = ApplyFilter(repairs, request);
             }
+
 
             return Mapper.Map<IEnumerable<RepairDto>>(repairs);
         }

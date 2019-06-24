@@ -19,7 +19,12 @@ export class HomeComponent implements OnInit {
   accepted: boolean;
   declined: boolean;
   repairNumber = '';
+
+  dataSource = [];
+  displayedColumns: string[] = ['name', 'manufacturer', 'price'];
+
   repairStatus = '';
+
   constructor(private clientService: ClientService,
     private spinnerService: SpinnerService,
     private snackBar: MatSnackBar,
@@ -34,12 +39,15 @@ export class HomeComponent implements OnInit {
   getData() {
     this.spinnerService.show();
     this.clientService.getRepairForClient(this.repairNumber).subscribe(repair => {
+
+      this.repair = repair;      console.log(this.repair);
+      this.dataSource = repair.pricing.parts;
       this.repair = repair; 
       this.repairStatus = this.transformRepairStatus(repair.status);
-      console.log(this.repair);} , err => {
-      this.snackBar.open('Nie udało sie załadować naprawy');
-    });
-    this.spinnerService.hide();
+    } , err => {
+      this.snackBar.open('Nie udało sie załadować naprawy');}
+    ,()=>this.spinnerService.hide());
+  
   }
 
   transformRepairStatus(status: RepairStatus): string{

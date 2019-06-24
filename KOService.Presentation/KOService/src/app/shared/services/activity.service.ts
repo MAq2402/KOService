@@ -26,9 +26,7 @@ export class ActivityService {
     return this.httpClient.get(this.baseUrl);
   }
 
-  getWorkerActivities(workerId: string){
-
-  }
+ 
   getRepairActivities(repairId:string): Observable<Activity[]>{
     return this.httpClient.get<Activity[]>(this.baseUrl + 'repair/' + repairId);
   }

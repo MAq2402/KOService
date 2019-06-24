@@ -29,7 +29,9 @@ namespace KOService.WebAPI.Controllers
         {
 
             GetWorkerActivitiesQuery query = new GetWorkerActivitiesQuery();
-            query.WorkerId = mechanicId;
+
+            query.MechanicId = mechanicId;
+
             query.Status = status;
             return Ok(_mediator.Send(query).Result);
         }

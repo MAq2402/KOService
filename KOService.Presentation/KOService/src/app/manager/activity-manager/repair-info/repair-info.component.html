@@ -4,6 +4,7 @@
     <span class="fill-remaining-space"></span>
     <span class="buttons">
       <button [disabled]="disablePrice()" (click)="priceRepair()" mat-raised-button color="basic">Wyceń</button>
+      <button [disabled]="!disablePrice()" (click)="showPricing()" mat-raised-button color="basic">Zobacz wycene</button>
       <button [disabled]="disableCancel()" (click)="cancelRepair()" mat-raised-button color="warn">Anuluj</button>
       <button [disabled]="disableFinish()" (click)="finishRepair()" mat-raised-button color="primary">Zakończ</button>
     </span>
@@ -52,6 +53,7 @@
           <p>komentarz: {{repairInfo.result}} </p>
           <p>data przyjęcia: {{repairInfo.startDateTime | dateTime}}</p>
           <p *ngIf="showEndDateTime()">data zakończenia: {{repairInfo.endDateTime | dateTime}}</p>
+          
 
         </mat-card-content>
       </mat-card>

@@ -15,6 +15,7 @@ import { FinishModel } from '../../models/finish.model';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { PricingCreatorComponent } from '../pricing-creator/pricing-creator.component';
+import { PricingViewComponent } from './pricing-view/pricing-view.component';
 
 @Component({
   selector: 'app-repair-info',
@@ -31,7 +32,8 @@ export class RepairInfoComponent implements OnInit {
     private spinnerService: SpinnerService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private pricingCreatorDialog: MatDialog) {
+    private pricingCreatorDialog: MatDialog,
+    private pricingView: MatDialog) {
   }
 
   ngOnInit() {
@@ -42,7 +44,7 @@ export class RepairInfoComponent implements OnInit {
   private getData() {
     this.spinnerService.show();
     this.repairService.getRepairInfo(this.repairId).subscribe(rep => {
-      this.repairInfo = rep; this.spinnerService.hide();
+      this.repairInfo = rep; this.spinnerService.hide(); console.log(rep);
     });
   }
 
@@ -128,6 +130,11 @@ export class RepairInfoComponent implements OnInit {
   private openSnackBar(message: string) {
     this.snackBar.open(message);
   }
+
+  showPricing(): void{
+    const pricingView = this.pricingView.open(PricingViewComponent, {
+     data: {pricing: this.repairInfo.pricing}
+  });}
 
   disableCancel(): boolean {
     return this.repairInfo.status >= RepairStatus.Canceled;

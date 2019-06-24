@@ -27,7 +27,9 @@ namespace KOService.Application.Handlers.Activity
         protected override IEnumerable<ActivityDto> Handle(GetWorkerActivitiesQuery request)
         {
 
-            var activities = _dbContext.Activities.Where(a => a.MechanicId == request.WorkerId)
+
+            var activities = _dbContext.Activities.Where(a => a.MechanicId == request.MechanicId)
+
                 .Include(a => a.Repair)
                     .ThenInclude(r => r.Vehicle)
                     .ThenInclude(v => v.Type).AsQueryable(); 

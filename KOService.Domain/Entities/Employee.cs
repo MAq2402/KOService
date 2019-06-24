@@ -12,6 +12,7 @@ namespace KOService.Domain.Entities
         private readonly List<Activity> _activities = new List<Activity>();
         private readonly List<Repair> _repairs = new List<Repair>();
 
+
         public Employee() { }
         public Employee(Guid id) : base(id) { }
 
@@ -33,7 +34,9 @@ namespace KOService.Domain.Entities
         public IEnumerable<Activity> Activities => _activities.AsReadOnly();
 
 
+
         //Do wywalenia jak ktoś wymyśli lepszy sposob seedowania danych...
+
         
         public Employee(Guid id,string firstname, string lastName, EmployeeRole role) : base(id)
         {

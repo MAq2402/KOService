@@ -39,7 +39,8 @@ export class WorkersTasksComponent implements OnInit {
   assignments: Assignment[] = [];
   isActive: boolean;
 
-  columnsToDisplay = ['description', 'status','worker'];
+  columnsToDisplay = ['description', 'status','worker','comment'];
+  
 
   constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,
     private pricingCreatorDialog: MatDialog, private route: ActivatedRoute, private snackBar: MatSnackBar,

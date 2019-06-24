@@ -1,4 +1,5 @@
 import { RepairStatus } from '../enums/repair-status';
+import { Pricing } from './pricing.model';
 
 export class RepairInfo {
 
@@ -15,4 +16,6 @@ export class RepairInfo {
     clientName: string;
     clientEmail: string;
     clientPhoneNumber: string;
+
+    pricing: Pricing;
 }
