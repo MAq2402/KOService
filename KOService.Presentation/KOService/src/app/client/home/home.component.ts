@@ -41,17 +41,13 @@ export class HomeComponent implements OnInit {
     this.clientService.getRepairForClient(this.repairNumber).subscribe(repair => {
 
       this.repair = repair;      console.log(this.repair);
-    this.dataSource = repair.pricing.parts;
-    
-    } , err => {
-
+      this.dataSource = repair.pricing.parts;
       this.repair = repair; 
       this.repairStatus = this.transformRepairStatus(repair.status);
-      console.log(this.repair);} , err => {
-
-      this.snackBar.open('Nie udało sie załadować naprawy');
-    });
-    this.spinnerService.hide();
+    } , err => {
+      this.snackBar.open('Nie udało sie załadować naprawy');}
+    ,()=>this.spinnerService.hide());
+  
   }
 
   transformRepairStatus(status: RepairStatus): string{
