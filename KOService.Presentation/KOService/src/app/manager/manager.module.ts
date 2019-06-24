@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSnackBarModule} from '@angular/material';
 import {MatListModule} from '@angular/material';
 import { PricingCreatorComponent } from './activity-manager/pricing-creator/pricing-creator.component';
+import { PricingViewComponent } from './activity-manager/repair-info/pricing-view/pricing-view.component';
 
 @NgModule({
   imports: [
@@ -33,11 +34,13 @@ import { PricingCreatorComponent } from './activity-manager/pricing-creator/pric
     WorkersTableComponent,
     RepairInfoComponent,
     AddRepairComponent,
-    PricingCreatorComponent
+    PricingCreatorComponent,
+    PricingViewComponent
   ],
   entryComponents: [
     ActivityCreatorComponent,
-  PricingCreatorComponent
+  PricingCreatorComponent,
+  PricingViewComponent
 ]
 })
 

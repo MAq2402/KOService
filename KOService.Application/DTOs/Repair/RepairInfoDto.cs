@@ -21,6 +21,8 @@ namespace KOService.Application.DTOs.Repair
         public string ClientName { get; set; }
         public string ClientPhoneNumber { get; set; }
         public string ClientEmail { get; set; }
+
+        public PricingDto Pricing { get; set; }
       
     }
 }

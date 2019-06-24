@@ -28,6 +28,8 @@ namespace KOService.Application.Handlers.Repair
                 .ThenInclude(v => v.Client)
                 .Include(r => r.Vehicle)
                 .ThenInclude(v => v.Type)
+                .Include(r=>r.Pricing)
+                .ThenInclude(p=>p.Parts)
                 .FirstOrDefault();
 
             if (repair == null)
