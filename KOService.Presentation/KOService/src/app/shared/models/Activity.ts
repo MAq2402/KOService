@@ -1,5 +1,4 @@
-import { ActivityStatus } from '../enums/ActivityStatus'
-
+import { ActivityStatus } from '../enums/ActivityStatus';
 
 export class Activity {
     id: string;
@@ -8,11 +7,11 @@ export class Activity {
     result: string;
     status: ActivityStatus;
     startDataTime: string;
-    closedTime: string;
+    endDateTime: string;
     activityTypeId: string;
     repairId: string;
-    workerId: string;
+    mechanicId: string;
+    mechanicName: string;
     vehicleRegistrationNumbers: string;
     vehicleBrand: string;
 }
-  

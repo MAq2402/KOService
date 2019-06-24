@@ -20,13 +20,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using KOService.Application.Services;
+using KOService.Application.Handlers.Repair;
+using MediatR.Pipeline;
 
 namespace KOService.WebAPI
 {
     public class Startup
     {
-        private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
-        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -50,14 +51,19 @@ namespace KOService.WebAPI
             services.AddDbContext<KOServiceDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.ConfigureAuthentication(Configuration, _signingKey);
+            services.ConfigureAuthentication(Configuration, new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Security:secretKey"])));
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "KOService", Version = "v1" });
             });
-
+          
             services.AddMediatR(Assembly.Load(new AssemblyName("KOService.Application")));
+
+            var address = Configuration["Mail:address"];
+            var password = Configuration["Mail:password"];
+            services.AddTransient<IMailSender>(s => new MailSender(address, password));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

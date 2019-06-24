@@ -17,6 +17,7 @@ namespace KOService.WebAPI.Controllers
     [Route("api/employees")]
     [ApiController]
     [EnableCors(Constants.Cors.AppPolicy)]
+    [Authorize]
     public class EmployeesController : Controller
     {
         private IMediator _mediator;
@@ -32,8 +33,15 @@ namespace KOService.WebAPI.Controllers
             return Ok(_mediator.Send(new GetEmployeesQuery()).Result);
         }
 
-        [HttpPut("{id}")]
+        [HttpGet("{id}")]
+        public IActionResult GetEmployeeById(string id)
+        {
+            var result = _mediator.Send(new GetEmployeeByIdQuery { Id = id}).Result;
+            return Ok(result);
+        }
 
+        [HttpPut("{id}")]
+        [Authorize(Constants.Roles.Admin)]
         public IActionResult UpdateEmployee(string id,[FromBody] UpdateEmployeeCommand command)
         {
             command.Id = id;
@@ -49,6 +57,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("{id}/terminate")]
+        [Authorize(Constants.Roles.Admin)]
         public IActionResult TerminateEmployee(string id)
         {
             var result = _mediator.Send(new TerminateEmployeeCommand() {Id = id});

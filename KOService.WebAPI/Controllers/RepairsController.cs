@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KOService.Application.Commands.Pricing;
 using KOService.Application.Commands.Repair;
 using KOService.Application.Queries.Repair;
 using KOService.WebAPI.Infrastructure;
@@ -39,19 +40,105 @@ namespace KOService.WebAPI.Controllers
             return Ok(_mediator.Send(query).Result);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetRepair([FromQuery] GetRepairsQuery query)
+        {
+            query = query ?? new GetRepairsQuery();
+            return Ok(_mediator.Send(query).Result);
+        }
+
         [HttpPost]
         [Authorize(Constants.Roles.Manager)]
         public IActionResult CreateRepair([FromBody] CreateRepairCommand command)
         {
+            var result = _mediator.Send(command);
+
+            if(result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return Ok(command.Repair);
+        }
+
+        [HttpPost("pricing/{repairId}")]
+        [Authorize(Constants.Roles.Manager)]
+        public IActionResult AddRepairPricing([FromBody] CreatePricingCommand command)
+        {
             var exception = _mediator.Send(command).Exception;
 
-            if(exception != null)
+            if (exception != null)
             {
                 throw exception.InnerException;
             }
 
             return Ok(command);
         }
-        
+
+        [HttpPut("pricing/{repairId}/accept")]
+        [Authorize(Constants.Roles.Manager)]
+        public IActionResult AcceptPricing(string repairId)
+        {
+            var command = new AcceptPricingCommand();
+            command.RepairNumber = repairId;
+             var result = _mediator.Send(command);
+
+            if (result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}/cancel")]
+        [Authorize(Constants.Roles.Manager)]
+        public IActionResult CancelRepair(string id, [FromBody] CancelRepairCommand command)
+        {
+            command.Id = id;
+
+            var result = _mediator.Send(command);
+
+            if (result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("pricing/{repairId}/reject")]
+        [Authorize(Constants.Roles.Manager)]
+        public IActionResult RejectPricing(string repairId)
+        {
+            var command = new RejectPricingCommand();
+            command.RepairNumber = repairId;
+            var result = _mediator.Send(command);
+
+            if (result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return NoContent();
+
+        }
+
+        [HttpPut("{id}/finish")]
+        [Authorize(Constants.Roles.Manager)]
+        public IActionResult FinishRepair(string id, [FromBody] FinishRepairCommand command)
+        {
+            command.Id = id;
+
+            var result = _mediator.Send(command);
+
+            if (result.IsFaulted)
+            {
+                return BadRequest(result.Exception.InnerException.Message);
+            }
+
+            return NoContent();
+        }
+
     }
 }

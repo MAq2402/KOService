@@ -45,7 +45,7 @@ export class WorkersTableComponent implements OnInit {
 
   ngOnInit() {
     this.activityService.getWorkersWithActivities().subscribe(workersActivities => (this.dataSourceArray = new MatTableDataSource(workersActivities)
-    ,console.log(workersActivities)))
+    ,console.log(workersActivities),this.workerAcitvitiesTable = workersActivities))
   }
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {

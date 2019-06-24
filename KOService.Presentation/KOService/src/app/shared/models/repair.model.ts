@@ -1,6 +1,6 @@
-
 import { RepairStatus } from '../enums/repair-status';
 import { Activity } from './Activity';
+import { MatTableDataSource } from '@angular/material';
 
 export class Repair {
     id: string;
@@ -15,4 +15,5 @@ export class Repair {
     startDateTime: Date;
     endDateTime: Date;
     activities: Activity[];
+    activitiesDataSource: MatTableDataSource<Activity>;
 }

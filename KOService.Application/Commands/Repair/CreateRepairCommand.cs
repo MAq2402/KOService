@@ -3,7 +3,6 @@ using KOService.Application.DTOs.Repair;
 using KOService.Application.DTOs.Vehicle;
 using MediatR;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace KOService.Application.Commands.Repair

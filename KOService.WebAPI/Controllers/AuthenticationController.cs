@@ -41,7 +41,8 @@ namespace KOService.WebAPI.Controllers
         }
 
        [HttpPost("register")]
-       public async Task<IActionResult> Register([FromBody] RegisterCommand command)
+        [Authorize(Constants.Roles.Admin)]
+        public async Task<IActionResult> Register([FromBody] RegisterCommand command)
         {
             var identity = Mapper.Map<Identity>(command);
 
@@ -61,7 +62,7 @@ namespace KOService.WebAPI.Controllers
                 return BadRequest(commandResult.Exception.InnerException.Message);
             }
 
-            return Ok("Account created");
+            return Ok(new { message = "Account created" });
         }
 
         [HttpPost("login")]
@@ -86,6 +87,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpGet("user/{identityId}")]
+        [Authorize]
         public IActionResult GetEmployeeByIdentityId(string identityId)
         {
             var result = _mediator.Send(new GetEmployeeByIdentityIdQuery { Id = identityId }).Result;
@@ -93,6 +95,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("user/{userName}/changePassword")]
+        [Authorize(Constants.Roles.Admin)]
         public async Task<IActionResult> ChangePassword(string userName, [FromBody] PasswordsDto dto)
         {
             var identity = await _userManager.FindByNameAsync(userName);
@@ -102,7 +105,9 @@ namespace KOService.WebAPI.Controllers
                 return NotFound();
             }
 
-            var result = await _userManager.ChangePasswordAsync(identity, dto.CurrentPassword, dto.NewPassword);
+            var token = _userManager.GeneratePasswordResetTokenAsync(identity);
+
+            var result = await _userManager.ResetPasswordAsync(identity, token.Result, dto.NewPassword);
 
             if (!result.Succeeded)
             {

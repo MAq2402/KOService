@@ -14,6 +14,10 @@ namespace KOService.Domain.Configuration
                    .WithOne(a => a.Repair)
                    .HasForeignKey(a => a.RepairId);
 
+            builder.HasOne(r => r.Pricing)
+                   .WithOne(p => p.Repair)
+                   .HasForeignKey<Pricing>(p => p.RepairId);
+
 
             builder.Metadata.FindNavigation(nameof(Repair.Activities))
                    .SetPropertyAccessMode(PropertyAccessMode.Field);

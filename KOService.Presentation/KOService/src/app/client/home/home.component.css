@@ -1,0 +1,31 @@
+  .my-icon {
+    font-size: 72px;
+    vertical-align: middle;
+  }
+  .my-navbar {
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+  }
+  .my-tile {
+    border-left: 2px solid black;
+    bottom: 0px;
+  }
+  .my-registration-numbers {
+    text-align: right;
+  }
+  .my-card {
+  margin: 10px;
+  }
+  .my-status {
+    position: absolute;
+    left: 80%;
+  }
+  .buttons {
+    padding-left: 75%;
+  }
+  .my-part {
+    padding-left: 20%; 
+  }
+  .my-property {
+    padding-left: 65%; 
+  }

@@ -15,7 +15,7 @@ namespace KOService.Tests.Entities
         {
             var repair = new Repair(Guid.NewGuid(), "desc", Guid.NewGuid(), Guid.NewGuid());
 
-            repair.ChangeToInProgress();
+            repair.PricingAccepted();
 
             Assert.Equal(RepairStatus.InProgress, repair.GetStatus());
         }
@@ -25,7 +25,7 @@ namespace KOService.Tests.Entities
         {
             var repair = new Repair(Guid.NewGuid(), "desc", Guid.NewGuid(), Guid.NewGuid());
 
-            repair.ChangeToInProgress();
+            repair.PricingAccepted();
             repair.Cancel("some reason");
 
             Assert.Equal(RepairStatus.Canceled, repair.GetStatus());
@@ -36,18 +36,8 @@ namespace KOService.Tests.Entities
         {
             var repair = new Repair(Guid.NewGuid(), "desc", Guid.NewGuid(), Guid.NewGuid());
 
-            repair.ChangeToInProgress();
+            repair.PricingAccepted();
             Action action = () => repair.Cancel("");
-
-            Assert.Throws<DomainException>(action);
-        }
-
-        [Fact]
-        public void CancelShouldNotWorkWhenRepairStatusIsOpen()
-        {
-            var repair = new Repair(Guid.NewGuid(), "desc", Guid.NewGuid(), Guid.NewGuid());
-
-            Action action = () => repair.Cancel("some reason");
 
             Assert.Throws<DomainException>(action);
         }
@@ -57,7 +47,7 @@ namespace KOService.Tests.Entities
         {
             var repair = new Repair(Guid.NewGuid(), "desc", Guid.NewGuid(), Guid.NewGuid());
 
-            repair.ChangeToInProgress();
+            repair.PricingAccepted();
             repair.Finish("");
 
             Assert.Equal(RepairStatus.Finished, repair.GetStatus());

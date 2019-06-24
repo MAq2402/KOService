@@ -25,11 +25,10 @@ namespace KOService.Application.Handlers.Activity
             }
             else
             {
-
-                Domain.Entities.Activity activity = new Domain.Entities.Activity(Guid.NewGuid(), request.RepairId,
+                var activity = new Domain.Entities.Activity(Guid.NewGuid(), request.RepairId,
                     request.Description, request.SequenceNumber);
 
-                _dbContext.Activities.Add(activity);
+                repair.AssignActivity(activity);
 
                 if (_dbContext.SaveChanges() == 0)
                 {

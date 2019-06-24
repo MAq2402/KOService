@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import {WorkersTasksComponent} from './activity-manager/workers-tasks/workers-tasks.component'
+import {WorkersTasksComponent} from './activity-manager/workers-tasks/workers-tasks.component';
 import { AddRepairComponent } from './add-repair/add-repair.component';
 
 const managerRoutes: Routes = [
   { path: 'addRepair', component: AddRepairComponent },
-  { path: 'activities/:id', component: WorkersTasksComponent },
+  { path: 'repair-details/:id', component: WorkersTasksComponent },
   { path: '', component: HomeComponent}
 
 ];

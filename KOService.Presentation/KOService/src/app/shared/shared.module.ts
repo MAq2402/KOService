@@ -1,17 +1,21 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EmployeeService } from './services/employee.service';
 import { MaterialModule } from './material/material.module';
 import { DateTimePipe } from './pipes/date-time.pipe';
+import { VehicleService } from './services/vehicle.service';
+import { ClientService } from './services/client.service';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { RolePipe } from './pipes/role.pipe';
+
 @NgModule({
   imports: [
     MaterialModule,
     CommonModule,
-
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [DateTimePipe, ConfirmationComponent, RolePipe],
   exports: [
@@ -19,7 +23,9 @@ import { RolePipe } from './pipes/role.pipe';
     HttpClientModule,
     FormsModule,
     DateTimePipe,
-    RolePipe
+    RolePipe,
+    FormsModule,
+    ReactiveFormsModule
   ],
   entryComponents: [ConfirmationComponent]
 })
@@ -28,7 +34,9 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        EmployeeService
+        EmployeeService,
+        VehicleService,
+        ClientService
       ]
     };
   }
