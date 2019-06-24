@@ -25,8 +25,7 @@ import { PricingViewComponent } from './pricing-view/pricing-view.component';
 export class RepairInfoComponent implements OnInit {
   repairId: string;
   repairInfo: RepairInfo;
-  
-  
+
 
   constructor(private repairService: RepairService,
     private route: ActivatedRoute,
@@ -138,7 +137,7 @@ export class RepairInfoComponent implements OnInit {
   });}
 
   disableCancel(): boolean {
-    return this.repairInfo.status === RepairStatus.Canceled;
+    return this.repairInfo.status >= RepairStatus.Canceled;
   }
 
   disableFinish(): boolean {

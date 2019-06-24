@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/authentication/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-core-container',
@@ -8,12 +9,13 @@ import { AuthService } from 'src/app/authentication/services/auth.service';
 })
 export class CoreContainerComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {}
 
-  isUserLogged() {
-    return this.authService.isAuthenticated();
+  showEmployeeNavbar() {
+    return !(this.router.url.startsWith('/client') || this.router.url.startsWith('/login'))
+    
   }
 
 }

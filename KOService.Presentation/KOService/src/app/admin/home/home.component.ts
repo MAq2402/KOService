@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
 
   terminate(employee: Employee) {
     const dialogRef = this.dialog.open(ConfirmationComponent, {
-      data: {header: `Jesteś pewny, że chcesz zwolnić pracownika ${employee.firstName} ${employee.lastName}?`}
+      data: {header: `Jesteś pewny, że chcesz usunąć z bazy pracownika ${employee.firstName} ${employee.lastName}?`}
     });
 
     dialogRef.afterClosed().subscribe(result => {
