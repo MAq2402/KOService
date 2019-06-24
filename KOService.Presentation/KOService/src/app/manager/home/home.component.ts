@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
   }
 
   private getData() {
-    if (this.showWithStatusCanceled || this.showWithStatusFinished || this.showWithStatusInProgress || this.showWithStatusOpen) {
+    if (this.showWithStatusCanceled || this.showWithStatusPriced || this.showWithStatusFinished || this.showWithStatusInProgress || this.showWithStatusOpen) {
       const statusQuery = this.buildStatusQuery();
       this.authService.getCurrentEmployee().subscribe(user => {
         this.repairService.getRepairs(statusQuery).subscribe(repairs => {
