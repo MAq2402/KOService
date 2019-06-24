@@ -4,7 +4,7 @@ import { AuthGuard } from './authentication/guards/auth.guard';
 import { Role } from './shared/enums/Role';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/client', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '', children: [
     { path: 'login', loadChildren: './authentication/authentication.module#AuthenticationModule'},
     { path: 'admin', loadChildren: './admin/admin.module#AdminModule', canActivate: [AuthGuard], data: {role: Role.admin} },
