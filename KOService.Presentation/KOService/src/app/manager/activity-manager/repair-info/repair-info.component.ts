@@ -24,7 +24,7 @@ import { PricingCreatorComponent } from '../pricing-creator/pricing-creator.comp
 export class RepairInfoComponent implements OnInit {
   repairId: string;
   repairInfo: RepairInfo;
-  
+
 
   constructor(private repairService: RepairService,
     private route: ActivatedRoute,

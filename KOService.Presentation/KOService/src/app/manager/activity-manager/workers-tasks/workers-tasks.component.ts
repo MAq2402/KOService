@@ -40,7 +40,7 @@ export class WorkersTasksComponent implements OnInit {
   isActive: boolean;
 
   columnsToDisplay = ['description', 'status','worker'];
-  
+
   constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,
     private pricingCreatorDialog: MatDialog, private route: ActivatedRoute, private snackBar: MatSnackBar,
      private spinnerService: SpinnerService,

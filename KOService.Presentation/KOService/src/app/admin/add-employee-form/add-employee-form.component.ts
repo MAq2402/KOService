@@ -6,6 +6,7 @@ import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { RegisterEmployee } from 'src/app/shared/models/register.model';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
 import { EditEmployeeService } from 'src/app/shared/services/editEmployee.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'app-add-employee-form',
@@ -48,7 +49,8 @@ export class AddEmployeeFormComponent implements OnInit {
     constructor(private service: EmployeeService,
         private router: Router,
         private spinnerService: SpinnerService,
-        private editEmployeeService: EditEmployeeService) {
+        private editEmployeeService: EditEmployeeService,
+        private snackBar: MatSnackBar) {
         this.keys = Object.keys(Role).filter(k => !isNaN(Number(k)));
     }
 
@@ -58,42 +60,62 @@ export class AddEmployeeFormComponent implements OnInit {
         this.firstName.nativeElement.focus();
     }
 
-    onSubmit() {
-        const model = {
-            password: this.register.password,
-            confirmPassword: this.register.confirmPassword,
-            firstName: this.register.firstName,
-            lastName: this.register.lastName,
-            userName: this.register.userName,
-            employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
-        };
+    private fetchEmployeeModel(): RegisterEmployee {
+      const model = {
+        password: this.register.password,
+        confirmPassword: this.register.confirmPassword,
+        firstName: this.register.firstName,
+        lastName: this.register.lastName,
+        userName: this.register.userName,
+        employeeRole: this.mapPolishRoleToEnglish(this.chosenPolishRole),
+      };
+      return model;
+    }
 
+    addEmployee() {
+      this.spinnerService.show();
+      const employeeModel = this.fetchEmployeeModel();
+      this.service.addEmployee(employeeModel).subscribe(() => {
+        this.snackBar.open('Pracownik dodany pomyślnie.');
+        this.router.navigate(['/admin']);
+        this.spinnerService.hide();
+      },
+      err => {
+        console.log(err.error);
+        this.snackBar.open('Nie udało się dodać pracownika.');
+      }
+      );
+    }
 
-        this.spinnerService.show();
-        if (!this.editMode) { 
-            this.service.addEmployee(model).subscribe(() => {
-            this.spinnerService.hide();
-            this.router.navigate(['/admin']);
-            });
-        }
-        else {
-            var passwordModel = { 
-                currentPassword: '',
-                newPassword: this.register.password
-            };
+    editEmployee() {
+      const employeeModel = this.fetchEmployeeModel();
+      this.service.updateEmployee(this.editEmployeeService.employee.id, employeeModel).subscribe(() => {
+        this.snackBar.open('Dane zostały pomyślnie zmienione.');
+      },
+      err => {
+        console.log(err.error);
+        this.snackBar.open('Nie udało się zmienić danych.');
+      }
+      );
+    }
 
-            this.service.updateEmployee(this.editEmployeeService.employee.id, model).subscribe(() => {
-                this.service.changeEmployeePassword(model.userName, passwordModel).subscribe(() => {
-                    this.spinnerService.hide();
-                    this.router.navigate(['/admin']);
-                });
-            });
-            
-        }
+    changeEmployeePassword() {
+      const passwordModel = {
+        currentPassword: '',
+        newPassword: this.register.password
+      };
+      this.service.changeEmployeePassword(this.register.userName, passwordModel).subscribe(() => {
+        this.snackBar.open('Hasło zostało pomyślnie zmienione.');
+      },
+      err => {
+        console.log(err.error);
+        this.snackBar.open('Nie udało się zmienić hasła.');
+      }
+      );
     }
 
     resolveInputData() {
-        if (this.editEmployeeService.employee) {            
+        if (this.editEmployeeService.employee) {
             this.editMode = true;
             this.service.getEmployee(this.editEmployeeService.employee.id).subscribe(res => {
                 this.register = {
@@ -105,7 +127,7 @@ export class AddEmployeeFormComponent implements OnInit {
                     employeeRole: this.editEmployeeService.employee.role,
                 }
                 this.chosenPolishRole = this.rolesPolish[this.register.employeeRole];
-            });            
+            });
         }
         else {
             this.editMode = false;
