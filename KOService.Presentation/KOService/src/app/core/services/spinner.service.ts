@@ -21,11 +21,11 @@ export class SpinnerService {
   public hide() {
     console.log('hide ' + this.counter)
     this.ngxSpinnerService.hide();
-    /*if(this.counter > 1) {
+    if(this.counter > 1) {
       this.counter--;
     } else {
       this.counter = 0;
       this.ngxSpinnerService.hide();
-    }*/
+    }
   }
 }
