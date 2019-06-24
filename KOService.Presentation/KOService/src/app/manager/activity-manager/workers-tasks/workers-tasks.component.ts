@@ -45,12 +45,12 @@ export class WorkersTasksComponent implements OnInit {
 
 
   ngOnInit() {
-    //this.spinnerService.show();
+    this.spinnerService.show();
     this.route.params.subscribe(params => (this.repairId = params['id'], console.log(this.repairId)));
     this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
       this.repairActivities = activities, console.log(activities),
       activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null })
-      //,//this.spinnerService.hide()
+      ,this.spinnerService.hide()
       ));
   }
 

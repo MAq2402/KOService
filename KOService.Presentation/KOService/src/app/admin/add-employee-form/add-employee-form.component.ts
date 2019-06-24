@@ -6,6 +6,7 @@ import { EmployeeService } from 'src/app/shared/services/employee.service';
 import { RegisterEmployee } from 'src/app/shared/models/register.model';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
 import { EditEmployeeService } from 'src/app/shared/services/editEmployee.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
     selector: 'app-add-employee-form',
@@ -48,7 +49,8 @@ export class AddEmployeeFormComponent implements OnInit {
     constructor(private service: EmployeeService,
         private router: Router,
         private spinnerService: SpinnerService,
-        private editEmployeeService: EditEmployeeService) {
+        private editEmployeeService: EditEmployeeService,
+        private snackBar: MatSnackBar) {
         this.keys = Object.keys(Role).filter(k => !isNaN(Number(k)));
     }
 
@@ -74,18 +76,27 @@ export class AddEmployeeFormComponent implements OnInit {
       this.spinnerService.show();
       const employeeModel = this.fetchEmployeeModel();
       this.service.addEmployee(employeeModel).subscribe(() => {
+        this.snackBar.open('Pracownik dodany pomyślnie.');
         this.router.navigate(['/admin']);
         this.spinnerService.hide();
-      });
+      },
+      err => {
+        console.log(err.error);
+        this.snackBar.open('Nie udało się dodać pracownika.');
+      }
+      );
     }
 
     editEmployee() {
-      this.spinnerService.show();
       const employeeModel = this.fetchEmployeeModel();
       this.service.updateEmployee(this.editEmployeeService.employee.id, employeeModel).subscribe(() => {
-        this.spinnerService.hide();
-        this.router.navigate(['/admin']);
-      });
+        this.snackBar.open('Dane zostały pomyślnie zmienione.');
+      },
+      err => {
+        console.log(err.error);
+        this.snackBar.open('Nie udało się zmienić danych.');
+      }
+      );
     }
 
     changeEmployeePassword() {
@@ -94,9 +105,13 @@ export class AddEmployeeFormComponent implements OnInit {
         newPassword: this.register.password
       };
       this.service.changeEmployeePassword(this.register.userName, passwordModel).subscribe(() => {
-        this.spinnerService.hide();
-        this.router.navigate(['/admin']);
-      });
+        this.snackBar.open('Hasło zostało pomyślnie zmienione.');
+      },
+      err => {
+        console.log(err.error);
+        this.snackBar.open('Nie udało się zmienić hasła.');
+      }
+      );
     }
 
     resolveInputData() {

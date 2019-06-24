@@ -40,9 +40,9 @@ export class RepairInfoComponent implements OnInit {
   }
 
   private getData() {
-    //this.spinnerService.show();
+    this.spinnerService.show();
     this.repairService.getRepairInfo(this.repairId).subscribe(rep => {
-      this.repairInfo = rep; //this.spinnerService.hide();
+      this.repairInfo = rep; this.spinnerService.hide();
     });
   }
 
