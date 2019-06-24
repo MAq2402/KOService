@@ -4,5 +4,4 @@ export enum RepairStatus {
   InProgress,
   Canceled,
   Finished,
-  
 }

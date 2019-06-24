@@ -7,10 +7,13 @@ using KOService.Application.Commands.Activity;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using KOService.WebAPI.Infrastructure;
 
 namespace KOService.WebAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ActivitiesController : Controller
     {
@@ -48,6 +51,7 @@ namespace KOService.WebAPI.Controllers
         }
         
         [HttpPost]
+        [Authorize(Constants.Roles.Manager)]
         public IActionResult CreateActivity([FromBody] CreateActivityCommand command)
         {
             var exception = _mediator.Send(command).Exception;
@@ -60,6 +64,7 @@ namespace KOService.WebAPI.Controllers
             return Ok(command);
         }
         [HttpPut("{activityId}/{mechanicId}")]
+        [Authorize(Constants.Roles.Manager)]
         public IActionResult AssignWorker(Guid activityId,Guid mechanicId)
         {
 
@@ -78,6 +83,7 @@ namespace KOService.WebAPI.Controllers
 
 
         [HttpPut("cancel/{activityId}")]
+        [Authorize(Constants.Roles.Mechanic)]
         public IActionResult CancelActivity(Guid activityId, [FromQuery] string comment)
         {
             CancelActivityCommand command = new CancelActivityCommand();
@@ -95,6 +101,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("finish/{activityId}")]
+        [Authorize(Constants.Roles.Mechanic)]
         public IActionResult FinishActivity(Guid activityId, [FromQuery] string comment)
         {
             FinishActivityCommand command = new FinishActivityCommand();
@@ -112,6 +119,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("changeToInProgress/{activityId}")]
+        [Authorize(Constants.Roles.Mechanic)]
         public IActionResult ChangeToInProgressActivity(Guid activityId)
         {
             ChangeToInProgressActivityCommand command = new ChangeToInProgressActivityCommand();
@@ -126,8 +134,5 @@ namespace KOService.WebAPI.Controllers
 
             return NoContent();
         }
-
-
-
     }
 }

@@ -31,19 +31,13 @@
           <mat-card-actions>
             <h6 class="my-property">Robocizna: {{repair.pricing.labour}}</h6>
             <h6 class="my-property">Razem: {{repair.pricing.totalPrice}}</h6>
-              <div *ngIf="!accepted && !declined" class="buttons">
+              <div *ngIf="showPricingDecisionOptions()" class="buttons">
                   <button (click)="acceptPricing()" mat-icon-button>
                       <mat-icon>done</mat-icon>
                     </button>
                     <button (click)="rejectPricing()" mat-icon-button color="warn">
                         <mat-icon>close</mat-icon>
                       </button>
-                  </div>
-                  <div *ngIf="accepted" class="buttons">
-                      zaakceptowano
-                  </div>
-                  <div *ngIf="declined" class="buttons">
-                      odrzucono
                   </div>
           </mat-card-actions>
         </mat-card>

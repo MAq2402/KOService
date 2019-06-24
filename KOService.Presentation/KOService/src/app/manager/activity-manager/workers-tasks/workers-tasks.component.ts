@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Activity } from 'src/app/shared/models/Activity';
 import { ActivityService } from 'src/app/shared/services/activity.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ActivityCreatorComponent } from '../activity-creator/activity-creator.component'
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ActivatedRoute } from '@angular/router';
@@ -39,19 +39,23 @@ export class WorkersTasksComponent implements OnInit {
   columnsToDisplay = ['description', 'status','worker'];
 
   constructor(private activityService: ActivityService,private activityCreatorDialog: MatDialog,
-    private pricingCreatorDialog: MatDialog, private route: ActivatedRoute,
+    private pricingCreatorDialog: MatDialog, private route: ActivatedRoute, private snackBar: MatSnackBar,
      private spinnerService: SpinnerService) { }
 
 
 
   ngOnInit() {
-    this.spinnerService.show();
     this.route.params.subscribe(params => (this.repairId = params['id'], console.log(this.repairId)));
-    this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
-      this.repairActivities = activities, console.log(activities),
-      activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null })
-      ,this.spinnerService.hide()
-      ));
+
+    this.getData();
+  }
+
+  private getData() {
+    this.spinnerService.show();
+    this.activityService.getRepairActivities(this.repairId)
+    .subscribe(activities => (this.repairActivities = activities, console.log(activities),
+      activities.map(activity => this.assignments[activity.id] = { Id: null, Name: null }),
+      this.spinnerService.hide()));
   }
 
   openActivityCreatorDialog(): void {
@@ -59,13 +63,13 @@ export class WorkersTasksComponent implements OnInit {
 
      data: {repairId: this.repairId}
   });
-  dialogRef.afterClosed().subscribe(x=>(
-    this.spinnerService.show(),
-    this.activityService.getRepairActivities(this.repairId).subscribe(activities => (
-    this.repairActivities = activities,
-    activities.map(activity=>this.assignments[activity.id]={Id: null,Name: null}),
-    this.spinnerService.hide())
-    )));
+  dialogRef.afterClosed().subscribe(activity => {
+    if (activity) {
+      this.activityService.addActivity(activity).subscribe(res => this.getData(), err => {
+          this.snackBar.open('Zadanie nie zostało dodane');
+      });
+    }
+  });
 }
 
 openPricingCreatorDialog(): void{
@@ -77,7 +81,7 @@ drop(event: CdkDragDrop<string[]>) {
     let workerId = event.previousContainer.data[event.previousIndex]['id'];
     let activityId = event.container.id;
     this.assignments[activityId].Id = workerId;
-    let workerName = event.previousContainer.data[event.previousIndex]['firstName'] +
+    let workerName = event.previousContainer.data[event.previousIndex]['firstName'] + 
 
         event.previousContainer.data[event.previousIndex]['lastName'];
       this.assignments[activityId].Name = workerName;

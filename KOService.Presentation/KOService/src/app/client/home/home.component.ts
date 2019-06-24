@@ -5,6 +5,8 @@ import { ClientService } from 'src/app/shared/services/client.service';
 import { RepairForClient } from 'src/app/shared/models/repair-for-client.model';
 import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Repair } from 'src/app/shared/models/repair.model';
+import { RepairStatus } from 'src/app/shared/enums/repair-status.enum';
 
 @Component({
   selector: 'app-home',
@@ -19,25 +21,23 @@ export class HomeComponent implements OnInit {
   repairNumber = '';
 
   constructor(private clientService: ClientService,
-              private spinnerService: SpinnerService,
-              private snackBar: MatSnackBar,
-              private route: ActivatedRoute,
-              private router: Router) { }
+    private spinnerService: SpinnerService,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
-    this.getData();
-    this.accepted = false;
-    this.declined = false;
-  }
-  getData(){
-    //this.spinnerService.show();
     this.route.params.subscribe(params => (this.repairNumber = params['number'], console.log(this.repairNumber)));
-    this.clientService.getRepairForClient(this.repairNumber).subscribe(repair=>this.repair=repair, err=>{
-      this.snackBar.open("Numer naprawy jest niepoprawny");
-      this.router.navigate(['']);
+    this.getData();
+  }
 
+  getData() {
+    this.spinnerService.show();
+    this.clientService.getRepairForClient(this.repairNumber).subscribe(repair => {
+      this.repair = repair;      console.log(this.repair);} , err => {
+      this.snackBar.open('Nie udało sie załadować naprawy');
     });
-    //this.spinnerService.hide();
+    this.spinnerService.hide();
   }
 
   transformStatus(status: ActivityStatus): string {
@@ -51,19 +51,19 @@ export class HomeComponent implements OnInit {
   }
 
   acceptPricing() {
-    this.clientService.acceptPricing(this.repairNumber).subscribe(x=>x, err=>{
+    this.clientService.acceptPricing(this.repairNumber).subscribe(x => this.getData(), err => {
       this.snackBar.open("wycena nie została zaakceptowana");
-    })
-    this.accepted = true;
-
+    });
   }
 
   rejectPricing() {
-    this.clientService.rejectPricing(this.repairNumber).subscribe(x=>x, err=>{
+    this.clientService.rejectPricing(this.repairNumber).subscribe(x => this.getData(), err => {
       this.snackBar.open("wycena nie została odrzucona");
-    })
-    this.declined = true;
-
+      this.getData();
+    });
   }
 
+  showPricingDecisionOptions(): boolean {
+    return this.repair.status === RepairStatus.Priced;
+  }
 }

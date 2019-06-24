@@ -22,7 +22,6 @@ export class PricingCreatorComponent implements OnInit {
       parts: this.formBuilder.array([
           this.initPart(),
       ])
-    
   });
 
   }
@@ -46,14 +45,11 @@ removePart(i: number) {
 }
 
 
-  onSubmit(){
-    this.repairService.addRepairPricing(this.pricingForm.value,this.data.repairId).subscribe(pricing => pricing,err=>{
-      if (err.status === 400) {
-        this.snackBar.open('Wycena nie została dodana');
-      }
-      });
-      this.dialogRef.close();
+  onSubmit() {
+    console.log(this.pricingForm.value);
+      this.dialogRef.close(this.pricingForm.value);
   }
+
   onCancel(): void {
     this.dialogRef.close();
   }

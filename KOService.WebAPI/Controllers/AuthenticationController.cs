@@ -41,7 +41,8 @@ namespace KOService.WebAPI.Controllers
         }
 
        [HttpPost("register")]
-       public async Task<IActionResult> Register([FromBody] RegisterCommand command)
+        [Authorize(Constants.Roles.Admin)]
+        public async Task<IActionResult> Register([FromBody] RegisterCommand command)
         {
             var identity = Mapper.Map<Identity>(command);
 
@@ -86,6 +87,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpGet("user/{identityId}")]
+        [Authorize]
         public IActionResult GetEmployeeByIdentityId(string identityId)
         {
             var result = _mediator.Send(new GetEmployeeByIdentityIdQuery { Id = identityId }).Result;
@@ -93,6 +95,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpPut("user/{userName}/changePassword")]
+        [Authorize(Constants.Roles.Admin)]
         public async Task<IActionResult> ChangePassword(string userName, [FromBody] PasswordsDto dto)
         {
             var identity = await _userManager.FindByNameAsync(userName);

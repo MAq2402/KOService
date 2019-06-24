@@ -26,6 +26,7 @@ namespace KOService.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetClients()
         {
             return Ok(_mediator.Send(new GetClientsQuery()).Result);

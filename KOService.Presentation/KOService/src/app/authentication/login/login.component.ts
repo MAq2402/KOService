@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.snackBar.open('Logowanie nie powiodło się.');
       }
-    })//, () => this.spinnerService.hide());
+    }, () => this.spinnerService.hide());
   }
 
   focusPasswordInput() {

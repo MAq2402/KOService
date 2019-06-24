@@ -55,15 +55,19 @@ export class RepairInfoComponent implements OnInit {
       isInputRequired: null,
       confirmationMessage: ''
     };
-
       const dialogRef = this.pricingCreatorDialog.open(PricingCreatorComponent, {
        data: {repairId: this.repairId}
     });
 
-    dialogRef.afterClosed().subscribe(x=>this.getData())
+    dialogRef.afterClosed().subscribe(pricing => {
+      console.log(pricing);
+      if (pricing) {
+        this.repairService.addRepairPricing(pricing, this.repairId).subscribe(res => this.getData(), err => {
+          this.snackBar.open('Wycena nie została dodana');
+        });
+      }
+    });
   }
-
-
 
   cancelRepair() {
     const confirmationModel: ConfirmationModel = {
@@ -134,9 +138,7 @@ export class RepairInfoComponent implements OnInit {
   }
 
   disablePrice(): boolean {
-    if(this.repairInfo.status === RepairStatus.Open) return false;
-    else return true;
-
+    return this.repairInfo.status !== RepairStatus.Open;
   }
 
   showEndDateTime(): boolean {

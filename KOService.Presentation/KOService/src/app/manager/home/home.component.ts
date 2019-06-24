@@ -1,8 +1,4 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { RepairStatus } from 'src/app/shared/enums/repair-status.enum';
-import { ColumnDef } from 'src/app/shared/models/column-def.model';
-import { RepairSubTask } from 'src/app/shared/models/repair-sub-task.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { DetailExpandAnimation } from '../animations/detail-expand-animation';
