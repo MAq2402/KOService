@@ -9,6 +9,10 @@ namespace KOService.Domain.DbContexts
 {
     public class KOServiceDbContext: IdentityDbContext
     {
+        protected KOServiceDbContext()
+        {
+
+        }
         public KOServiceDbContext(DbContextOptions<KOServiceDbContext> dbContextOptions): base(dbContextOptions)
         {
 
